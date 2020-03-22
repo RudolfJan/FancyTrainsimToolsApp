@@ -69,7 +69,7 @@
                     Grid.Column="1">
                         <StackPanel>
                             <Button Name="RouteButton"  Style="{StaticResource WideButton}"
-                            Content="Routes/Scenarios" />
+                            Content="Routes/Scenarios" Click="RouteButton_OnClick"/>
                             <Button Name="LaunchButton"  Style="{StaticResource WideButton}"
                             Content="Launcher" />
                             <Button Name="ExportButton"  Style="{StaticResource WideButton}"

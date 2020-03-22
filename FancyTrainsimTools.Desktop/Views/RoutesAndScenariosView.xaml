@@ -1,0 +1,378 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimTools.Desktop.Views.RoutesAndScenariosView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
+                            xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+                            xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+                            xmlns:local="clr-namespace:FancyTrainsimTools.Desktop.Views"
+                            vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+                            mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+                            Style="{StaticResource AllWindows}"
+                            Title="Routes And Scenarios">
+    <ScrollViewer>
+            <StackPanel>
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="485" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock Style="{StaticResource ListHeader}">
+              Routes
+            </TextBlock>
+
+            <DataGrid
+              Name="RoutesDataGrid"
+              MinHeight="200" Height="400" MaxHeight="400"
+              ItemsSource="{Binding Routes.RouteList, NotifyOnSourceUpdated=True}"
+              Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False"
+              CanUserAddRows="False" CanUserDeleteRows="False">
+
+              <DataGrid.Columns>
+                  <DataGridTextColumn MinWidth="25">
+                      <DataGridTextColumn.HeaderTemplate>
+                          <DataTemplate>
+                              <StackPanel>
+                                  <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5">
+                                      <Image Source="../Images/filter.png" />
+                                  </Button>
+                              </StackPanel>
+                          </DataTemplate>
+                      </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+                  <DataGridTemplateColumn Width="35" Header="P" IsReadOnly="True">
+                      <DataGridTemplateColumn.HeaderTemplate>
+                          <DataTemplate>
+                              <StackPanel>
+                                  <TextBlock
+                                      Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                      HorizontalAlignment="Center" />
+                                  <CheckBox x:Name="FilterIsPackedCheckBox" Width="200" 
+                                           />
+                              </StackPanel>
+                          </DataTemplate>
+                      </DataGridTemplateColumn.HeaderTemplate>
+                      <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border Visibility="{Binding IsPacked, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{StaticResource ColorRectangleTrue}"
+                              Background="{StaticResource PackedBackground}" />
+
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                                 
+                <DataGridTemplateColumn Width="35" Header="G">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                                <CheckBox x:Name="FilterInGameCheckBox" Width="200"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border
+                        Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ColorRectangleTrue}"
+                        Background="{Binding IsValidInGame, Converter={StaticResource BooleanToColorConverter}, ConverterParameter=LimeGreen;Tomato;1, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="35" Header="A" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                                <CheckBox x:Name="FilterInArchiveCheckBox" Width="200"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border
+                                Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource ColorRectangleTrue}" Background="MediumSlateBlue" />
+                        </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn
+                  Width="300"
+                  Binding="{Binding RouteName, NotifyOnSourceUpdated=True}"
+                  Header="Route" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                                <TextBox x:Name="FilterRouteTextBox" Width="300"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+              <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                  <Border Style="{StaticResource ThinBorder}">
+                    <StackPanel>
+                      <WrapPanel>
+                      <TextBlock Text="{Binding RouteName}" Margin="5" />
+                      <TextBlock Text="{Binding RouteGuid}" Margin="5" />
+                      <TextBlock Text="{Binding Pack}" Margin="5" />
+                      </WrapPanel>
+                      <WrapPanel>
+                        <CheckBox IsChecked="{Binding InGame}">In game</CheckBox>
+                        <CheckBox IsChecked="{Binding IsValidInGame}">Valid in game</CheckBox>
+                        <CheckBox IsChecked="{Binding InArchive}">In archive</CheckBox>
+                        <CheckBox IsChecked="{Binding IsValidInArchive}">Valid in archive</CheckBox>
+                      </WrapPanel>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+            <CheckBox Name="ShowValidRoutesFilterCheckBox" >Show valid routes only</CheckBox>
+
+            <GroupBox Header="General" Style="{StaticResource DefaultGroupBox}">
+              <StackPanel>
+              <WrapPanel>
+                <Button
+                  Name="RoutePropertiesButton" Style="{StaticResource DefaultButton}"
+                  Margin="{StaticResource ButtonInBoxMargin}">
+                  Properties
+                </Button>
+
+                <Button
+                  Name="DeleteRouteButton" Style="{StaticResource DefaultButton}">
+                  Delete route
+                </Button>
+                <Button Name="RouteAssetsButton"
+                        Style="{StaticResource DefaultButton}"
+                        Margin="{StaticResource ButtonInBoxMargin}">
+                  Route Assets
+                </Button>
+                <Button Name="ValidateDatabaseButton"
+                        Style="{StaticResource SlowButton}">
+                  Validate Db
+                </Button>
+              </WrapPanel>
+              <WrapPanel>
+              <Button Name="ReadInArchiveRouteDbButton" Style="{StaticResource DefaultButton}"
+                      Margin="{StaticResource ButtonInBoxMargin}">
+                Read from Db
+              </Button>
+              </WrapPanel>
+              </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Game" Style="{StaticResource DefaultGroupBox}">
+              <WrapPanel>
+                <Button Name="CopyToArchiveButton" Style="{StaticResource DefaultButton}"
+                        Margin="{StaticResource ButtonInBoxMargin}">
+                  Copy to archive
+                </Button>
+                <Button Name="DeleteRouteInGameButton" Style="{StaticResource DefaultButton}"
+                        Margin="{StaticResource ButtonInBoxMargin}">
+                  Delete in game
+                </Button>
+              </WrapPanel>
+            </GroupBox>
+
+            <GroupBox Header="Archive" Style="{StaticResource DefaultGroupBox}">
+              <WrapPanel>
+                <Button
+                  Name="UpdateArchiveDatabaseButton" Style="{StaticResource SlowButton}"
+                  Margin="{StaticResource ButtonInBoxMargin}">
+                  Retrieve archive
+                </Button>
+                <Button Name="CopyToGameButton" Style="{StaticResource DefaultButton}"
+                        Margin="{StaticResource ButtonInBoxMargin}">
+                  Copy to game
+                </Button>
+                <Button Name="DeleteRouteInArchiveButton" Style="{StaticResource DefaultButton}"
+                        Margin="{StaticResource ButtonInBoxMargin}">
+                  Delete in archive
+                </Button>
+
+              </WrapPanel>
+            </GroupBox>
+
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock Text="Scenario's" Style="{StaticResource ListHeader}" />
+            <DataGrid
+              Name="ScenarioListbox"
+              MinHeight="200" Height="400" MaxHeight="400"
+              ItemsSource="{Binding SelectedRoute.ScenarioManager.ScenarioList}"
+              Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False"
+              CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                  <DataGridTextColumn MinWidth="25">
+                      <DataGridTextColumn.HeaderTemplate>
+                          <DataTemplate>
+                              <StackPanel>
+                                  <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5">
+                                      <Image Source="../Images/filter.png" />
+                                  </Button>
+                              </StackPanel>
+                          </DataTemplate>
+                      </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+                  <DataGridTemplateColumn Width="35" Header="P" IsReadOnly="True">
+                      <DataGridTemplateColumn.HeaderTemplate>
+                          <DataTemplate>
+                              <StackPanel>
+                                  <TextBlock
+                                      Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                      HorizontalAlignment="Center" />
+                                  <CheckBox x:Name="FilterScenarioIsPackedCheckBox" Width="200"/>
+                              </StackPanel>
+                          </DataTemplate>
+                      </DataGridTemplateColumn.HeaderTemplate>
+                      <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border Visibility="{Binding IsPacked, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{StaticResource ColorRectangleTrue}"
+                              Background="{StaticResource PackedBackground}" />
+
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                                 
+                <DataGridTemplateColumn Width="35" Header="V">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                                <CheckBox x:Name="FilterScenarioIsValidCheckBox" Width="200"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border
+                        Visibility="{Binding IsNotValid, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ColorRectangleTrue}"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+ 
+                <DataGridTextColumn
+                  Width="300"
+                  Binding="{Binding ScenarioTitle, NotifyOnSourceUpdated=True}"
+                  Header="Scenario" IsReadOnly="True">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                                <TextBox x:Name="FilterScenarioTextBox" Width="300"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+              <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                  <Border Style="{StaticResource ThinBorder}">
+                    <StackPanel>
+                      <WrapPanel>
+                        <TextBlock Text="{Binding ScenarioGuid}" Margin="5" />
+                      </WrapPanel>
+                      <WrapPanel>
+                        <TextBlock Text="Class: "/>
+                        <TextBlock Text="{Binding ScenarioClass}"/>
+                      </WrapPanel>
+                      <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Height="40" MaxWidth="350"></TextBlock>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+
+            <WrapPanel>
+              <Button
+                Name="ShowScenarioPropertiesButton" Style="{StaticResource WideButton}"
+                Content="Scenario properties" />
+              <Button
+                Name="ShowConsistsButton" Style="{StaticResource WideButton}"
+                Content="Consist list" />
+              <Button
+                Name="CompareButton" Style="{StaticResource WideButton}">
+                Compare scenarios
+              </Button>
+
+            </WrapPanel>
+            <WrapPanel>
+              <Button
+                Name="ScriptingButton" Style="{StaticResource WideButton}">
+                Scripting
+              </Button>
+              <Button
+                Name="PublishScenarioButton" Style="{StaticResource WideButton}">
+                Publish
+              </Button>
+
+              <Button Name="MarkerManagerButton" Style="{StaticResource WideButton}">
+                Show markers
+              </Button>
+            </WrapPanel>
+            <WrapPanel>
+              <Button
+                Name="EditAssetsButton" Style="{StaticResource WideButton}">
+                Edit Assets
+              </Button>
+              <Button
+                Name="DeleteScenarioButton" Style="{StaticResource WideButton}">
+                Delete Scenario
+              </Button>
+              <Button Name="RefreshButton" Style="{StaticResource WideButton}">Refresh</Button>
+            </WrapPanel>
+
+          </StackPanel>
+        </Border>
+      </Grid>
+      <Border Style="{StaticResource DefaultBorder}">
+        <DockPanel>
+          <userControls:ResultsTextBox
+            x:Name="ResultsTextBox2" Source="../Images/page_delete.png"
+            MinWidth="660"
+            HorizontalAlignment="Left"
+            Style="{StaticResource LuaCreatorResultsTextBox}"
+            Text="{Binding Result, Mode=OneWay, NotifyOnSourceUpdated=True}" />
+          <Button Name="OKButton" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom" Click="OKButton_OnClick">
+            Close
+          </Button>
+        </DockPanel>
+      </Border>
+    </StackPanel>
+    </ScrollViewer>
+</windowSizing:SizableWindow>

@@ -3,7 +3,7 @@ using System;
 
 #endregion
 
-namespace Assets.Library.Logic
+namespace Assets.Library.Models
   {
   #region AboutThisFile
   /// <summary>
@@ -14,26 +14,20 @@ namespace Assets.Library.Logic
   #endregion
   public class RouteModel
     {
-
-
     #region Properties
 
     public int Id { get; set; }
     public string RouteName { get; set; }
     public string RouteGuid { get; set; }
     public string Pack { get; set; }
+    public bool IsPacked { get; set; }
     public bool InGame { get; set; }
+    public bool IsValidInGame { get; set; }
     public bool InArchive { get; set; }
+    public bool IsValidInArchive { get; set; }
 
     #endregion
-
-    #region Constructors
-    public RouteModel()
-      {
-
-      }
-
-    #endregion
+ 
 
     #region Methods
 
@@ -42,9 +36,8 @@ namespace Assets.Library.Logic
     #region Helpers
     public override string ToString()
       {
-      throw new NotImplementedException("You should implement ToString() in RouteModel");
+      return $"{RouteName}";
       }
-
 
     #endregion
 

@@ -1,16 +1,6 @@
 ﻿using Logging.Library;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FancyTrainsimTools.Desktop.Views
   {
@@ -51,6 +41,13 @@ namespace FancyTrainsimTools.Desktop.Views
       Log.Trace("Called Manuals tool");
       var manualsView = (ManualsView) _serviceProvider.GetService(typeof(ManualsView));
       manualsView.Show();
+      }
+
+    private void RouteButton_OnClick(Object sender, RoutedEventArgs e)
+      {
+      Log.Trace("Called Routes and scenarios screen");
+      var routesView = (RoutesAndScenariosView) _serviceProvider.GetService(typeof(RoutesAndScenariosView));
+      routesView.Show();
       }
     }
   }

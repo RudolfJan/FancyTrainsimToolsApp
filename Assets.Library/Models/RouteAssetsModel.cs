@@ -30,11 +30,7 @@ namespace Assets.Library.Models
     #endregion
 
     #region Constructors
-    public RouteAssetsModel()
-      {
-
-      }
-
+  
     #endregion
 
     #region Methods

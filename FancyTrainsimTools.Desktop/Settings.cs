@@ -74,5 +74,17 @@ namespace FancyTrainsimTools.Desktop
       get { return $"{TrainSimArchivePath}Assets\\"; }
       }
 
+    public static string GameRoutesFolder
+      {
+      get { return $"{TrainSimGamePath}Content\\Routes\\"; }
+      }
+
+    public static string ArchiveRoutesFolder
+      {
+      get { return $"{TrainSimArchivePath}Content\\Routes\\"; }
+      }
+
+
+
       }
     }

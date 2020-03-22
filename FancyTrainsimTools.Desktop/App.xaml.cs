@@ -45,6 +45,8 @@ namespace FancyTrainsimTools.Desktop
       services.AddTransient(p => new ManualsView());
       services.AddTransient<GameAssetsViewModel>();
       services.AddTransient(p => new GameAssetsView());
+      services.AddTransient<RoutesAndScenariosViewModel>();
+      services.AddTransient(p => new RoutesAndScenariosView());
       }   
  
     private void CreateLogicServices(ServiceCollection services)
