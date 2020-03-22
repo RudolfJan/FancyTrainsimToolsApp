@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="DefaultListViewColumnHeader" TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Background" Value="{DynamicResource HeaderBackground}" />
+    </Style>
+
+    <!--  https://stackoverflow.com/questions/44304277/wpf-listview-selecteditem-style  -->
+    <!--  https://stackoverflow.com/questions/44888051/setting-listview-itemcontainerstyle-in-wpf  -->
+    <Style x:Key="DefaultItemContainer" TargetType="{x:Type ListViewItem}">
+        <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SelectedItemActive}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  See https://stackoverflow.com/questions/8724718/set-gridviewcolumnheader-style-from-inside-a-listview-style  -->
+    <Style x:Key="DefaultListView" TargetType="{x:Type ListView}">
+        <Setter Property="Margin" Value="{DynamicResource SmallMargin}" />
+        <Setter Property="Background" Value="{DynamicResource ControlBackground}" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Style.Resources>
+            <Style BasedOn="{StaticResource DefaultListViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}" />
+            <Style BasedOn="{StaticResource DefaultItemContainer}" TargetType="{x:Type ListViewItem}" />
+        </Style.Resources>
+    </Style>
+</ResourceDictionary>

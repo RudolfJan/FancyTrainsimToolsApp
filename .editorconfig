@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0049: Use framework type
+dotnet_style_predefined_type_for_locals_parameters_members = false:silent

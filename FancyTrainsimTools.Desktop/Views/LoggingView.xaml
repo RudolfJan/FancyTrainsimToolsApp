@@ -1,0 +1,97 @@
+﻿<windowSizing:SizableWindow 
+        x:Class="FancyTrainsimTools.Desktop.Views.LoggingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
+        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+        xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+        xmlns:styles="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+        Style="{StaticResource AllWindows}"
+        Title="Logging Viewer"
+        mc:Ignorable="d">
+
+
+  <ScrollViewer>
+    <StackPanel>
+      <ListView Name="LogView" Style="{StaticResource DefaultListView}"
+                Height="400"
+                DataContextChanged="OnLogViewDataContextChanged"
+                ItemsSource="{Binding Logging.FilteredLogging.LogEvents}">
+        <ListView.View>
+          <GridView>
+            <GridViewColumn Width="150"
+                            DisplayMemberBinding="{Binding Method}"
+                            Header="Method" />
+            <GridViewColumn Width="200"
+                            DisplayMemberBinding="{Binding FilePath}"
+                            Header="File" />
+            <GridViewColumn Width="60"
+                            DisplayMemberBinding="{Binding LineNumber}"
+                            Header="Line" />
+            <GridViewColumn Width="80"
+                            DisplayMemberBinding="{Binding EventType}"
+                            Header="Type" />
+            <GridViewColumn Width="200"
+                            DisplayMemberBinding="{Binding LogEntry}"
+                            Header="Text" />
+            <GridViewColumn Width="200"
+                            DisplayMemberBinding="{Binding E.Message}"
+                            Header="Exception" />
+          </GridView>
+        </ListView.View>
+      </ListView>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="120" />
+          <ColumnDefinition Width="130" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <Label>Filters</Label>
+            <CheckBox Name="DebugCheckBox"
+                      IsChecked="{Binding Logging.Filter.DebugChecked}">
+              Debug
+            </CheckBox>
+            <CheckBox Name="ErrorCheckBox"
+                      IsChecked="{Binding Logging.Filter.ErrorChecked}">
+              Error
+            </CheckBox>
+            <CheckBox Name="MessageCheckBox"
+                      IsChecked="{Binding Logging.Filter.MessageChecked}">
+              Message
+            </CheckBox>
+            <CheckBox Name="EventCheckBox"
+                      IsChecked="{Binding Logging.Filter.EventChecked}">
+              Event
+            </CheckBox>
+          </StackPanel>
+        </Border>
+        <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <Button Name="ClearLogButton" Style="{StaticResource DefaultButton}"
+                    Command="{Binding ClearCommand}">
+              Clear log
+            </Button>
+            <Button Name="SaveLogButton" Style="{StaticResource DefaultButton}"
+                    Click="OnSaveLogButtonClicked">
+              Save log
+            </Button>
+          </StackPanel>
+        </Border>
+        <Border Grid.Column="2" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <styles:ResultsTextBox Style="{StaticResource LuaCreatorResultsTextBox}" 
+                                          Text="{Binding ElementName=LogView, Path=SelectedItem}" />
+            <Button Name="OKButton" Style="{StaticResource OKButton}" HorizontalAlignment="Right" 
+                   Click="OKButton_OnClick">
+              Done
+            </Button>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </StackPanel>
+  </ScrollViewer>
+</windowSizing:SizableWindow>

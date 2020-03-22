@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="clr-namespace:Styles.Library.Converters">
+
+	<!--  Gives access to debug converter  	-->
+	<converters:DebugConverter x:Key="DebugConverter" />
+	<converters:EnumToStringConverter x:Key="DefaultEnumToStringConverter" />
+	<converters:NumberToBoolConverter x:Key="IntConverter"/>
+
+	<!--  Window style  -->
+
+	<!-- https://stackoverflow.com/questions/13170620/can-i-set-the-window-border-color-in-wpf -->
+
+	<!--  Window style  -->
+
+  <Style x:Key="DefaultWindow" TargetType="Window">
+    <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+    <Setter Property="SizeToContent" Value="WidthAndHeight" />
+  </Style>
+
+  <Style x:Key="AllWindows" TargetType="Window">
+		<Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+		<!-- TODO refactor this code! -->
+		<Setter Property="Icon" Value="pack://application:,,,/Styles.Library;component/Images/AppIcon.ico" />
+		<Setter Property="SizeToContent" Value="WidthAndHeight" />
+	</Style>
+
+</ResourceDictionary>

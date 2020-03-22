@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<!--  https://stackoverflow.com/questions/2101821/setting-window-background-color-using-resource?rq=1  -->
+
+	<!--  Window colors  -->
+	<SolidColorBrush x:Key="WindowBackground" Color="Khaki" />
+	<SolidColorBrush x:Key="WindowBorderBrush" Color="Goldenrod" />
+	<SolidColorBrush x:Key="ControlBackground" Color="LemonChiffon" />
+	<SolidColorBrush x:Key="TextBoxBackground" Color="Oldlace" />
+	<SolidColorBrush x:Key="HeaderBackground" Color="DarkSalmon" />
+
+	<!--  Border colors  -->
+	<SolidColorBrush x:Key="BorderDefault" Color="LightSlateGray" />
+	<SolidColorBrush x:Key="BorderAlert" Color="OrangeRed" />
+	<SolidColorBrush x:Key="GridLine" Color="Gainsboro" />
+
+	<!--  Text colors  -->
+	<SolidColorBrush x:Key="LabelText" Color="#1F1F26" />
+	<SolidColorBrush x:Key="DataText" Color="Black" />
+	<SolidColorBrush x:Key="AlertText" Color="OrangeRed" />
+
+	<!--  Button colors  -->
+	<SolidColorBrush x:Key="ButtonBackground" Color="DarkKhaki" />
+	<SolidColorBrush x:Key="ButtonDisabled" Color="Gray" />
+	<SolidColorBrush x:Key="ButtonHover" Color="Goldenrod" />
+	<SolidColorBrush x:Key="ButtonPressed" Color="LimeGreen" />
+
+  <SolidColorBrush x:Key="SlowButtonBackground" Color="DarkOrange" />
+  <SolidColorBrush x:Key="SlowButtonPressed" Color="OrangeRed" />
+
+
+  <SolidColorBrush x:Key="CancelButtonBackground" Color="DarkSalmon" />
+	<SolidColorBrush x:Key="OKButtonBackground" Color="OliveDrab" />
+
+	<!--  Item marker colors  -->
+	<SolidColorBrush x:Key="InvalidBackground" Color="Tomato" />
+	<SolidColorBrush x:Key="PackedBackground" Color="SeaGreen" />
+  <SolidColorBrush x:Key="InArchiveBackground" Color="MediumSlateBlue" />
+  <SolidColorBrush x:Key="InGameBackground" Color="LimeGreen" />
+
+<SolidColorBrush x:Key="NeutralBackground" Color="LightBlue" />
+	<SolidColorBrush x:Key="SelectedItemActive" Color="Goldenrod" />
+	<SolidColorBrush x:Key="SelectedItemNoFocus" Color="DarkKhaki" />
+
+	<!-- TabControl colors-->
+	<SolidColorBrush x:Key="TabBackground" Color="PaleGoldenrod"/>
+	<SolidColorBrush x:Key="TabControlBackground" Color="OliveDrab"/>
+	<SolidColorBrush x:Key="TabItemSelectedBackground" Color="GoldenRod"/>
+	<SolidColorBrush x:Key="TabItemBackground" Color="NavajoWhite"/>
+
+<!-- Slider colors -->
+	<SolidColorBrush x:Key="SliderRepeatButtonBackground" Color="Red"/>
+	<SolidColorBrush x:Key="SliderRepeatButtonBorderBrush" Color="OrangeRed"/>
+	<SolidColorBrush x:Key="SliderTickBarFill" Color="Black"/>
+	<SolidColorBrush x:Key="SliderForeGround" Color="DarkRed"/>
+	<SolidColorBrush x:Key="SliderBorderBackGround" Color="OliveDrab"/>
+
+
+    
+</ResourceDictionary>

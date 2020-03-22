@@ -1,0 +1,22 @@
+<UserControl x:Class="Styles.Library.UserControls.FileInputBox"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  x:Name="root">
+	<DockPanel>
+		<Button x:Name="GetFileButton"
+		  Click="GetFileButtonClicked"
+		  DockPanel.Dock="Right">
+			...
+		</Button>
+		<TextBlock x:Name="LabelTextBlock"
+		  DockPanel.Dock="Left"
+		  Text="{Binding LabelText, ElementName=root}"
+		   Width="{Binding LabelWidth, ElementName=root}"/>
+		<Border CornerRadius="3">
+			<TextBox x:Name="FileTextBox"
+			  MinWidth="{Binding ActualWidth, ElementName=GetFileButton}"
+			  Margin="2,0,8,0"
+			  Text="{Binding FileName, ElementName=root}" />
+		</Border>
+	</DockPanel>
+</UserControl>

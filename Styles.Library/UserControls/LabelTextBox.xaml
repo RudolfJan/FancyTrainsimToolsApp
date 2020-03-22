@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Styles.Library.UserControls.LabelTextBox"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  x:Name="root"
+  d:DesignHeight="35"
+  d:DesignWidth="200"
+  mc:Ignorable="d">
+	<DockPanel>
+		<TextBlock x:Name="LabeledTextBlock"
+		  MinWidth="50"
+          Width="{Binding LabelWidth, ElementName=root}"
+		  VerticalAlignment="Center"
+		  DockPanel.Dock="Left"
+		  Text="{Binding LabelText, ElementName=root}" />
+		<Border CornerRadius="6">
+			<TextBox x:Name="LabeledTextBox"
+			  MinWidth="{Binding ActualWidth, ElementName=LabeledTextBlock}"
+			  Margin="2,0,8,0"
+			  Text="{Binding TextBoxText, ElementName=root}"
+        IsReadOnly="{Binding IsReadOnly, ElementName=root}"
+        Background="{Binding TextBoxBackGround, ElementName=root}"
+			  TextChanged="OnTextChanged" x:FieldModifier="public" />
+		</Border>
+	</DockPanel>
+</UserControl>

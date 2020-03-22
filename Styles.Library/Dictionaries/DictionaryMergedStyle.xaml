@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+	<!--  https://www.codeproject.com/Articles/35346/Using-a-Resource-Dictionary-in-WPF  -->
+	<ResourceDictionary.MergedDictionaries>
+<!-- Basic markup -->
+<ResourceDictionary Source="DictionaryColorScheme.xaml" />
+<ResourceDictionary Source="DictionarySizeScheme.xaml" />
+
+<!-- Windows -->
+<ResourceDictionary Source="DictionaryWindow.xaml" />
+
+<!-- Base controls -->
+
+		<ResourceDictionary Source="DictionaryBorder.xaml" />
+		<ResourceDictionary Source="DictionaryButton.xaml" />
+		<ResourceDictionary Source="DictionaryTextbox.xaml" />
+		<ResourceDictionary Source="DictionaryTextBlock.xaml" />
+		<ResourceDictionary Source="DictionaryCombobox.xaml" />
+		<ResourceDictionary Source="DictionaryLabel.xaml" />
+		<ResourceDictionary Source="DictionaryTooltip.xaml" />
+		<ResourceDictionary Source="DictionarySlider.xaml" />
+<!-- Lists and grids -->
+		<ResourceDictionary Source="DictionaryListbox.xaml" />
+		<ResourceDictionary Source="DictionaryListView.xaml" />
+		<ResourceDictionary Source="DictionaryDataGrid.xaml" />
+
+<!-- Panels etc -->
+		<ResourceDictionary Source="DictionaryTabControl.xaml" />
+
+		<!-- User controls -->
+
+		<ResourceDictionary Source="DictionaryLabelTextBox.xaml" />
+		<ResourceDictionary Source="DictionaryFileInputBox.xaml" />
+		<ResourceDictionary Source="DictionaryResultsTextBox.xaml" />
+		<ResourceDictionary Source="DictionaryMedia.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

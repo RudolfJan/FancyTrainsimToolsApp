@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Makes a listbox using the full size of a grid cell  -->
+    <Style x:Key="ColorListBox" TargetType="{x:Type ListBox}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Background" Value="{DynamicResource ControlBackground}" />
+    </Style>
+
+</ResourceDictionary>

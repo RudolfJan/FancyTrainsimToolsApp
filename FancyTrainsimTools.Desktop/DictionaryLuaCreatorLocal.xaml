@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library">
+<!--
+  Cnverter depends on settings as it works right now. Needs some redesign ...
+	<local:ImageToImagePathConverter x:Key="ImageToImagePathConverter"/>
+-->
+  <Style x:Key="LuaCreatorResultsTextBox" BasedOn="{StaticResource DefaultResultsTextBox}" TargetType="userControls:ResultsTextBox">
+    <Setter Property="Source" Value="pack://application:,,,/Styles.Library;component/Images/page_delete.png"></Setter>
+  </Style>
+</ResourceDictionary>

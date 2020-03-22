@@ -1,0 +1,28 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="DefaultDataGrid" TargetType="{x:Type DataGrid}">
+        <Setter Property="AutoGenerateColumns" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource ControlBackground}" />
+        <Setter Property="Margin" Value="{DynamicResource DefaultMargin}" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource GridLine}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource GridLine}" />
+        <Setter Property="ColumnHeaderStyle" Value="{DynamicResource DefaultColumnHeader}" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGridCell}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource SelectedItemActive}"/>
+            </Trigger>
+        </Style.Triggers> 
+    </Style>
+
+    <Style x:Key="DefaultColumnHeader" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{DynamicResource HeaderBackground}" />
+    </Style>
+
+</ResourceDictionary>

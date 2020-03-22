@@ -1,0 +1,128 @@
+﻿<Window x:Class="FancyTrainsimTools.Desktop.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel = "clr-namespace:FancyTrainsimTools.Desktop.ViewModels" 
+        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
+        xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+        Style="{StaticResource AllWindows}"
+        mc:Ignorable="d" 
+        Title="Fancy Trainsim Tools">
+    <ScrollViewer>
+        <Border BorderThickness="10">
+
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image Source="../Images/FrontPageImage.jpg" Width="600" Grid.Row="0" Grid.ColumnSpan="3" />
+
+                    <TextBlock Grid.Row="1" 
+                       Grid.Column="0" Style="{StaticResource HeaderTextBlock}">
+                Support
+                    </TextBlock>
+                    <TextBlock Grid.Row="1"
+                       Grid.Column="1"
+                       Style="{StaticResource HeaderTextBlock}">
+                Tools
+                    </TextBlock>
+                    <TextBlock Grid.Row="1"
+                       Grid.Column="2"
+                       Style="{StaticResource HeaderTextBlock}">
+                Documents
+                    </TextBlock>
+
+                    <Border Style="{StaticResource DefaultBorder}"
+                    Grid.Row="2"
+                    Grid.Column="0">
+                        <StackPanel>
+                            <Button Name="OptionsButton" Style="{StaticResource WideButton}">
+                                Options
+                            </Button>
+                            <Button Name="LogViewerButton" Style="{StaticResource WideButton}" Command="{Binding ShowLoggingCommand}">
+                                View logging
+                            </Button>
+                            <Button Name="InstallerToolButton" Style="{StaticResource WideButton}">
+                                Installer tool
+                            </Button>
+                            <Button Name="InstallerHistoryButton" Style="{StaticResource WideButton}">
+                                Installer history
+                            </Button>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource DefaultBorder}"
+                    Grid.Row="2"
+                    Grid.Column="1">
+                        <StackPanel>
+                            <Button Name="RouteButton"  Style="{StaticResource WideButton}"
+                            Content="Routes/Scenarios" />
+                            <Button Name="LaunchButton"  Style="{StaticResource WideButton}"
+                            Content="Launcher" />
+                            <Button Name="ExportButton"  Style="{StaticResource WideButton}"
+                        Content="Export to Excel" />
+                            <Button Name="RollingStockCatalogButton"  Style="{StaticResource WideButton}"
+                            Content="Rolling stock catalog" />
+                            <Button Name="RollingStockAssetsButton"  Style="{StaticResource WideButton}"
+                                     Content="Rolling stock assets" />
+                            <Button Name="GameAssetsButton"  Style="{StaticResource WideButton}" 
+                                    Command="{Binding GameAssetsCommand}"
+                                    ToolTip="Manage all assets for trainsimulator"
+                                    Content="Game assets" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource DefaultBorder}"
+                    Grid.Row="2"
+                    Grid.Column="2">
+                        <StackPanel>
+                            <Button Name="AboutButton"  Style="{StaticResource WideButton}"
+                                Command="{Binding AboutCommand}">About</Button>
+                            <Button Name="ManualButton"  Style="{StaticResource WideButton}"
+                            Content="Tools Manual"
+                            ToolTip="LuaCreator manual. You really should read this!" />
+                            <Button Name="Part1Button"  Style="{StaticResource WideButton}"
+                                ToolTip="Tutorial on creating scenarios">
+                                Authors guide part I
+                            </Button>
+                            <Button Name="Part2Button"  Style="{StaticResource WideButton}"
+                            ToolTip="Advanced techniques for scenario authors">
+                                Authors guide part II
+                            </Button>
+                            <Button Name="Part3Button"  Style="{StaticResource WideButton}"
+                                ToolTip="Create Lua scripts for scenarios">
+                                Authors guide part III
+                            </Button>
+                            <Button Name="TrainSimManualsButton"  Style="{StaticResource WideButton}"
+  
+                            ToolTip="Manuals tool" Click="TrainSimManualsButton_OnClick">
+                                Manuals tool
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Border Style="{StaticResource DefaultBorder}">
+                    <DockPanel>
+                        <userControls:ResultsTextBox Style="{StaticResource LuaCreatorResultsTextBox}"
+                                      x:Name="ResultsTextBox2" Width="450"
+                                      Text="{Binding Result, NotifyOnSourceUpdated=True}" />
+                        <Button Name="OKButton" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom" Command="{Binding ExitCommand}">Close</Button>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</Window>
