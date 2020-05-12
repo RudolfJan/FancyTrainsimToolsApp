@@ -9,6 +9,7 @@
 		<Setter Property="FontSize" Value="11" />
 		<Setter Property="FontFamily" Value="Arial" />
 		<Setter Property="FontWeight" Value="Regular" />
+		<Setter Property="TextBoxBackGround" Value="{DynamicResource TextBoxBackground}"/>
 		<Setter Property="Margin" Value="5,5,0,5" />
 		<Style.Resources>
 			<Style TargetType="Label">
@@ -19,7 +20,6 @@
 			</Style>
 			<Style TargetType="TextBox">
 				<Setter Property="Foreground" Value="{DynamicResource DataText}" />
-				<Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
 				<Setter Property="Margin" Value="{DynamicResource DefaultMargin}" />
 				<Setter Property="Height" Value="{DynamicResource ItemHeight}" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -32,6 +32,7 @@
 
 	<Style x:Key="DefaultLabelTextBox" TargetType="{x:Type userControls:LabelTextBox}">
 		<Setter Property="Height" Value="{DynamicResource ItemHeight}" />
+		<Setter Property="TextBoxBackGround" Value="{DynamicResource TextBoxBackground}"/>
 		<Setter Property="FontSize" Value="11" />
 		<Setter Property="FontFamily" Value="Arial" />
 		<Setter Property="FontWeight" Value="Regular" />
@@ -45,7 +46,6 @@
 			</Style>
 			<Style TargetType="TextBox">
 				<Setter Property="Foreground" Value="{DynamicResource DataText}" />
-				<Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
 				<Setter Property="Margin" Value="{DynamicResource DefaultMargin}" />
 				<Setter Property="Height" Value="{DynamicResource ItemHeight}" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />

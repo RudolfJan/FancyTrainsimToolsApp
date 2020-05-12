@@ -2,14 +2,14 @@
 
 	<!--  https://www.codeproject.com/Articles/35346/Using-a-Resource-Dictionary-in-WPF  -->
 	<ResourceDictionary.MergedDictionaries>
-<!-- Basic markup -->
-<ResourceDictionary Source="DictionaryColorScheme.xaml" />
-<ResourceDictionary Source="DictionarySizeScheme.xaml" />
+		<!-- Basic markup -->
+		<ResourceDictionary Source="DictionaryColorScheme.xaml" />
+		<ResourceDictionary Source="DictionarySizeScheme.xaml" />
 
-<!-- Windows -->
-<ResourceDictionary Source="DictionaryWindow.xaml" />
+		<!-- Windows -->
+		<ResourceDictionary Source="DictionaryWindow.xaml" />
 
-<!-- Base controls -->
+		<!-- Base controls -->
 
 		<ResourceDictionary Source="DictionaryBorder.xaml" />
 		<ResourceDictionary Source="DictionaryButton.xaml" />
@@ -19,13 +19,14 @@
 		<ResourceDictionary Source="DictionaryLabel.xaml" />
 		<ResourceDictionary Source="DictionaryTooltip.xaml" />
 		<ResourceDictionary Source="DictionarySlider.xaml" />
-<!-- Lists and grids -->
+		<!-- Lists and grids -->
 		<ResourceDictionary Source="DictionaryListbox.xaml" />
 		<ResourceDictionary Source="DictionaryListView.xaml" />
 		<ResourceDictionary Source="DictionaryDataGrid.xaml" />
 
-<!-- Panels etc -->
+		<!-- Panels etc -->
 		<ResourceDictionary Source="DictionaryTabControl.xaml" />
+		<ResourceDictionary Source="DictionaryCanvas.xaml" />
 
 		<!-- User controls -->
 

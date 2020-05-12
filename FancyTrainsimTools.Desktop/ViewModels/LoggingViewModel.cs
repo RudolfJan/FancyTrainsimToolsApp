@@ -22,7 +22,7 @@ namespace FancyTrainsimTools.Desktop.ViewModels
       ClearCommand= new RelayCommand(Clear);
       ChangeFilterCommand= new RelayCommand(ChangeFilter);
       _serviceProvider = App.serviceProvider;
-      CreateTestData();
+      // CreateTestData();
       }
 
     private void CreateTestData()

@@ -142,6 +142,9 @@ namespace Assets.Library.Logic
         CreateTable("SQL\\CreateRoutesTable.sql");
         CreateTable("SQL\\CreateRouteAssetsTable.sql");
 
+        CreateTable("SQL\\CreateScenariosTable.sql");
+
+
         // ViewCreation
         CreateTable("SQL\\CreateBluePrintView.sql");
         CreateTable("SQL\\CreateRouteAssetsView.sql");

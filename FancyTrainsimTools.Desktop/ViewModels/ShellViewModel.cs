@@ -39,7 +39,7 @@ namespace FancyTrainsimTools.Desktop.ViewModels
 
     public void ShowAbout()
       {
-      Log.Trace("Called AboutView");
+      Log.Trace("Called AboutView using a very long text here to see if wrapping actually works, so I will be happy");
       var aboutView = _serviceProvider.GetService<AboutView>();
       aboutView.Show();
       }

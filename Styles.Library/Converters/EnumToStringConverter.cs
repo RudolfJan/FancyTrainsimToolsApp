@@ -17,7 +17,7 @@ namespace Styles.Library.Converters
         }
       catch
         {
-        return String.Empty;
+        return string.Empty;
         }
       }
 

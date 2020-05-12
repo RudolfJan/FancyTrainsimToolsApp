@@ -149,17 +149,7 @@ namespace Assets.Library.Logic
 
     public static void SaveRoutesBulkList(List<RouteModel> routesList, Boolean inGame, Boolean inArchive)
       {
-      string fieldName="";
-      if (inGame)
-        {
-        fieldName = "InGame";
-        }
-
-      if (inArchive)
-        {
-        fieldName = "InArchive";
-        }
-
+      string fieldName=Converters.LocationToString(inGame,inArchive);
       using (IDbConnection connection =
         new SQLiteConnection(AssetDatabaseAccess.GetConnectionString()))
         {
@@ -178,14 +168,7 @@ namespace Assets.Library.Logic
 
             transaction.Commit();
             GetRouteIds(routesList);
-            if (inGame)
-              {
-              UpdateBulkStatus(routesList,"InGame");
-              }
-            if(inArchive)
-              {
-              UpdateBulkStatus(routesList,"InArchive");
-              }
+            UpdateBulkStatus(routesList,fieldName);
             }
           catch (Exception ex)
             {
@@ -223,6 +206,29 @@ namespace Assets.Library.Logic
           }
         }
       }
+
+    public static int GetRouteId(string routeGuid)
+      {
+      using (IDbConnection connection = new SQLiteConnection(AssetDatabaseAccess.GetConnectionString()))
+        {
+        connection.Open();
+        using (IDbTransaction transaction = connection.BeginTransaction())
+          {
+          string sqlStatement = @$"SELECT Id FROM Routes WHERE RouteGuid= @RouteGuid;";
+          try
+            {
+            IdModel idModel=connection.Query<IdModel>(sqlStatement, new { routeGuid}, transaction).First();
+            return idModel.Id;
+            }
+          catch (Exception ex)
+            {
+            Log.Trace($"Something went wrong during getting id for {routeGuid} for Routes from database",ex, LogEventType.Error);
+            }
+          }
+        }
+      return 0;
+      }
+
 
 
     //TODO make this generic
@@ -262,6 +268,40 @@ namespace Assets.Library.Logic
       var output = Db.Query<RouteModel>("SELECT * FROM Routes", new { });
       return output.ToList();
       }
+    #endregion
+
+    #region filter
+
+    //TODO make this genereric
+    public static List<RouteModel> ApplyAssetsFilter(List<RouteModel> routesList, RouteFilterModel routesFilter)
+      {
+      return routesList.Where(p => RoutesFilter(p, routesFilter)).ToList();
+      }
+
+    private static bool RoutesFilter(RouteModel route, RouteFilterModel filter)
+      {
+      // The filters always are set to true, so we select the item if nothing is set, once a filter has a non-default value, it must cause a match, else it fails.
+      if (route == null || filter == null)
+        {
+        return false;
+        }
+
+      var output = Converters.EvaluatePackedLocationFilter(filter.InGameFilter, filter.InArchiveFilter, filter.IsPackedFilter,
+                                                                        route.InGame, route.InArchive, route.IsPacked);
+
+      if (output)
+        {
+        output = Converters.EvaluateTextFilter(filter.RouteNameFilter, route.RouteName);
+        }
+      else
+        {
+        return false;
+        }
+
+      return output;
+      }
+
+
     #endregion
 
     #region Helpers

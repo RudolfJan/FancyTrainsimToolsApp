@@ -1,0 +1,294 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimTools.Desktop.Views.RouteAssetsView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+                            xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+                            xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
+                            vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+                            mc:Ignorable="d"
+                            Style="{StaticResource AllWindows}"
+                            Title="Route Assets">
+
+  <ScrollViewer>
+    <StackPanel>
+      <Border Style="{StaticResource DefaultBorder}">
+        <StackPanel>
+          <!-- Provider/Product part -->
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition/>
+              <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+              <TextBlock Style="{StaticResource ListHeader }">Providers and products</TextBlock>
+              <DataGrid Name="ProviderProductDataGrid" Height="400"
+                        ItemsSource="{Binding GameAssets.FilteredProviderProductList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False" SelectionMode="Extended">
+                <DataGrid.Columns>
+                  <DataGridTextColumn MinWidth="30">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <Button x:Name="SetProductFilterButton" Width="20" Height="20" Margin="5,15,5,5"
+                                  Command="{Binding ElementName=ProviderProductDataGrid, Path= DataContext.SetProductFilterCommand}">
+                            <Image Source="../Images/filter.png" />
+                          </Button>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+
+                  <DataGridTemplateColumn
+                    Header="Game" Width="35">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+                          <CheckBox x:Name="ProductFilterInGameCheckBox" Width="200"
+                                    IsChecked="{Binding ElementName=ProviderProductDataGrid, Path=DataContext.GameAssets.ProviderProductFilter.InGameFilter, 
+                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <Border
+                          Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource ColorRectangleTrue}" Background="LimeGreen" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+
+                  <!-- ReSharper disable once MarkupAttributeTypo -->
+                  <DataGridTemplateColumn
+                    Header="Archiv" Width="35">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+                          <CheckBox x:Name="ProductFilterInArchiveCheckBox" Width="200"
+                                    IsChecked="{Binding ElementName=ProviderProductDataGrid, 
+                                    Path=DataContext.GameAssets.ProviderProductFilter.InArchiveFilter, 
+                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <Border
+                          Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource ColorRectangleTrue}" Background="MediumSlateBlue" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+
+                  <DataGridTextColumn Binding="{Binding Provider}"
+                                      Header="Provider">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+                          <TextBox x:Name="ProductFilterProviderTextBox" Width="80"
+                                   Text="{Binding ElementName=ProviderProductDataGrid, Path= DataContext.GameAssets.ProviderProductFilter.ProviderFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+
+                  <DataGridTextColumn Binding="{Binding Product}"
+                                      Header="Product">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+                          <TextBox x:Name="ProductFilterProductTextBox" Width="80" 
+                                   Text="{Binding ElementName=ProviderProductDataGrid, Path= DataContext.GameAssets.ProviderProductFilter.ProductFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+                </DataGrid.Columns>
+              </DataGrid>
+            </StackPanel>
+
+
+            <!-- Assets part --> 
+            <StackPanel Grid.Column="1">
+              <TextBlock Style="{StaticResource ListHeader }">All BluePrints</TextBlock>
+              <DataGrid  Name="RouteAssetsDataGrid" Style="{StaticResource DefaultDataGrid}" 
+                      Height="400" MinWidth="500" MaxWidth="800" 
+                      ItemsSource="{Binding RequiredAssetsList, IsAsync=True}"
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False" CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                  <DataGridTextColumn MinWidth="25">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5">
+                            <Image Source="../Images/filter.png" />
+                          </Button>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+                  <DataGridTemplateColumn
+                  Header="Game" Width="35">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <CheckBox x:Name="FilterInGameCheckBox" Width="200"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <Border
+                        Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ColorRectangleTrue}" Background="LimeGreen" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+
+                  <!-- ReSharper disable once MarkupAttributeTypo -->
+                  <DataGridTemplateColumn
+                  Header="Archiv" Width="35">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <CheckBox x:Name="FilterInArchiveCheckBox" Width="200"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate>
+                        <Border
+                        Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ColorRectangleTrue}" Background="MediumSlateBlue" />
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+
+                  <DataGridTextColumn Binding="{Binding ProviderFolder}"
+                                    Header="Provider">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <TextBox x:Name="FilterProviderTextBox" Width="80"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+
+                  <DataGridTextColumn Binding="{Binding ProductFolder}"
+                                    Header="Product">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <TextBox x:Name="FilterProductTextBox" Width="80"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+
+                  <DataGridTextColumn Binding="{Binding BluePrintPathNormalized}"
+                                    Header="Blueprint">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <TextBox x:Name="FilterBlueprintTextBox" Width="200"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+
+                  <DataGridTextColumn Binding="{Binding Count}"
+                                    Header="Count">
+                    <DataGridTextColumn.HeaderTemplate>
+                      <DataTemplate>
+                        <StackPanel>
+                          <TextBlock
+                          Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                          HorizontalAlignment="Center" />
+                          <TextBox x:Name="FilterCountTextBox" Width="60"/>
+                        </StackPanel>
+                      </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                  </DataGridTextColumn>
+                </DataGrid.Columns>
+
+              </DataGrid>
+
+            </StackPanel>
+          </Grid>
+
+<!-- Controls part --> 
+          <WrapPanel>
+            <userControls:LabelTextBox LabelText="Nr of assets" LabelWidth="80" 
+                                       TextBoxText="{Binding RequiredAssets.Count}" Style="{StaticResource DefaultLabelTextBox}"/>
+            <userControls:LabelTextBox LabelText="Processing time" LabelWidth="80" 
+                                       TextBoxText="{Binding ElapsedTime}" Style="{StaticResource DefaultLabelTextBox }"/>
+          </WrapPanel>
+          <WrapPanel>
+            <Button Name="GetSceneryItemsButton" Style="{StaticResource SlowButton}">Get scenery</Button>
+            <Button Name="CancelGetSceneryButton" Style="{StaticResource DefaultButton}">Cancel</Button>
+
+            <TextBlock Style="{StaticResource DefaultTextBlock}" Width="60">Progress</TextBlock>
+            <Grid>
+              <ProgressBar Name="MyProgressBar" Foreground="{StaticResource OKButtonBackground}" 
+                           Background="{StaticResource WindowBackground}" MinWidth="300"/>
+              <TextBlock Text="{Binding ElementName=MyProgressBar, Path=Value, StringFormat={}{0:0}%}" 
+                         HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+          </WrapPanel>
+          <DockPanel>
+            <userControls:ResultsTextBox Name="MyResultsTextBox" 
+                                         Text="{Binding Results}" 
+                                         Style="{StaticResource LuaCreatorResultsTextBox}" 
+                                         MinWidth="500"></userControls:ResultsTextBox>
+            <Button Name="OKButton" Style="{StaticResource OKButton}" 
+                    DockPanel.Dock="Right" VerticalAlignment="Bottom" 
+                    Click="OKButton_OnClick">Close</Button>
+          </DockPanel>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</windowSizing:SizableWindow>

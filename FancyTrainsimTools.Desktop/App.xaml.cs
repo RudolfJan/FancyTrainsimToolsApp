@@ -31,7 +31,7 @@ namespace FancyTrainsimTools.Desktop
       }
     private void CreateViewModelServices(ServiceCollection services)
       {
-      services.AddTransient<LogCollectionManager>(p=> new LogCollectionManager());
+      //services.AddTransient<LogCollectionManager>(p=> new LogCollectionManager());
       // pass in parameter
       // https://cmatskas.com/net-core-dependency-injection-with-constructor-parameters-2/
 
@@ -47,6 +47,8 @@ namespace FancyTrainsimTools.Desktop
       services.AddTransient(p => new GameAssetsView());
       services.AddTransient<RoutesAndScenariosViewModel>();
       services.AddTransient(p => new RoutesAndScenariosView());
+      services.AddTransient<RouteAssetsViewModel>();
+      services.AddTransient(p => new RouteAssetsView());
       }   
  
     private void CreateLogicServices(ServiceCollection services)
@@ -63,6 +65,7 @@ namespace FancyTrainsimTools.Desktop
       var services = new ServiceCollection();
       CreateViewModelServices(services);
       CreateLogicServices(services);
+      LogEventHandler.LogEvent += OnLogEvent;
 
       // create service provider
       serviceProvider = services.BuildServiceProvider();
@@ -70,11 +73,21 @@ namespace FancyTrainsimTools.Desktop
       // Todo init database, logging etcetera
       //CreateLogger();
       // start logging registration
-      logger = serviceProvider.GetService<LogCollectionManager>();
+      //logger = serviceProvider.GetService<LogCollectionManager>();
       // Initialize the database here.
       AssetDatabaseAccess.InitDatabase(Settings.ConnectionString,Settings.AssetDatabasePath);
       var window=serviceProvider.GetService<ShellView>();
       window.Show();
+      }
+
+    private void OnLogEvent(object sender, LogEventArgs args)
+      {
+      if (args.EntryClass.EventType == LogEventType.Error)
+        {
+        var message = args.EntryClass.LogEntry;
+        var form = new NotificationView(message);
+        form.Show();
+        }
       }
     }
   }

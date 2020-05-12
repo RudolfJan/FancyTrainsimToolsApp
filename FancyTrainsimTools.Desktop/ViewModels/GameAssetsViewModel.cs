@@ -10,10 +10,9 @@ using System.Windows.Input;
 
 namespace FancyTrainsimTools.Desktop.ViewModels
   {
-  public class GameAssetsViewModel: ValidatingBindableBase
+  public class GameAssetsViewModel: BindableBase
     {
     public GameAssetsModel GameAssets { get; set; } = new GameAssetsModel();
-    public bool? Test { get; set; }
     public ICommand SetProductFilterCommand { get; }
     public ICommand SetAssetFilterCommand { get; }
     public ICommand GetInGameDirTreeCommand { get; }

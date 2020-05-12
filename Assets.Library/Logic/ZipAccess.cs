@@ -58,19 +58,23 @@ namespace Assets.Library.Logic
     /// <param name="archiveFileName">Archive file name, normally provider, product and pack (including .ap)</param>
     /// <param name="endsWith">Extension to look for</param>
     /// <returns></returns>
-    public static List<String> GetAllZipEntries(String basePath, 
+    public static List<string> GetAllZipEntries(String basePath, 
                                     String archiveFileName,
                                     String endsWith = ".bin")
       {
-      var output = new List<String>();
       var archiveFullName = $"{basePath}{archiveFileName}";
       using var archive = ZipFile.OpenRead( archiveFullName);
           {
           var entries = archive.Entries;
-          output = entries.Select(x => x.FullName).Where(x=>x.EndsWith(endsWith)).ToList();
+          List<string> output = entries.Select(x=> x.FullName).Where(x=>x.EndsWith(endsWith)).ToList();
+          return output;
           }
-      return output;
       }
+
+
+
+
+
 
 
     #endregion

@@ -25,4 +25,16 @@
         <Setter Property="Background" Value="{DynamicResource HeaderBackground}" />
     </Style>
 
+
+    <!-- https://stackoverflow.com/questions/7800367/how-to-get-a-wpf-datagrid-cell-to-right-align-without-making-the-selectable-area
+
+    Usage:
+    <DataGridTextColumn Header="Excluded" Binding="{Binding Excluded}" ElementStyle="{StaticResource RightCell}"/>
+    -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="RightCell">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+    </Style>
+
+
 </ResourceDictionary>

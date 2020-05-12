@@ -23,11 +23,11 @@ namespace Styles.Library.Converters
           if (Fi != null)
             {
             var Attributes = (DescriptionAttribute[])Fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return ((Attributes.Length > 0) && (!String.IsNullOrEmpty(Attributes[0].Description))) ? Attributes[0].Description : Value.ToString();
+            return ((Attributes.Length > 0) && (!string.IsNullOrEmpty(Attributes[0].Description))) ? Attributes[0].Description : Value.ToString();
             }
           }
 
-        return String.Empty;
+        return string.Empty;
         }
 
       return base.ConvertTo(Context, Culture, Value, DestinationType);

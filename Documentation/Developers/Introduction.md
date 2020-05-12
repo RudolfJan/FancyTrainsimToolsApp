@@ -89,9 +89,18 @@ The three latter libraries ar meant to be used in multiple projects. So please t
 * Actions are invoked using Commands in WPF, ICommand and relayCommand as implementation.
 * In WPF parts, almost all elements refer explicity to a style. I try to avoid ard coded sizing in windows.
 * For large windows, use scrollbars and a derived class from WindowSizing, you find them in the styles library.
-* I created my own logging framework. It works standard, using messaging to send logging to who wants to hear. It also returs a string directly, e.g. for a popup.
+* I created my own logging framework. It works standard, using messaging to send logging to who wants to hear. It also returs a string directly, e.g. 
+* for a popup.
 * Coding style: see the code that is done as an example. Style guide will come later.
 
+## Database
+
+You can configure the database using appsettings.json in the Desktop UI project. You can specify its name and location.
+
+The Assets.Library project has a folder called SQL (you may guess this) that contains all Create statements for the database. The is one 
+file for eacht able or index. In the Logic folder, you find a file called AssetDatabaseAccess, which has methods to create the database.
+ So, you just can delete the database if anything has changed, and recreate it. This still need improvement to support AlterTable and things 
+like that as well.
 
 
 

@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Styles.Library.Dictionaries"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    
+
+	<SolidColorBrush x:Key="CanvasBackground" Color="Khaki" />
+	<SolidColorBrush x:Key="GraphBackground" Color="LemonChiffon" />
+	<SolidColorBrush x:Key="GridLineColor" Color="Maroon" />
+	<SolidColorBrush x:Key="GridTextColor" Color="Maroon" />
+
+	<Thickness
+		x:Key="DefaultMargin"
+		Bottom="5"
+		Left="5"
+		Right="5"
+		Top="5" />
+
+	<system:Double x:Key="ItemHeight">25</system:Double>
+</ResourceDictionary>

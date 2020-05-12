@@ -35,7 +35,7 @@ namespace Styles.Library.Converters
 
     Object IValueConverter.ConvertBack(Object Value, Type TargetType, Object Parameter, CultureInfo Culture)
       {
-      return String.Empty;
+      return string.Empty;
       }
     }
   }

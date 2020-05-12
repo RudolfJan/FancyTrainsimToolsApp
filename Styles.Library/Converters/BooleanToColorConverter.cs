@@ -32,21 +32,21 @@ namespace Styles.Library.Converters
         {
         // Parameter format: [ColorNameIfTrue;ColorNameIfFalse;OpacityNumber]
         var ParameterString = parameter.ToString();
-        if (!String.IsNullOrEmpty(ParameterString))
+        if (!string.IsNullOrEmpty(ParameterString))
           {
           var parameters = ParameterString.Split(';');
           var count = parameters.Length;
-          if (count > 0 && !String.IsNullOrEmpty(parameters[0]))
+          if (count > 0 && !string.IsNullOrEmpty(parameters[0]))
             {
             colorIfTrue = ColorFromName(parameters[0]);
             }
-          if (count > 1 && !String.IsNullOrEmpty(parameters[1]))
+          if (count > 1 && !string.IsNullOrEmpty(parameters[1]))
             {
             colorIfFalse = ColorFromName(parameters[1]);
             }
-          if (count > 2 && !String.IsNullOrEmpty(parameters[2]))
+          if (count > 2 && !string.IsNullOrEmpty(parameters[2]))
             {
-            if (Double.TryParse(parameters[2], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out var dblTemp))
+            if (double.TryParse(parameters[2], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out var dblTemp))
               opacity = dblTemp;
             }
           }

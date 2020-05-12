@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Assets.Library.Logic
   {
-  public class RouteAssetsViewModel
+  public class FullRouteAssetsModel
     {
     public string RouteName { get; set; }
     public string Provider { get; set; }

@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using Logging.Library;
+using System.IO.Compression;
 
 #endregion
 
@@ -169,18 +170,7 @@ namespace Assets.Library.Logic
             assets =
               ReadAllAssetsFromDirectory(providerProductDir, providerProduct, tempPath.Length, InGame, InArchive);
             SaveAssetsBulk(assets, providerProduct.Id);
-
-            string location;
-            //TODO: make this more robust, check that never both  InGame and InArchive are set at the same time
-            if (InGame)
-              {
-              location = "InGame";
-              }
-            else
-              {
-              location = "InArchive";
-              }
-            UpdateBulkStatus(assets, location);
+            UpdateBulkStatus(assets, Converters.LocationToString(InGame,InArchive));
             progress.CurrentProgress++;
             SaveAssetProgressReporter?.Invoke(null, progress);
             }
@@ -237,17 +227,7 @@ namespace Assets.Library.Logic
             ZipAccess.GetAllZipEntries(assetBasePath, providerProduct.ArchiveFileName);
           var assets = ZipEntriesToAssetList(entries, providerProduct);
           SaveAssetsBulk(assets, providerProduct.Id);
-          string location;
-          //TODO: make this more robust, check that never both  InGame and InArchive are set at the same time
-          if (InGame)
-            {
-            location = "InGame";
-            }
-          else
-            {
-            location = "InArchive";
-            }
-          UpdateBulkStatus(assets, location);
+          UpdateBulkStatus(assets, Converters.LocationToString(InGame,InArchive));
           progress.CurrentProgress++;
           SaveAssetProgressReporter?.Invoke(null, progress);
           }
@@ -393,11 +373,7 @@ namespace Assets.Library.Logic
 
 
     #region Helpers
-    public override String ToString()
-      {
-      throw new NotImplementedException("You should implement ToString() in AssetCollectionDataAccess");
-      }
-
+ 
     #endregion
     }
   }

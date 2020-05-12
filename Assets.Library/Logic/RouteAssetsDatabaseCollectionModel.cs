@@ -1,6 +1,5 @@
 ﻿#region UsingStatements
 
-using Assets.Library.Logic;
 using Assets.Library.Models;
 using System;
 using System.Collections;
@@ -30,7 +29,7 @@ namespace Assets.Library.Logic
 
   #endregion
 
-  public class RouteAssetsDatabaseCollectionModel
+  public class RouteAssetsCollectionDataAccess
     {
 
 
@@ -40,55 +39,52 @@ namespace Assets.Library.Logic
 
     #region Constructors
 
-    public RouteAssetsDatabaseCollectionModel()
-      {
-
-      }
 
     #endregion
 
     #region Methods
 
-    public static async Task CreateAllRouteAssetsInDatabaseAsync(string routesBasePath, IProgress<BasicProgressModel> progress,CancellationToken cancellationToken)
+    public static async Task CreateAllRouteAssetsInDatabaseAsync(string routesBasePath, IProgress<BasicProgressModel> progress, CancellationToken cancellationToken)
       {
       int i = 0;
-      progress= new Progress<BasicProgressModel>();
-        var report= new BasicProgressModel();
-
-      report.Description = "Create route assets";
+      progress = new Progress<BasicProgressModel>();
+      var report = new BasicProgressModel
+        {
+        Description = "Create route assets"
+        };
       report.watch.Start();
-      
+
       var routesList = LoadRoutesToList();
       report.AmountToDo = routesList.Count;
 
       await Task.Run(() =>
         {
-        Parallel.ForEach<RouteModel>(routesList, async (route) =>
-          {
-          if (string.IsNullOrEmpty(route.Pack))
+          Parallel.ForEach<RouteModel>(routesList, async (route) =>
             {
-            var binList = LoadUnpackedRouteBinFilesToList(routesBasePath, route);
-            List<RouteAssetsModel> routeAssets = new List<RouteAssetsModel>();
-            foreach (var binFile in binList)
-              {
-              routeAssets.AddRange(LoadRouteAssetsFromBinFile(route, binFile));
-              // CLog.Trace($"Working route file {route.RouteName} {j++} {routeAssets.Count}");
-              }
+              if (string.IsNullOrEmpty(route.Pack))
+                {
+                var binList = LoadUnpackedRouteBinFilesToList(routesBasePath, route);
+                List<RouteAssetsModel> routeAssets = new List<RouteAssetsModel>();
+                foreach (var binFile in binList)
+                  {
+                  routeAssets.AddRange(LoadRouteAssetsFromBinFile(route, binFile));
+                  // CLog.Trace($"Working route file {route.RouteName} {j++} {routeAssets.Count}");
+                  }
 
-            routeAssets = routeAssets.DistinctBy(x => x.Asset.AssetPath).ToList();
-            SaveRouteAssetsBulkToDatabase(route, routeAssets);
-            Log.Trace(
-              $"Finished route {route.RouteName} {i++} total objects {routeAssets.Count}");
-            }
-          else
-            {
-            //TODO
-            }
+                routeAssets = routeAssets.DistinctBy(x => x.Asset.AssetPath).ToList();
+                SaveRouteAssetsBulkToDatabase(route, routeAssets);
+                Log.Trace(
+                $"Finished route {route.RouteName} {i++} total objects {routeAssets.Count}");
+                }
+              else
+                {
+                //TODO
+                }
 
-          report.AmountDone++;
-          report.IsDone = (report.AmountDone == report.AmountToDo);
-          progress.Report(report);
-          });
+              report.AmountDone++;
+              report.IsDone = (report.AmountDone == report.AmountToDo);
+              progress.Report(report);
+            });
         }, cancellationToken);
       }
 
@@ -106,12 +102,12 @@ namespace Assets.Library.Logic
       try
         {
         var ElementList =
-          (IEnumerable) Doc.XPathEvaluate("//iBlueprintLibrary-cAbsoluteBlueprintID");
+          (IEnumerable)Doc.XPathEvaluate("//iBlueprintLibrary-cAbsoluteBlueprintID");
         foreach (XElement BluePrintNode in ElementList)
           {
           // ReSharper disable once UseDeconstruction
           var result = GetBluePrintDetails(BluePrintNode);
-          if (string.IsNullOrEmpty(result.BluePrint)==false)
+          if (string.IsNullOrEmpty(result.BluePrint) == false)
             {
             var providerProduct = new ProviderProductModel
               {
@@ -152,7 +148,7 @@ namespace Assets.Library.Logic
         var BluePrintPathNode =
           BluePrintNode.XPathSelectElement(@"./BlueprintID");
         var BluePrint = BluePrintPathNode?.Value;
-        BluePrint = BluePrint?.Replace('\\', '/').Replace( ".bin","").Replace(".xml","");
+        BluePrint = BluePrint?.Replace('\\', '/').Replace(".bin", "").Replace(".xml", "");
         return (Provider, Product, BluePrint);
         }
       catch (Exception E)
@@ -194,7 +190,7 @@ namespace Assets.Library.Logic
         return null;
         }
 
-      if (string.IsNullOrEmpty(route.Pack)==false)
+      if (string.IsNullOrEmpty(route.Pack) == false)
         {
         Log.Trace("Route object points to packed route. Please report this error.", null,
           LogEventType.Error);
@@ -205,12 +201,12 @@ namespace Assets.Library.Logic
       try
         {
         DirectoryInfo dir = new DirectoryInfo(@$"{path}Scenery\");
-        var output= dir.GetFiles("*.bin", SearchOption.AllDirectories).ToList();
-        dir=new DirectoryInfo(@$"{path}Networks\Loft Tiles\");
+        var output = dir.GetFiles("*.bin", SearchOption.AllDirectories).ToList();
+        dir = new DirectoryInfo(@$"{path}Networks\Loft Tiles\");
         output.AddRange(dir.GetFiles("*.bin", SearchOption.AllDirectories));
-        dir=new DirectoryInfo(@$"{path}Networks\Road Tiles\");
+        dir = new DirectoryInfo(@$"{path}Networks\Road Tiles\");
         output.AddRange(dir.GetFiles("*.bin", SearchOption.AllDirectories));
-        dir=new DirectoryInfo(@$"{path}Networks\Track Tiles\");
+        dir = new DirectoryInfo(@$"{path}Networks\Track Tiles\");
         output.AddRange(dir.GetFiles("*.bin", SearchOption.AllDirectories));
         return output;
         }
@@ -255,7 +251,7 @@ namespace Assets.Library.Logic
             {
             foreach (var item in routeAssets)
               {
-              connection.Execute(sqlStatement, new {item.Route.RouteGuid, item.Asset.BluePrintPath, item.Asset.ProviderProduct.Id }, transaction);
+              connection.Execute(sqlStatement, new { item.Route.RouteGuid, item.Asset.BluePrintPath, item.Asset.ProviderProduct.Id }, transaction);
               }
 
             transaction.Commit();
@@ -287,17 +283,13 @@ namespace Assets.Library.Logic
   /// IEnumerable<Foo> distinctList = sourceList.DistinctBy(x => x.FooName);
 
   static class DistinctList
-    { 
-  public static IEnumerable<TSource> DistinctBy<TSource, TKey>(
-  this IEnumerable<TSource> source,
-  Func<TSource, TKey> keySelector)
-  {
-  var knownKeys = new HashSet<TKey>();
-    return source.Where(element => knownKeys.Add(keySelector(element)));
-  }
-
-
-
-
+    {
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(
+    this IEnumerable<TSource> source,
+    Func<TSource, TKey> keySelector)
+      {
+      var knownKeys = new HashSet<TKey>();
+      return source.Where(element => knownKeys.Add(keySelector(element)));
+      }
     }
   }

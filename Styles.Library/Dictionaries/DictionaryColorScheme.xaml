@@ -7,7 +7,8 @@
 	<SolidColorBrush x:Key="WindowBackground" Color="Khaki" />
 	<SolidColorBrush x:Key="WindowBorderBrush" Color="Goldenrod" />
 	<SolidColorBrush x:Key="ControlBackground" Color="LemonChiffon" />
-	<SolidColorBrush x:Key="TextBoxBackground" Color="Oldlace" />
+	<SolidColorBrush x:Key="TextBoxBackground" Color="LemonChiffon" />
+	<SolidColorBrush x:Key="TextBoxBackground2" Color="LemonChiffon" />
 	<SolidColorBrush x:Key="HeaderBackground" Color="DarkSalmon" />
 
 	<!--  Border colors  -->

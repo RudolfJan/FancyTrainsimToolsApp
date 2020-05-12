@@ -5,7 +5,7 @@ namespace Logging.Library
   public class LogEntryClass
 
     {
-    private String _LogEntry = String.Empty;
+    private String _LogEntry = string.Empty;
     public String LogEntry
       {
       get => _LogEntry;
@@ -27,7 +27,7 @@ namespace Logging.Library
         }
       }
 
-    private String _Method = String.Empty;
+    private String _Method = string.Empty;
     public String Method
       {
       get => _Method;
@@ -38,7 +38,7 @@ namespace Logging.Library
         }
       }
 
-    private String _FilePath = String.Empty;
+    private String _FilePath = string.Empty;
     public String FilePath
       {
       get => _FilePath;
@@ -90,6 +90,20 @@ namespace Logging.Library
       LineNumber = MyLineNumber;
       E = ExceptionDetails;
       PlaySound = MyPlaySound;
+      }
+
+    public static string WriteCsvHeaderLine(string separator = ";")
+      {
+      var s = separator;
+      var output = $"Type{s}Method{s}File path{s}Line{s}Message{s}Exception\r\n";
+      return output;
+      }
+
+    public string WriteAsCsv(string separator = ";")
+      {
+      var s = separator;
+      var output = $"{EventType}{s}{Method}{s}{FilePath}{s}{LineNumber}{s}{LogEntry}{s}{E?.Message}\r\n";
+      return output;
       }
 
     public override String ToString()

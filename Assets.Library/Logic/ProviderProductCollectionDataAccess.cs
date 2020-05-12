@@ -48,14 +48,7 @@ namespace Assets.Library.Logic
     #endregion
 
     #region Constructors
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ProviderProductCollectionDataAccess"/> class.
-    /// </summary>
-    public ProviderProductCollectionDataAccess()
-      {
-
-      }
-
+ 
     #endregion
 
     #region Methods
@@ -154,7 +147,7 @@ namespace Assets.Library.Logic
     /// <summary>
     /// Reads and saves all provider products.
     /// </summary> 
-    public static void SaveAllProviderProducts(string assetBasePath, bool InGame, bool InArchive)
+    public static void SaveAllProviderProducts(string assetBasePath, bool inGame, bool inArchive)
       {
       try
         {
@@ -162,14 +155,7 @@ namespace Assets.Library.Logic
         List<ProviderProductModel> providerProductList = ReadProviderProductListFromDirectory(assetDirectory);
         SaveProviderProductsBulk(providerProductList);
         UpdateListIdsFromDatabase(providerProductList);
-        if (InGame)
-          {
-          UpdateBulkStatus(providerProductList,"InGame");
-          }
-        if(InArchive)
-          {
-          UpdateBulkStatus(providerProductList,"InArchive");
-          }
+        UpdateBulkStatus(providerProductList,Converters.LocationToString(inGame, inArchive));
         }
       catch (Exception ex)
         {
@@ -325,23 +311,8 @@ namespace Assets.Library.Logic
       }
     #endregion
 
-
-
-
-
     #region Helpers
-    /// <summary>
-    /// Returns a string that represents the current object.
-    /// </summary>
-    /// <returns>A string that represents the current object.</returns>
-    /// <exception cref="NotImplementedException">You should implement ToString() in ProviderProductCollectionDataAccess</exception>
-    public override String ToString()
-      {
-      throw new NotImplementedException("You should implement ToString() in ProviderProductCollectionDataAccess");
-      }
-
-
-
+ 
     #endregion
     }
   }

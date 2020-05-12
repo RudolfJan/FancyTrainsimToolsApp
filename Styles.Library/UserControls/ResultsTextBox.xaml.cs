@@ -24,7 +24,7 @@ namespace Styles.Library.UserControls
 
     private void ClearButtonClicked(Object Sender, RoutedEventArgs E)
       {
-      ResultsPart.Text = String.Empty;
+      ResultsPart.Text = string.Empty;
       }
 
     private void ResultsPartTextChanged(Object Sender, TextChangedEventArgs E)
