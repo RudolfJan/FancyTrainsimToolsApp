@@ -1,13 +1,17 @@
 ﻿using FancyTrainsimTools.Library.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Mvvm.Library;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Screen = Caliburn.Micro.Screen;
 
 namespace FancyTrainsimTools.Desktop.ViewModels
   {
-  public class AboutViewModel: BindableBase
+  public class AboutViewModel: Screen
     {
     public AboutModel About { get; set; } = new AboutModel();
+
+    public async Task CloseButton()
+      {
+      await TryCloseAsync();
+      }
     }
   }

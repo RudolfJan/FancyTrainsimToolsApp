@@ -4,8 +4,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
-        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
         xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
         xmlns:styles="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
         Style="{StaticResource AllWindows}"
@@ -15,33 +13,31 @@
 
   <ScrollViewer>
     <StackPanel>
-      <ListView Name="LogView" Style="{StaticResource DefaultListView}"
-                Height="400"
-                DataContextChanged="OnLogViewDataContextChanged"
-                ItemsSource="{Binding Logging.FilteredLogging.LogEvents}">
-        <ListView.View>
-          <GridView>
-            <GridViewColumn Width="150"
-                            DisplayMemberBinding="{Binding Method}"
-                            Header="Method" />
-            <GridViewColumn Width="200"
-                            DisplayMemberBinding="{Binding FilePath}"
-                            Header="File" />
-            <GridViewColumn Width="60"
-                            DisplayMemberBinding="{Binding LineNumber}"
-                            Header="Line" />
-            <GridViewColumn Width="80"
-                            DisplayMemberBinding="{Binding EventType}"
-                            Header="Type" />
-            <GridViewColumn Width="200"
-                            DisplayMemberBinding="{Binding LogEntry}"
-                            Header="Text" />
-            <GridViewColumn Width="200"
-                            DisplayMemberBinding="{Binding E.Message}"
-                            Header="Exception" />
-          </GridView>
-        </ListView.View>
-      </ListView>
+    <DataGrid Name="LogView" Style="{StaticResource DefaultDataGrid}"
+                Height="400" AutoGenerateColumns="False"
+                ItemsSource="{Binding Logging.FilteredLogging}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Width="150"
+                          Binding="{Binding Method}"
+                          Header="Method" />
+          <DataGridTextColumn Width="200"
+                              Binding="{Binding FilePath}"
+                              Header="File" />
+          <DataGridTextColumn Width="60"
+                              Binding="{Binding LineNumber}"
+                              Header="Line" />
+          <DataGridTextColumn Width="80"
+                              Binding="{Binding EventType}"
+                              Header="Type" />
+          <DataGridTextColumn Width="200"
+                              Binding="{Binding LogEntry}"
+                              Header="Text" />
+          <DataGridTextColumn Width="200"
+                              Binding="{Binding E.Message}"
+                              Header="Exception" />
+        </DataGrid.Columns>
+      </DataGrid>
+
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="120" />
@@ -51,42 +47,35 @@
         <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
           <StackPanel>
             <Label>Filters</Label>
-            <CheckBox Name="DebugCheckBox"
-                      IsChecked="{Binding Logging.Filter.DebugChecked}">
+            <CheckBox Name="DebugLogging">
               Debug
             </CheckBox>
-            <CheckBox Name="ErrorCheckBox"
-                      IsChecked="{Binding Logging.Filter.ErrorChecked}">
+            <CheckBox Name="ErrorLogging">
               Error
             </CheckBox>
-            <CheckBox Name="MessageCheckBox"
-                      IsChecked="{Binding Logging.Filter.MessageChecked}">
+            <CheckBox Name="MessageLogging">
               Message
             </CheckBox>
-            <CheckBox Name="EventCheckBox"
-                      IsChecked="{Binding Logging.Filter.EventChecked}">
+            <CheckBox Name="EventLogging">
               Event
             </CheckBox>
           </StackPanel>
         </Border>
         <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
           <StackPanel>
-            <Button Name="ClearLogButton" Style="{StaticResource DefaultButton}"
-                    Command="{Binding ClearCommand}">
+            <Button x:Name="ClearLog" Style="{StaticResource DefaultButton}">
               Clear log
             </Button>
-            <Button Name="SaveLogButton" Style="{StaticResource DefaultButton}"
-                    Click="OnSaveLogButtonClicked">
+            <Button x:Name="SaveLog" Style="{StaticResource DefaultButton}">
               Save log
             </Button>
           </StackPanel>
         </Border>
         <Border Grid.Column="2" Style="{StaticResource DefaultBorder}">
           <StackPanel>
-            <styles:ResultsTextBox Style="{StaticResource LuaCreatorResultsTextBox}" 
+            <styles:ResultsTextBox Style="{StaticResource DefaultResultsTextBox}" 
                                           Text="{Binding ElementName=LogView, Path=SelectedItem}" />
-            <Button Name="OKButton" Style="{StaticResource OKButton}" HorizontalAlignment="Right" 
-                   Click="OKButton_OnClick">
+            <Button Name="OKButton" Style="{StaticResource OKButton}" HorizontalAlignment="Right">
               Done
             </Button>
           </StackPanel>

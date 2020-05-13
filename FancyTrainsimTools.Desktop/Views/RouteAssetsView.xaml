@@ -5,8 +5,6 @@
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                             xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
                             xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
-                            xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
-                            vml:ViewModelLocator.AutoHookedUpViewModel = "True"
                             mc:Ignorable="d"
                             Style="{StaticResource AllWindows}"
                             Title="Route Assets">

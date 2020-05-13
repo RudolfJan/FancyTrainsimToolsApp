@@ -3,10 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FancyTrainsimTools.Desktop.Views"
         xmlns:manuals="clr-namespace:FancyTrainsimTools.Library.Manuals;assembly=FancyTrainsimTools.Library"
-        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
-        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
         mc:Ignorable="d"
         Title="Manuals"
         Style="{StaticResource AllWindows}">
@@ -41,25 +38,26 @@
 	                      Height="300" MinWidth="400"
 	                      Margin="{StaticResource DefaultMargin}"
 	                      ItemsSource="{Binding Tree.TreeItems}"
-	                      ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.CanContentScroll="True"
 	                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
 	                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
 				</Border>
         </Grid>
 			<Border Style="{StaticResource DefaultBorder}">
 				<DockPanel>
-                    <Button Name="OpenManualButton" Style="{StaticResource DefaultButton}" 
-                            HorizontalAlignment="Left" 
+                    <Button Name="ShowManualButton" Style="{StaticResource DefaultButton}" 
+                            HorizontalAlignment="Left"
                             Command="{Binding ShowManualCommand}" 
                             CommandParameter="{Binding ElementName=FileTreeView, Path= SelectedItem.Path}"
                             >
 	                    Open manual
                     </Button>
-					<Button Name="OpenManualsFolderButton" Style="{StaticResource DefaultButton}" 
-					        HorizontalAlignment="Left" 
-					        Command="{Binding OpenManualsFolderCommand}" 
+					<Button Name="OpenFolderButton" Style="{StaticResource DefaultButton}" 
+					        Command="{Binding OpenFolderCommand}" 
 					        CommandParameter="{Binding ElementName=FileTreeView, Path= SelectedItem.Path}"
-					>
+					        HorizontalAlignment="Left"
+					        >
 						Open folder
 					</Button>
 
