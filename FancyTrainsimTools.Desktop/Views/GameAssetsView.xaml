@@ -5,8 +5,7 @@
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                              xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
                              xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
-                             xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
-                             vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+                             xmlns:cal="http://www.caliburnproject.org"
                              mc:Ignorable="d"
                              Style="{StaticResource AllWindows}"
                              Title="Game Assets">
@@ -27,16 +26,19 @@
               <TextBlock Style="{StaticResource ListHeader}">Products</TextBlock>
               <DataGrid Name="ProviderProductDataGrid" Height="300"
                         ItemsSource="{Binding GameAssets.FilteredProviderProductList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                        SelectedItem="{Binding SelectedProviderProduct}"
                         CanUserAddRows="False"
                         CanUserDeleteRows="False"
-                        Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False" SelectionMode="Extended">
+                        Style="{StaticResource DefaultDataGrid}" 
+                        AutoGenerateColumns="False" 
+                        SelectionMode="Extended">
                 <DataGrid.Columns>
                   <DataGridTextColumn MinWidth="30">
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
                         <StackPanel>
-                          <Button x:Name="SetProductFilterButton" Width="20" Height="20" Margin="5,15,5,5"
-                                  Command="{Binding ElementName=ProviderProductDataGrid, Path= DataContext.SetProductFilterCommand}">
+                          <Button x:Name="SetProductFilter" Width="20" Height="20" Margin="5,15,5,5"
+                                  cal:Message.Attach="SetProductFilter">
                             <Image Source="../Images/filter.png" />
                           </Button>
                         </StackPanel>
@@ -129,8 +131,7 @@
               </DataGrid>
 
               <WrapPanel>
-                <Button Name="GetGameDirTreeButton" Style="{StaticResource SlowButton}"
-                        Command="{Binding GetInGameDirTreeCommand}">
+                <Button Name="GetInGameDirTree" Style="{StaticResource SlowButton}">
                   Get in game
                 </Button>
                 <Button Name="CancelGetGameDirButton" Style="{StaticResource DefaultButton}"
@@ -144,8 +145,7 @@
                 </Button>
               </WrapPanel>
               <WrapPanel>
-                <Button Name="GetArchiveDirTreeButton" Style="{StaticResource SlowButton}"
-                        Command="{Binding GetArchiveDirTreeCommand}">
+                <Button Name="GetArchiveDirTree" Style="{StaticResource SlowButton}">
                   Get archive
                 </Button>
                 <Button Name="CancelGetArchiveDirButton" Style="{StaticResource DefaultButton}"
@@ -171,10 +171,7 @@
           </StackPanel>
         </Border>
 
-
-
-
-       <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
+        <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
           <StackPanel>
             <TextBlock Style="{StaticResource ListHeader}">Game assets</TextBlock>
             <DataGrid Name="GameAssetsDataGrid" Style="{StaticResource DefaultDataGrid}"
@@ -185,10 +182,8 @@
                   <DataGridTextColumn.HeaderTemplate>
                     <DataTemplate>
                       <StackPanel>
-                        <Button Name="SetGameAssetsFilterButton" Width="20" Height="20" Margin="5,15,5,5" 
-                                Command="{Binding 
-                                        ElementName=GameAssetsDataGrid, 
-                                        Path=DataContext.SetAssetFilterCommand}">
+                        <Button Name="SetGameAssetsFilter" Width="20" Height="20" Margin="5,15,5,5" 
+                                cal:Message.Attach="SetGameAssetsFilter">
                           <Image Source="../Images/filter.png" />
                         </Button>
                       </StackPanel>
@@ -314,14 +309,6 @@
           </StackPanel>
         </Border>
       </Grid>
-
-
-
-
-
-
-
-
 
       <Border Style="{StaticResource DefaultBorder}">
         <DockPanel>

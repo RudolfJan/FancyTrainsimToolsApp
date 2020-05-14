@@ -24,10 +24,5 @@ namespace FancyTrainsimTools.Desktop.Views
         };
       Process.Start (psi);
       }
-
-    private void OKButton_OnClick(Object sender, RoutedEventArgs e)
-      {
-      Close();
-      }
     }
   }

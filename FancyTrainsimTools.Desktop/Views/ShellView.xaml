@@ -3,10 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModel = "clr-namespace:FancyTrainsimTools.Desktop.ViewModels" 
-        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
         xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
-        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
         Style="{StaticResource AllWindows}"
         mc:Ignorable="d" 
         Title="Fancy Trainsim Tools">
@@ -51,8 +48,7 @@
                             <Button Name="OptionsButton" Style="{StaticResource WideButton}">
                                 Options
                             </Button>
-                            <Button Name="LogViewerButton" Style="{StaticResource WideButton}" Command="{Binding ShowLoggingCommand}">
-                                View logging
+                            <Button Name="ShowLogging" Style="{StaticResource WideButton}">View logging
                             </Button>
                             <Button Name="InstallerToolButton" Style="{StaticResource WideButton}">
                                 Installer tool
@@ -68,18 +64,16 @@
                     Grid.Row="2"
                     Grid.Column="1">
                         <StackPanel>
-                            <Button Name="RouteButton"  Style="{StaticResource WideButton}"
-                            Content="Routes/Scenarios" Click="RouteButton_OnClick"/>
-                            <Button Name="LaunchButton"  Style="{StaticResource WideButton}"
-                            Content="Launcher" />
+                            <Button Name="ShowRoutes"  Style="{StaticResource WideButton}">Routes/Scenarios</Button>
+                             <Button Name="LaunchButton"  Style="{StaticResource WideButton}"
+                                        Content="Launcher" />
                             <Button Name="ExportButton"  Style="{StaticResource WideButton}"
                         Content="Export to Excel" />
                             <Button Name="RollingStockCatalogButton"  Style="{StaticResource WideButton}"
                             Content="Rolling stock catalog" />
                             <Button Name="RollingStockAssetsButton"  Style="{StaticResource WideButton}"
                                      Content="Rolling stock assets" />
-                            <Button Name="GameAssetsButton"  Style="{StaticResource WideButton}" 
-                                    Command="{Binding GameAssetsCommand}"
+                            <Button Name="ShowGameAssets"  Style="{StaticResource WideButton}" 
                                     ToolTip="Manage all assets for trainsimulator"
                                     Content="Game assets" />
                         </StackPanel>
@@ -89,8 +83,7 @@
                     Grid.Row="2"
                     Grid.Column="2">
                         <StackPanel>
-                            <Button Name="AboutButton"  Style="{StaticResource WideButton}"
-                                Command="{Binding AboutCommand}">About</Button>
+                            <Button Name="ShowAbout"  Style="{StaticResource WideButton}">About</Button>
                             <Button Name="ManualButton"  Style="{StaticResource WideButton}"
                             Content="Tools Manual"
                             ToolTip="LuaCreator manual. You really should read this!" />
@@ -106,9 +99,9 @@
                                 ToolTip="Create Lua scripts for scenarios">
                                 Authors guide part III
                             </Button>
-                            <Button Name="TrainSimManualsButton"  Style="{StaticResource WideButton}"
+                            <Button Name="ShowTrainSimManuals"  Style="{StaticResource WideButton}"
   
-                            ToolTip="Manuals tool" Click="TrainSimManualsButton_OnClick">
+                            ToolTip="Manuals tool">
                                 Manuals tool
                             </Button>
                         </StackPanel>
@@ -119,7 +112,7 @@
                         <userControls:ResultsTextBox Style="{StaticResource LuaCreatorResultsTextBox}"
                                       x:Name="ResultsTextBox2" Width="450"
                                       Text="{Binding Result, NotifyOnSourceUpdated=True}" />
-                        <Button Name="OKButton" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom" Command="{Binding ExitCommand}">Close</Button>
+                        <Button Name="Exit" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom" Command="{Binding ExitCommand}">Close</Button>
                     </DockPanel>
                 </Border>
             </StackPanel>

@@ -1,54 +1,61 @@
-﻿using FancyTrainsimTools.Desktop.Views;
+﻿using Caliburn.Micro;
+using FancyTrainsimTools.Desktop.Views;
 using Logging.Library;
-using Microsoft.Extensions.DependencyInjection;
-using Mvvm.Library;
+
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace FancyTrainsimTools.Desktop.ViewModels
   {
-  public class ShellViewModel : BindableBase, IShellViewModel
+  public class ShellViewModel : Conductor<object>
     {
-    private readonly IServiceProvider _serviceProvider;
-    public ICommand ExitCommand { get; } 
-    public ICommand AboutCommand { get; } 
-    public ICommand ShowLoggingCommand { get; }
-    public ICommand GameAssetsCommand { get; }
+    private readonly IWindowManager _windowManager;
 
- public ShellViewModel()
+    public ShellViewModel(IWindowManager windowManager)
       {
-      ExitCommand = new RelayCommand(Exit);
-      AboutCommand = new RelayCommand(ShowAbout);
-      ShowLoggingCommand= new RelayCommand(ShowLogging);
-      GameAssetsCommand= new RelayCommand(ShowGameAssets);
-      _serviceProvider = App.serviceProvider;
+      _windowManager = windowManager;
       }
 
-    public void Exit()
+    public async Task Exit()
       {
-      Application.Current.Shutdown();
+      await TryCloseAsync();
       }
 
-    public void ShowGameAssets()
+
+    public async Task ShowRoutes()
+      {
+      var routesVM = IoC.Get<RoutesAndScenariosViewModel>();
+      await _windowManager.ShowWindowAsync(routesVM);
+      }
+
+    public async Task ShowGameAssets()
       {
       Log.Trace("Called GameAssetsView");
-      var gameAssetsView = _serviceProvider.GetService<GameAssetsView>();
-      gameAssetsView.Show();
+      var gameAssetsVM = IoC.Get<GameAssetsViewModel>();
+      await _windowManager.ShowWindowAsync(gameAssetsVM);
       }
 
-    public void ShowAbout()
+    public async Task ShowAbout()
       {
       Log.Trace("Called AboutView using a very long text here to see if wrapping actually works, so I will be happy");
-      var aboutView = _serviceProvider.GetService<AboutView>();
-      aboutView.Show();
+      var aboutVM = IoC.Get<AboutViewModel>();
+      await _windowManager.ShowDialogAsync(aboutVM);
       }
 
-    public void ShowLogging()
+    public async Task ShowTrainSimManuals()
+      {
+      var manualVM = IoC.Get<ManualsViewModel>();
+      await _windowManager.ShowWindowAsync(manualVM);
+      }
+
+
+    public async Task ShowLogging()
       {
       Log.Trace("Called loggingView");
-      var loggingView = _serviceProvider.GetService<LoggingView>();
-      loggingView.Show();
+      var loggingVM = IoC.Get<LoggingViewModel>();
+      await _windowManager.ShowWindowAsync(loggingVM);
       }
 
 

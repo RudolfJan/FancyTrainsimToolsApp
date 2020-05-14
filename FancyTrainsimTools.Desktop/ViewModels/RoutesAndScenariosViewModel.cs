@@ -1,20 +1,17 @@
 ﻿using FancyTrainsimTools.Desktop.Models;
 using Assets.Library.Logic;
 using Assets.Library.Models;
+using Caliburn.Micro;
 using FancyTrainsimTools.Desktop.Views;
-using Microsoft.Extensions.DependencyInjection;
-using Mvvm.Library;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Threading.Tasks;
+
 
 namespace FancyTrainsimTools.Desktop.ViewModels
   {
-  public class RoutesAndScenariosViewModel: BindableBase
+  public class RoutesAndScenariosViewModel: Screen
     {
-    private readonly IServiceProvider _serviceProvider;
+    private IWindowManager _windowManager;
     public RoutesUIModel Routes { get; set; }
     public ScenariosUIModel Scenarios { get; set; }
 
@@ -29,8 +26,8 @@ namespace FancyTrainsimTools.Desktop.ViewModels
           {
           _selectedRoute = value;
           GetScenarios(_selectedRoute);
-          OnPropertyChanged("SelectedRoute");
-          OnPropertyChanged("Scenarios");
+          NotifyOfPropertyChange(()=>SelectedRoute);
+          NotifyOfPropertyChange(()=>Scenarios);
           }
         }
       }
@@ -44,20 +41,17 @@ namespace FancyTrainsimTools.Desktop.ViewModels
 
       }
 
-    public ICommand FilterRoutesCommand { get; }
-    public ICommand FilterScenariosCommand { get; }
-    public ICommand RouteAssetsCommand { get; }
-
-    public RoutesAndScenariosViewModel()
+  
+    public RoutesAndScenariosViewModel(IWindowManager windowManager)
       {
-      _serviceProvider = App.serviceProvider;
+      _windowManager = windowManager;
       Routes= new RoutesUIModel();
       Scenarios= new ScenariosUIModel();
 
-      FilterRoutesCommand= new RelayCommand(FilterRoutes);
-      FilterScenariosCommand= new RelayCommand(FilterScenarios);
-      RouteAssetsCommand= new RelayCommand<RouteModel>(GetRouteAssets);
-
+      }
+    protected override void OnViewLoaded(object view)
+      {
+      base.OnViewLoaded(view);
       RoutesCollectionDataAccess.UpdateRouteTableForAllRoutes(Settings.GameRoutesFolder, true,
         false);
       RoutesCollectionDataAccess.UpdateRouteTableForAllRoutes(Settings.ArchiveRoutesFolder, false,
@@ -67,11 +61,12 @@ namespace FancyTrainsimTools.Desktop.ViewModels
         RoutesCollectionDataAccess.ApplyAssetsFilter(Routes.RouteList, Routes.RouteFilter).OrderBy(x=>x.RouteName).ToList();
       }
 
+
     private void FilterRoutes()
       {
       Routes.FilteredRouteList =
         RoutesCollectionDataAccess.ApplyAssetsFilter(Routes.RouteList, Routes.RouteFilter).OrderBy(x=>x.RouteName).ToList();
-      OnPropertyChanged("Routes");
+      NotifyOfPropertyChange(()=>Routes);
       }
 
     private void FilterScenarios()
@@ -79,14 +74,14 @@ namespace FancyTrainsimTools.Desktop.ViewModels
       Scenarios.FilteredScenarioList = ScenarioCollectionDataAccess
         .ApplyAssetsFilter(Scenarios.ScenarioList,Scenarios.ScenarioFilter)
         .OrderBy(x=>x.ScenarioTitle).ToList();
-      OnPropertyChanged("Scenarios");
+      NotifyOfPropertyChange(()=>Scenarios);
       }
 
-    private void GetRouteAssets(RouteModel route)
+    public async Task GetRouteAssets(RouteModel route)
       {
-      var routeAssetsView = _serviceProvider.GetService<RouteAssetsView>();
-      routeAssetsView.Route = route;
-      routeAssetsView.Show();
+      var routeAssetsVM = IoC.Get<RouteAssetsView>();
+      routeAssetsVM.Route = route;
+      await _windowManager.ShowWindowAsync(routeAssetsVM);
       }
 
 

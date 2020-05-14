@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:viewModel = "clr-namespace:FancyTrainsimTools.Desktop.ViewModels" 
-        xmlns:vml = "clr-namespace:FancyTrainsimTools.Desktop.VML"
-        vml:ViewModelLocator.AutoHookedUpViewModel = "True"
         Style="{StaticResource AllWindows}"
         Title="About Fancy Trainsim Tools">
     <Border Style="{StaticResource DefaultBorder}">
@@ -65,8 +63,8 @@
                 <TextBlock Text="{Binding About.DownloadLocation}"/>
             </Hyperlink>
         </TextBlock>
-        <Button Name="OKButton" Grid.Row="5" Grid.Column="3"  HorizontalAlignment="Right"  
-                Style="{StaticResource OKButton}" Click="OKButton_OnClick">Close</Button>
+        <Button Name="CloseButton" Grid.Row="5" Grid.Column="3"  HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                Style="{StaticResource OKButton}">Close</Button>
     </Grid>
 </Grid>
     </Border>

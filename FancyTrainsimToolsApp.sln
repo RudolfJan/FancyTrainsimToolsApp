@@ -10,15 +10,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.Test", "FancyTrainsimTools.Test\FancyTrainsimTools.Test.csproj", "{AE2BD7DA-1A4C-4AF4-BEBB-77792B9C96E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.Desktop", "FancyTrainsimTools.Desktop\FancyTrainsimTools.Desktop.csproj", "{BBBC9154-918D-4892-A6E2-D3F1837429EC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3} = {6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Styles.Library", "Styles.Library\Styles.Library.csproj", "{0AA823BC-7FDE-4709-93F9-04EF31865FFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.Library", "Logging.Library\Logging.Library.csproj", "{10E13F25-5BB1-4B4C-9CFC-BEC501775626}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mvvm.Library", "Mvvm.Library\Mvvm.Library.csproj", "{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E99EB492-B7A3-4796-906F-B963F4973888}"
 	ProjectSection(SolutionItems) = preProject
@@ -59,10 +54,6 @@ Global
 		{10E13F25-5BB1-4B4C-9CFC-BEC501775626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10E13F25-5BB1-4B4C-9CFC-BEC501775626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10E13F25-5BB1-4B4C-9CFC-BEC501775626}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FEFC1C6-813D-46EC-8C83-9ED3C93C5FA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{887F4F31-1ADA-499E-B2D2-2CFCCD5936D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{887F4F31-1ADA-499E-B2D2-2CFCCD5936D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887F4F31-1ADA-499E-B2D2-2CFCCD5936D9}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -33,11 +33,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.105-alpha" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.ComponentModel.Composition" Version="4.7.0" />
-    <PackageReference Include="System.Composition.AttributedModel" Version="1.4.0" />
+    <PackageReference Include="System.Composition.AttributedModel" Version="1.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +47,6 @@
     <ProjectReference Include="..\FancyTrainsimTools.DesktopLibrary\FancyTrainsimTools.DesktopLibrary.csproj" />
     <ProjectReference Include="..\FancyTrainsimTools.Library\FancyTrainsimTools.Library.csproj" />
     <ProjectReference Include="..\Logging.Library\Logging.Library.csproj" />
-    <ProjectReference Include="..\Mvvm.Library\Mvvm.Library.csproj" />
     <ProjectReference Include="..\Styles.Library\Styles.Library.csproj" />
   </ItemGroup>
 
