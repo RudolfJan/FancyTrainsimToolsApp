@@ -22,7 +22,7 @@
             <StackPanel Grid.Column="0">
               <TextBlock Style="{StaticResource ListHeader }">Providers and products</TextBlock>
               <DataGrid Name="ProviderProductDataGrid" Height="400"
-                        ItemsSource="{Binding GameAssets.FilteredProviderProductList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                        ItemsSource="{Binding FilteredProviderProductList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
                         CanUserAddRows="False"
                         CanUserDeleteRows="False"
                         Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False" SelectionMode="Extended">
@@ -31,8 +31,7 @@
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
                         <StackPanel>
-                          <Button x:Name="SetProductFilterButton" Width="20" Height="20" Margin="5,15,5,5"
-                                  Command="{Binding ElementName=ProviderProductDataGrid, Path= DataContext.SetProductFilterCommand}">
+                          <Button x:Name="SetProductFilter" Width="20" Height="20" Margin="5,15,5,5">
                             <Image Source="../Images/filter.png" />
                           </Button>
                         </StackPanel>
@@ -131,7 +130,7 @@
               <TextBlock Style="{StaticResource ListHeader }">All BluePrints</TextBlock>
               <DataGrid  Name="RouteAssetsDataGrid" Style="{StaticResource DefaultDataGrid}" 
                       Height="400" MinWidth="500" MaxWidth="800" 
-                      ItemsSource="{Binding RequiredAssetsList, IsAsync=True}"
+                      ItemsSource="{Binding FilteredRouteAssetList, IsAsync=True}"
                       AutoGenerateColumns="False" 
                       CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
@@ -139,7 +138,7 @@
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
                         <StackPanel>
-                          <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5">
+                          <Button Name="SetAssetsFilter" Width="20" Height="20" Margin="5,15,5,5">
                             <Image Source="../Images/filter.png" />
                           </Button>
                         </StackPanel>
@@ -162,7 +161,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <Border
-                        Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, 
+                          Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource ColorRectangleTrue}" Background="LimeGreen" />
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -185,13 +185,14 @@
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <Border
-                        Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, 
+                          Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource ColorRectangleTrue}" Background="MediumSlateBlue" />
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
 
-                  <DataGridTextColumn Binding="{Binding ProviderFolder}"
+                  <DataGridTextColumn Binding="{Binding Provider}"
                                     Header="Provider">
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
@@ -206,7 +207,7 @@
                     </DataGridTextColumn.HeaderTemplate>
                   </DataGridTextColumn>
 
-                  <DataGridTextColumn Binding="{Binding ProductFolder}"
+                  <DataGridTextColumn Binding="{Binding Product}"
                                     Header="Product">
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
@@ -221,7 +222,7 @@
                     </DataGridTextColumn.HeaderTemplate>
                   </DataGridTextColumn>
 
-                  <DataGridTextColumn Binding="{Binding BluePrintPathNormalized}"
+                  <DataGridTextColumn Binding="{Binding BluePrintPath}"
                                     Header="Blueprint">
                     <DataGridTextColumn.HeaderTemplate>
                       <DataTemplate>
@@ -265,8 +266,8 @@
                                        TextBoxText="{Binding ElapsedTime}" Style="{StaticResource DefaultLabelTextBox }"/>
           </WrapPanel>
           <WrapPanel>
-            <Button Name="GetSceneryItemsButton" Style="{StaticResource SlowButton}">Get scenery</Button>
-            <Button Name="CancelGetSceneryButton" Style="{StaticResource DefaultButton}">Cancel</Button>
+            <Button Name="GetSceneryItems" Style="{StaticResource SlowButton}">Get scenery</Button>
+            <Button Name="CancelGetSceneryItems" Style="{StaticResource DefaultButton}">Cancel</Button>
 
             <TextBlock Style="{StaticResource DefaultTextBlock}" Width="60">Progress</TextBlock>
             <Grid>
@@ -281,9 +282,9 @@
                                          Text="{Binding Results}" 
                                          Style="{StaticResource LuaCreatorResultsTextBox}" 
                                          MinWidth="500"></userControls:ResultsTextBox>
-            <Button Name="OKButton" Style="{StaticResource OKButton}" 
-                    DockPanel.Dock="Right" VerticalAlignment="Bottom" 
-                    Click="OKButton_OnClick">Close</Button>
+            <Button Name="Exit" Style="{StaticResource OKButton}" 
+                    DockPanel.Dock="Right" VerticalAlignment="Bottom">Close</Button>
+
           </DockPanel>
         </StackPanel>
       </Border>

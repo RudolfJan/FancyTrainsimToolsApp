@@ -1,1 +1,1 @@
-﻿DROP INDEX IF NOT EXISTS [ProvProdFullIndex];
+﻿DROP INDEX IF EXISTS [ProvProdFullIndex];

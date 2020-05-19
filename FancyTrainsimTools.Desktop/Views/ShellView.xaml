@@ -45,8 +45,8 @@
                     Grid.Row="2"
                     Grid.Column="0">
                         <StackPanel>
-                            <Button Name="OptionsButton" Style="{StaticResource WideButton}">
-                                Options
+                            <Button Name="ChangeSettings" Style="{StaticResource WideButton}">
+                                User settings
                             </Button>
                             <Button Name="ShowLogging" Style="{StaticResource WideButton}">View logging
                             </Button>

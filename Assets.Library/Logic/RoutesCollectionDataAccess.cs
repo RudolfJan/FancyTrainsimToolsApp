@@ -15,6 +15,7 @@ using Dapper;
 using Logging.Library;
 using Assets.Library.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -268,6 +269,24 @@ namespace Assets.Library.Logic
       var output = Db.Query<RouteModel>("SELECT * FROM Routes", new { });
       return output.ToList();
       }
+
+    public static async Task  UpdateRouteStatus(int routeId, bool inGame, bool isValidInGame, bool inArchive,
+      bool isValidInArchive)
+      {
+      var sql = "UPDATE OR IGNORE Routes SET InGame=@inGame, IsValidInGame= @isValidInGame, InArchive=@inArchive, IsValidInArchive= @isValidInArchive WHERE Routes.Id=@routeId ";
+      await AssetDatabaseAccess.SaveDataAsync(sql, new {routeId, inGame, isValidInGame, inArchive, isValidInArchive },
+        AssetDatabaseAccess.GetConnectionString());
+      }
+
+
+
+    public static List<FileInfo> GetPackFilesForRoute(string Path)
+      {
+      DirectoryInfo dir= new DirectoryInfo(Path);
+      FileInfo[] list = dir.GetFiles("*.ap", SearchOption.TopDirectoryOnly);
+      List<FileInfo> output = list.ToList();
+      return output;
+      }
     #endregion
 
     #region filter
@@ -275,6 +294,10 @@ namespace Assets.Library.Logic
     //TODO make this genereric
     public static List<RouteModel> ApplyAssetsFilter(List<RouteModel> routesList, RouteFilterModel routesFilter)
       {
+      if (routesFilter == null)
+        {
+        return routesList;
+        }
       return routesList.Where(p => RoutesFilter(p, routesFilter)).ToList();
       }
 
@@ -305,11 +328,9 @@ namespace Assets.Library.Logic
     #endregion
 
     #region Helpers
-    public override string ToString()
-      {
-      throw new NotImplementedException("You should implement ToString() in RoutesCollectionDataAccess");
-      }
+ 
 
+ 
 
     #endregion
 

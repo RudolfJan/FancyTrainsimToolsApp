@@ -24,6 +24,12 @@ namespace FancyTrainsimTools.Desktop.ViewModels
       }
 
 
+    public async Task ChangeSettings()
+      {
+      SettingsViewModel settingsVM = IoC.Get<SettingsViewModel>();
+      await _windowManager.ShowDialogAsync(settingsVM);
+      }
+
     public async Task ShowRoutes()
       {
       var routesVM = IoC.Get<RoutesAndScenariosViewModel>();

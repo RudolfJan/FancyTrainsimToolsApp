@@ -14,10 +14,5 @@ namespace FancyTrainsimTools.Desktop.Views
       {
       InitializeComponent();
       }
-
-    private void OKButton_OnClick(Object sender, RoutedEventArgs e)
-      {
-      Close();
-      }
     }
   }

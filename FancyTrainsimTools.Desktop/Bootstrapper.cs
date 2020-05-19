@@ -37,6 +37,7 @@ namespace FancyTrainsimTools.Desktop
 		protected override void OnStartup(object sender, StartupEventArgs e)
 			{
 			LogEventHandler.LogEvent += OnLogEvent;
+			Settings.ReadFromRegistry();
 			AssetDatabaseAccess.InitDatabase(Settings.ConnectionString, Settings.AssetDatabasePath);
 			DisplayRootViewFor<ShellViewModel>();
 			}

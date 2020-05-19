@@ -28,7 +28,7 @@
             <DataGrid
               Name="RoutesDataGrid"
               MinHeight="200" Height="400" MaxHeight="400"
-              ItemsSource="{Binding Routes.FilteredRouteList, NotifyOnSourceUpdated=True}"
+              ItemsSource="{Binding FilteredRouteList, NotifyOnSourceUpdated=True}"
               Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False"
               CanUserAddRows="False" CanUserDeleteRows="False"
               SelectedItem="{Binding SelectedRoute}">
@@ -37,8 +37,7 @@
                   <DataGridTextColumn.HeaderTemplate>
                     <DataTemplate>
                       <StackPanel>
-                        <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5"
-                                          Command="{Binding ElementName=RoutesDataGrid, Path=DataContext.FilterRoutesCommand}">
+                        <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5">
                           <Image Source="../Images/filter.png" />
                         </Button>
                       </StackPanel>
@@ -54,14 +53,16 @@
                                          {RelativeSource Mode=TemplatedParent}}"
                                       HorizontalAlignment="Center" />
                         <CheckBox x:Name="FilterIsPackedCheckBox" Width="200" 
-                                            IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.Routes.RouteFilter.IsPackedFilter, 
+                                            IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.RouteFilter.IsPackedFilter, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                       </StackPanel>
                     </DataTemplate>
                   </DataGridTemplateColumn.HeaderTemplate>
                   <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                      <Border Visibility="{Binding IsPacked, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                      <Border Visibility="{Binding IsPacked, 
+                        Converter={StaticResource BoolToVisibilityConverter}, 
+                        Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                               Style="{StaticResource ColorRectangleTrue}"
                               Background="{StaticResource PackedBackground}" />
 
@@ -78,7 +79,7 @@
                                          {RelativeSource Mode=TemplatedParent}}"
                                     HorizontalAlignment="Center" />
                         <CheckBox x:Name="FilterInGameCheckBox" Width="200" 
-                                          IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.Routes.RouteFilter.InGameFilter, 
+                                          IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.RouteFilter.InGameFilter, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                       </StackPanel>
                     </DataTemplate>
@@ -102,7 +103,7 @@
                                          {RelativeSource Mode=TemplatedParent}}"
                                     HorizontalAlignment="Center" />
                         <CheckBox x:Name="FilterInArchiveCheckBox" Width="200"
-                                          IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.Routes.RouteFilter.InArchiveFilter, 
+                                          IsChecked="{Binding ElementName=RoutesDataGrid, Path=DataContext.RouteFilter.InArchiveFilter, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                       </StackPanel>
                     </DataTemplate>
@@ -128,7 +129,7 @@
                                          {RelativeSource Mode=TemplatedParent}}"
                                     HorizontalAlignment="Center" />
                         <TextBox x:Name="FilterRouteTextBox" Width="300"
-                                         Text="{Binding ElementName=RoutesDataGrid, Path=DataContext.Routes.RouteFilter.RouteNameFilter, 
+                                         Text="{Binding ElementName=RoutesDataGrid, Path=DataContext.RouteFilter.RouteNameFilter, 
                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                       </StackPanel>
                     </DataTemplate>
@@ -161,7 +162,7 @@
               <StackPanel>
                 <WrapPanel>
                   <Button
-                  Name="RoutePropertiesButton" Style="{StaticResource DefaultButton}"
+                  Name="RouteProperties" Style="{StaticResource DefaultButton}"
                   Margin="{StaticResource ButtonInBoxMargin}">
                     Properties
                   </Button>
@@ -170,10 +171,9 @@
                   Name="DeleteRouteButton" Style="{StaticResource DefaultButton}">
                     Delete route
                   </Button>
-                  <Button Name="RouteAssetsButton"
+                  <Button Name="GetRouteAssets"
                         Style="{StaticResource DefaultButton}"
-                        Margin="{StaticResource ButtonInBoxMargin}" Command="{Binding RouteAssetsCommand}" 
-                        CommandParameter="{Binding ElementName=RoutesDataGrid, Path=SelectedItem}">
+                        Margin="{StaticResource ButtonInBoxMargin}">
                     Route Assets
                   </Button>
                   <Button Name="ValidateDatabaseButton"
@@ -186,7 +186,7 @@
 
             <GroupBox Header="Game" Style="{StaticResource DefaultGroupBox}">
               <WrapPanel>
-                <Button Name="CopyToArchiveButton" Style="{StaticResource DefaultButton}"
+                <Button Name="CopyToArchive" Style="{StaticResource DefaultButton}"
                         Margin="{StaticResource ButtonInBoxMargin}">
                   Copy to archive
                 </Button>
@@ -204,7 +204,7 @@
                   Margin="{StaticResource ButtonInBoxMargin}">
                   Retrieve archive
                 </Button>
-                <Button Name="CopyToGameButton" Style="{StaticResource DefaultButton}"
+                <Button Name="CopyToGame" Style="{StaticResource DefaultButton}"
                         Margin="{StaticResource ButtonInBoxMargin}">
                   Copy to game
                 </Button>
@@ -395,7 +395,7 @@
             HorizontalAlignment="Left"
             Style="{StaticResource LuaCreatorResultsTextBox}"
             Text="{Binding Result, Mode=OneWay, NotifyOnSourceUpdated=True}" />
-          <Button Name="OKButton" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom" Click="OKButton_OnClick">
+          <Button Name="Exit" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom">
             Close
           </Button>
         </DockPanel>

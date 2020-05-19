@@ -1,0 +1,199 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimTools.Desktop.Views.RoutePropertiesView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+                            mc:Ignorable="d"
+                            Style="{StaticResource AllWindows}"
+                            Title="Route Properties">
+	<!--
+		https://www.nuget.org/packages/HtmlRenderer.WPF/1.5.0.6
+		https://archive.codeplex.com/?p=htmlrenderer
+	-->
+	<ScrollViewer>
+		<StackPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="276" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+					<StackPanel Grid.Column="0">
+						<Border
+					  HorizontalAlignment="Left"
+					  VerticalAlignment="Top"
+					  Background="{StaticResource ControlBackground}">
+							<Image x:Name="RouteImage" Source="{Binding RouteImage, Mode=OneWay}" />
+						</Border>
+						<TextBox Style="{StaticResource StaticTextBox}"
+					  x:Name="RouteNameTextBox"
+					  Text="{Binding Route.RouteName}" />
+						<TextBox Style="{StaticResource StaticTextBox}"
+					  x:Name="RouteGUIDTextBox"
+					  Text="{Binding Route.RouteGuid}" />
+
+						<TextBlock Style="{StaticResource HeaderTextBlock}">
+	                    Packed files
+						</TextBlock>
+						<DataGrid x:Name="PackListDatagrid"
+					 Height="160"
+                      Style="{StaticResource DefaultDataGrid}"
+					  ItemsSource="{Binding PackFileList, Mode=TwoWay}"
+					  SelectedItem="{Binding SelectedPackFile}" 
+						AutoGenerateColumns="False"
+					 CanUserAddRows="False" CanUserDeleteRows="False">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="Pack" Binding="{Binding Name}"/>
+							</DataGrid.Columns>
+						</DataGrid>
+
+						<!--<CheckBox Name="UseArchiveCheckBox" IsChecked="{Binding UseArchive}" >Using properties from archived route</CheckBox>
+						<CheckBox IsChecked="{Binding IsValidRoute}">Valid route</CheckBox>
+						<CheckBox IsChecked="{Binding IsPacked}">Packed in .ap file</CheckBox>
+						<CheckBox IsChecked="{Binding HasRouteProperties}">
+							Has route properties
+						</CheckBox>
+						<CheckBox IsChecked="{Binding IsDecompressed}">Has unpacked route properties</CheckBox>-->
+						<Button 
+            x:Name="EditRouteProperties" Style="{StaticResource WideButton}"
+             ToolTip="View Route properties XML file">
+							Route properties
+						</Button>
+						<Button 
+            x:Name="OpenRouteFolder" Style="{StaticResource WideButton}"
+            ToolTip="Open the folder for this route on disk">
+							Open route folder
+						</Button>
+						<Button 
+            x:Name="OpenPackedFile" Style="{StaticResource WideButton}"
+            ToolTip="Open the selected packed file">
+							Open packed file
+						</Button>
+
+					</StackPanel>
+				</Border>
+				<StackPanel Grid.Column="1">
+					<!--<Border Style="{StaticResource DefaultBorder}">-->
+					<!--<wpf:HtmlPanel Style="{DynamicResource HTMLViewer}"
+					  x:Name="RouteDescription"
+					  Grid.Column="1"
+            Margin="5"
+					  Height="200" Width="300"
+					  Text="{Binding RouteDescription}" />-->
+					<!--</Border>-->
+					<Border Style="{StaticResource DefaultBorder}">
+						<StackPanel>
+							<TextBlock Style="{StaticResource HeaderTextBlock}">Providers and products</TextBlock>
+							<DataGrid Name="ProviderProductDataGrid" Height="300"
+                        ItemsSource="{Binding RoutePreloadAssets}" CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False" SelectionMode="Extended">
+								<DataGrid.Columns>
+									<DataGridTextColumn MinWidth="30">
+										<DataGridTextColumn.HeaderTemplate>
+											<DataTemplate>
+												<StackPanel>
+													<Button Name="SetProductFilterButton" Width="20" Height="20" Margin="5,15,5,5"
+                                  ToolTip="Sorry this filter is not yet implemented">
+														<Image Source="/Images/filter.png" />
+													</Button>
+												</StackPanel>
+											</DataTemplate>
+										</DataGridTextColumn.HeaderTemplate>
+									</DataGridTextColumn>
+
+									<DataGridTemplateColumn
+                    Header="G" Width="35">
+										<DataGridTemplateColumn.HeaderTemplate>
+											<DataTemplate>
+												<StackPanel>
+													<TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+													<CheckBox x:Name="ProductFilterInGameCheckBox" Width="150"
+                                    />
+												</StackPanel>
+											</DataTemplate>
+										</DataGridTemplateColumn.HeaderTemplate>
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<Border
+                          Visibility="{Binding InGame, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource ColorRectangleTrue}" Background="LimeGreen" />
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+
+									<!-- ReSharper disable once MarkupAttributeTypo -->
+									<DataGridTemplateColumn
+                    Header="A" Width="35">
+										<DataGridTemplateColumn.HeaderTemplate>
+											<DataTemplate>
+												<StackPanel>
+													<TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+													<CheckBox x:Name="ProductFilterInArchiveCheckBox" Width="150"
+                                   />
+												</StackPanel>
+											</DataTemplate>
+										</DataGridTemplateColumn.HeaderTemplate>
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<Border
+                          Visibility="{Binding InArchive, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource ColorRectangleTrue}" Background="MediumSlateBlue" />
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+
+									<DataGridTextColumn Binding="{Binding ProviderFolder}"
+                                      Header="Provider">
+										<DataGridTextColumn.HeaderTemplate>
+											<DataTemplate>
+												<StackPanel>
+													<TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+													<TextBox x:Name="ProductFilterTextBox" Width="80"
+                                  />
+												</StackPanel>
+											</DataTemplate>
+										</DataGridTextColumn.HeaderTemplate>
+									</DataGridTextColumn>
+
+									<DataGridTextColumn Binding="{Binding ProductFolder}"
+                                      Header="Product">
+										<DataGridTextColumn.HeaderTemplate>
+											<DataTemplate>
+												<StackPanel>
+													<TextBlock
+                            Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                            HorizontalAlignment="Center" />
+													<TextBox x:Name="ProductFilterTextBox" Width="80"
+                                  />
+												</StackPanel>
+											</DataTemplate>
+										</DataGridTextColumn.HeaderTemplate>
+									</DataGridTextColumn>
+								</DataGrid.Columns>
+							</DataGrid>
+						</StackPanel>
+					</Border>
+					<TextBlock Height="0"/>
+					<Button Style="{StaticResource OKButton}"
+                x:Name="Exit"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+               Content="Close" />
+				</StackPanel>
+			</Grid>
+
+		</StackPanel>
+	</ScrollViewer>
+</windowSizing:SizableWindow>

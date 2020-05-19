@@ -9,7 +9,7 @@
 		<Setter Property="Height" Value="{DynamicResource ItemHeight}" />
 		<Setter Property="Margin" Value="{DynamicResource DefaultMargin}" />
 		<Style.Resources>
-			<Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+			<Style TargetType="TextBlock">
 				<Setter Property="Foreground" Value="{DynamicResource LabelText}" />
 				<Setter Property="Width" Value="150" />
 				<Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -56,7 +56,12 @@
 					</Setter.Value>
 				</Setter>
 			</Style>
-			<Style TargetType="TextBox" BasedOn="{StaticResource StaticTextBox}" />
+			<Style TargetType="TextBox">
+				<Setter Property="AllowDrop" Value="false" />
+				<Setter Property="IsReadOnly" Value="true" />
+				<Setter Property="IsEnabled" Value="false" />
+				<Setter Property="Background" Value="{DynamicResource WindowBackground}"/>
+			</Style>
 		</Style.Resources>
 	</Style>
 

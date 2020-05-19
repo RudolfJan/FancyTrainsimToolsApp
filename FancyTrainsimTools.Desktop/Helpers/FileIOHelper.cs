@@ -4,6 +4,8 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FancyTrainsimTools.Desktop.Helpers
 	{
@@ -85,10 +87,6 @@ namespace FancyTrainsimTools.Desktop.Helpers
 			File.Create(Filename).Dispose();
 			}
 
-
-
-
-
 		public static void OpenFileWithShell(string FilePath)
 			{
 			try
@@ -114,6 +112,109 @@ namespace FancyTrainsimTools.Desktop.Helpers
 			Log.Trace("Cannot find file " + FilePath +
 												" \r\nMake sure to install it at the correct location");
 			}
+
+		public static void OpenFolder(string FilePath)
+			{
+			try
+				{
+				if (Directory.Exists(FilePath))
+					{
+					using (var OpenFileProcess = new Process())
+						{
+						OpenFileProcess.StartInfo.FileName = "explorer.exe";
+						OpenFileProcess.StartInfo.Arguments = QuoteFilename(FilePath);
+						OpenFileProcess.StartInfo.UseShellExecute = false;
+						OpenFileProcess.StartInfo.RedirectStandardOutput = false;
+						OpenFileProcess.Start();
+						}
+					}
+				}
+			catch (Exception E)
+				{
+				Log.Trace("Cannot open folder " + FilePath + " reason: " + E.Message,
+					LogEventType.Error);
+				}
+			}
+
+		public static void EditTextFile(string Filepath, string Editor)
+			{
+			if (!File.Exists(Filepath))
+				{
+				CreateEmptyFile(Filepath);
+				}
+
+			using (Process EditProcess = new Process())
+				{
+				try
+					{
+					EditProcess.StartInfo.FileName = Editor;
+					EditProcess.StartInfo.Arguments = QuoteFilename(Filepath);
+					EditProcess.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+					EditProcess.StartInfo.RedirectStandardOutput = false;
+					EditProcess.Start();
+					}
+				catch (Exception ex)
+					{
+					Log.Trace($"Error editing file { Filepath }",ex, LogEventType.Error);
+					}
+				}
+			}
+
+		// https://stackoverflow.com/questions/18996330/copying-files-and-subdirectories-to-another-directory-with-existing-files
+		public static void CopyDir(string FromFolder, string ToFolder, bool Overwrite = false)
+			{
+			Directory
+				.EnumerateFiles(FromFolder, "*.*", SearchOption.AllDirectories)
+				.AsParallel()
+				.ForAll(From =>
+					{
+					var To = From.Replace(FromFolder, ToFolder);
+					// Create directories if needed
+					var ToSubFolder = Path.GetDirectoryName(To);
+					if (!string.IsNullOrWhiteSpace(ToSubFolder))
+						{
+						Directory.CreateDirectory(ToSubFolder);
+						}
+
+					try
+						{
+						File.Copy(From, To, Overwrite);
+						}
+					catch (IOException)
+						{
+						// Should be ignored here, do not copy if destination exists
+						}
+					});
+			}
+
+		public static async Task CopyDirAsync(string FromFolder, string ToFolder, bool Overwrite = false)
+			{
+			await Task.Run(() => Directory
+				.EnumerateFiles(FromFolder, "*.*", SearchOption.AllDirectories)
+				.AsParallel()
+				.ForAll(From =>
+					{
+					var To = From.Replace(FromFolder, ToFolder);
+					// Create directories if needed
+					var ToSubFolder = Path.GetDirectoryName(To);
+					if (!string.IsNullOrWhiteSpace(ToSubFolder))
+						{
+						Directory.CreateDirectory(ToSubFolder);
+						}
+
+					try
+						{
+						File.Copy(From, To, Overwrite);
+						}
+					catch (IOException)
+						{
+						// Should be ignored here, do not copy if destination exists
+						}
+					}));
+			}
+
+
+
 
 		// Add quotes to a filename in case it contains spaces. If the filepath is already quoted, don't do it again 
 		public static string QuoteFilename(string s)

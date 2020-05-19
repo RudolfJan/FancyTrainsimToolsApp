@@ -1,1 +1,1 @@
-﻿DROP INDEX  IF NOT EXISTS [AssetsFullIndex];
+﻿DROP INDEX  IF EXISTS [AssetsFullIndex];

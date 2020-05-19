@@ -17,6 +17,8 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using Logging.Library;
+using System.Threading.Tasks;
+using Assets.Library.Helpers;
 
 #endregion
 
@@ -147,7 +149,8 @@ namespace Assets.Library.Logic
 
         // ViewCreation
         CreateTable("SQL\\CreateBluePrintView.sql");
-        CreateTable("SQL\\CreateRouteAssetsView.sql");
+        CreateTable("SQL\\CreateFullRouteAssets.sql");
+        CreateTable("SQL\\CreateFullRouteProviderProducts.sql");
 
         //Index creation
         CreateTable("SQL\\CreateAssetsIndex.sql");
@@ -205,6 +208,24 @@ namespace Assets.Library.Logic
 
       }
 
+    public static async Task<List<T>> LoadDataAsync<T, U>(string sqlStatement, U parameters, string connectionString)
+      {
+      try
+        {
+        using (IDbConnection connection = new SQLiteConnection(connectionString))
+          {
+          var rows = await connection.QueryAsync<T>(sqlStatement, parameters);
+          return await rows.ToListAsync();  // TODO find out why this is not working properly as extension method
+          }
+        }
+      catch (Exception e)
+        {
+        Log.Trace($"Cannot execute query {sqlStatement}",e,LogEventType.Error);
+        throw;
+        }
+
+      }
+
     /// <summary>
     /// Saves the data.
     /// </summary>
@@ -227,6 +248,30 @@ namespace Assets.Library.Logic
         throw;
         }
       }
+
+    /// <summary>
+    /// Saves the data.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="sqlStatement">The SQL statement.</param>
+    /// <param name="parameters">The parameters.</param>
+    /// <param name="connectionString">The connection string.</param>
+    public static async Task SaveDataAsync<T>(string sqlStatement, T parameters, string connectionString)
+      {
+      try
+        {
+        using (IDbConnection connection = new SQLiteConnection(connectionString))
+          {
+          await connection.ExecuteAsync(sqlStatement, parameters);
+          }
+        }
+      catch (Exception e)
+        {
+        Log.Trace($"Cannot save data in database using {sqlStatement}",e,LogEventType.Error);
+        throw;
+        }
+      }
+
 
 
     #endregion

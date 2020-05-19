@@ -1,5 +1,7 @@
 ﻿#region UsingStatements
 
+using Assets.Library.Helpers;
+using Assets.Library.Logic;
 using Assets.Library.Models;
 using System;
 using System.Collections;
@@ -29,7 +31,7 @@ namespace Assets.Library.Logic
 
   #endregion
 
-  public class RouteAssetsCollectionDataAccess
+  public class RouteAssetsDataAccess
     {
 
 
@@ -44,99 +46,111 @@ namespace Assets.Library.Logic
 
     #region Methods
 
-    public static async Task CreateAllRouteAssetsInDatabaseAsync(string routesBasePath, IProgress<BasicProgressModel> progress, CancellationToken cancellationToken)
+    public static async Task<List<FullRouteProviderProductsModel>> GetProviderProductsForRoute(
+      int routeId)
+      {
+      string sql = "SELECT * FROM FullRouteProviderProducts WHERE RouteId=@routeId ORDER BY Provider ASC, Product ASC";
+      var output =
+        await AssetDatabaseAccess.LoadDataAsync<FullRouteProviderProductsModel, dynamic>(sql,
+          new {routeId}, AssetDatabaseAccess.GetConnectionString());
+      return output.ToList();
+      }
+
+    public static async Task<List<FullRouteAssetsModel>> GetAssetsForRoute(
+      int routeId)
+      {
+      string sql = "SELECT * FROM FullRouteAssets WHERE RouteId=@routeId ORDER BY Provider ASC, Product ASC, BluePrintPath ASC";
+      var output =
+        await AssetDatabaseAccess.LoadDataAsync<FullRouteAssetsModel, dynamic>(sql,
+          new {routeId}, AssetDatabaseAccess.GetConnectionString());
+      return output.ToList();
+      }
+
+
+
+    public static void CreateAllRouteAssetsInDatabase(string routesBasePath)
       {
       int i = 0;
-      progress = new Progress<BasicProgressModel>();
-      var report = new BasicProgressModel
-        {
-        Description = "Create route assets"
-        };
-      report.watch.Start();
 
       var routesList = LoadRoutesToList();
-      report.AmountToDo = routesList.Count;
-
-      await Task.Run(() =>
+      foreach (var route in routesList)
         {
-          Parallel.ForEach<RouteModel>(routesList, async (route) =>
-            {
-              if (string.IsNullOrEmpty(route.Pack))
-                {
-                var binList = LoadUnpackedRouteBinFilesToList(routesBasePath, route);
-                List<RouteAssetsModel> routeAssets = new List<RouteAssetsModel>();
-                foreach (var binFile in binList)
-                  {
-                  routeAssets.AddRange(LoadRouteAssetsFromBinFile(route, binFile));
-                  // CLog.Trace($"Working route file {route.RouteName} {j++} {routeAssets.Count}");
-                  }
-
-                routeAssets = routeAssets.DistinctBy(x => x.Asset.AssetPath).ToList();
-                SaveRouteAssetsBulkToDatabase(route, routeAssets);
-                Log.Trace(
-                $"Finished route {route.RouteName} {i++} total objects {routeAssets.Count}");
-                }
-              else
-                {
-                //TODO
-                }
-
-              report.AmountDone++;
-              report.IsDone = (report.AmountDone == report.AmountToDo);
-              progress.Report(report);
-            });
-        }, cancellationToken);
+        CreateRouteAssetsInDatabase(route, routesBasePath);
+        Log.Trace(
+          $"Finished route {route.RouteName} {i++}");
+        }
       }
 
-    private static List<RouteAssetsModel> LoadRouteAssetsFromBinFile(RouteModel route,
-      FileInfo fileInfo)
+    public static void CreateRouteAssetsInDatabase(RouteModel route, string routesBasePath)
       {
-      var doc = BinHandler.SerzToDoc(fileInfo.FullName);
-      List<RouteAssetsModel> output = GetBluePrintsFromXML(route, doc);
-      return output;
-      }
-
-    public static List<RouteAssetsModel> GetBluePrintsFromXML(RouteModel route, XDocument Doc)
-      {
-      List<RouteAssetsModel> output = new List<RouteAssetsModel>();
-      try
-        {
-        var ElementList =
-          (IEnumerable)Doc.XPathEvaluate("//iBlueprintLibrary-cAbsoluteBlueprintID");
-        foreach (XElement BluePrintNode in ElementList)
+     if (string.IsNullOrEmpty(route.Pack))
           {
-          // ReSharper disable once UseDeconstruction
-          var result = GetBluePrintDetails(BluePrintNode);
-          if (string.IsNullOrEmpty(result.BluePrint) == false)
+          var binList = LoadUnpackedRouteBinFilesToList(routesBasePath, route);
+          List<RouteAssetsModel> routeAssets = new List<RouteAssetsModel>();
+          foreach (var binFile in binList)
             {
-            var providerProduct = new ProviderProductModel
-              {
-              Provider = result.Provider,
-              Product = result.Product
-              };
-            var asset = new AssetModel
-              {
-              ProviderProduct = providerProduct,
-              BluePrintPath = result.BluePrint
-              };
-            var routeAsset = new RouteAssetsModel()
-              {
-              Route = route,
-              Asset = asset
-              };
-            output.Add(routeAsset);
+            routeAssets.AddRange(LoadRouteAssetsFromBinFile(route, binFile));
             }
+          routeAssets = routeAssets.DistinctBy(x => x.Asset.AssetPath).ToList();
+          SaveRouteAssetsBulkToDatabase(routeAssets);
+ 
           }
-        return output.DistinctBy(x => x.Asset.AssetPath).ToList();
-        }
-      catch (Exception e)
+      else
         {
-        Log.Trace("Failed to obtain blueprint details", e, LogEventType.Error);
-        throw;
+        //TODO
         }
       }
 
-    public static (String Provider, String Product, String BluePrint) GetBluePrintDetails(
+
+  private static List<RouteAssetsModel> LoadRouteAssetsFromBinFile(RouteModel route,
+        FileInfo fileInfo)
+    {
+    var doc = BinHandler.SerzToDoc(fileInfo.FullName);
+    List<RouteAssetsModel> output = GetBluePrintsFromXML(route, doc);
+    return output;
+    }
+
+  public static List<RouteAssetsModel> GetBluePrintsFromXML(RouteModel route, XDocument Doc)
+    {
+    List<RouteAssetsModel> output = new List<RouteAssetsModel>();
+    try
+      {
+      var ElementList =
+        (IEnumerable)Doc.XPathEvaluate("//iBlueprintLibrary-cAbsoluteBlueprintID");
+      foreach (XElement BluePrintNode in ElementList)
+        {
+        var result = GetBluePrintDetails(BluePrintNode);
+        if (string.IsNullOrEmpty(result.BluePrint) == false)
+          {
+          var providerProduct = new ProviderProductModel
+            {
+            Provider = result.Provider,
+            Product = result.Product
+            };
+          var asset = new AssetModel
+            {
+            ProviderProduct = providerProduct,
+            BluePrintPath = result.BluePrint
+            };
+          var routeAsset = new RouteAssetsModel()
+            {
+            Route = route,
+            Asset = asset
+            };
+          output.Add(routeAsset);
+          }
+        }
+
+      return output.DistinctBy(x => x.Asset.AssetPath).ToList();
+      }
+    catch (Exception e)
+      {
+      Log.Trace("Failed to obtain blueprint details", e, LogEventType.Error);
+      throw;
+      }
+    }
+
+  public static (String Provider, String Product, String BluePrint) GetBluePrintDetails(
       XElement BluePrintNode)
       {
       try
@@ -217,8 +231,7 @@ namespace Assets.Library.Logic
         }
       }
 
-    private static void SaveRouteAssetsBulkToDatabase(RouteModel route,
-      List<RouteAssetsModel> routeAssets)
+    private static void SaveRouteAssetsBulkToDatabase(List<RouteAssetsModel> routeAssets)
       {
       // Step 1: add all assets tot he assets table
       // Step 2: insert provider products in the table
@@ -251,7 +264,9 @@ namespace Assets.Library.Logic
             {
             foreach (var item in routeAssets)
               {
-              connection.Execute(sqlStatement, new { item.Route.RouteGuid, item.Asset.BluePrintPath, item.Asset.ProviderProduct.Id }, transaction);
+              connection.Execute(sqlStatement,
+                new {item.Route.RouteGuid, item.Asset.BluePrintPath, item.Asset.ProviderProduct.Id},
+                transaction);
               }
 
             transaction.Commit();
@@ -270,26 +285,7 @@ namespace Assets.Library.Logic
 
     #region Helpers
 
-    public override string ToString()
-      {
-      throw new NotImplementedException(
-        "You should implement ToString() in RouteAssetsDatabaseCollectionModel");
-      }
 
-    }
-
-  #endregion
-  // https://stackoverflow.com/questions/10632776/fastest-way-to-remove-duplicate-value-from-a-list-by-lambda
-  /// IEnumerable<Foo> distinctList = sourceList.DistinctBy(x => x.FooName);
-
-  static class DistinctList
-    {
-    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(
-    this IEnumerable<TSource> source,
-    Func<TSource, TKey> keySelector)
-      {
-      var knownKeys = new HashSet<TKey>();
-      return source.Where(element => knownKeys.Add(keySelector(element)));
-      }
+    #endregion
     }
   }
