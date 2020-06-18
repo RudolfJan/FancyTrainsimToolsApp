@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Collections.Generic;
 
-namespace FancyTrainsimTools.Desktop.Models
+namespace FancyTrainsimToolsDesktop.Models
 	{
 	// https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.savefiledialog?view=netcore-3.1
 	public class SaveFileModel

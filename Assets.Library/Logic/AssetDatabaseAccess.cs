@@ -138,23 +138,30 @@ namespace Assets.Library.Logic
         CreateDatabase();
 
         // TableCreation
-        CreateTable("SQL\\CreateProviderProductTable.sql");
-        CreateTable("SQL\\CreateAssetsTable.sql");
-
-        CreateTable("SQL\\CreateRoutesTable.sql");
-        CreateTable("SQL\\CreateRouteAssetsTable.sql");
-
-        CreateTable("SQL\\CreateScenariosTable.sql");
-
+        DirectoryInfo dir= new DirectoryInfo(".\\SQL");
+        FileInfo[] tableDefinitions = dir.GetFiles("*Table.sql", SearchOption.TopDirectoryOnly);
+        foreach (var file in tableDefinitions)
+          {
+          CreateTable(file.FullName);
+          }
 
         // ViewCreation
         CreateTable("SQL\\CreateBluePrintView.sql");
         CreateTable("SQL\\CreateFullRouteAssets.sql");
         CreateTable("SQL\\CreateFullRouteProviderProducts.sql");
+        CreateTable("SQL\\CreateFullRequiredRailVehiclesView.sql");
 
         //Index creation
         CreateTable("SQL\\CreateAssetsIndex.sql");
         CreateTable("SQL\\CreateProviderProductIndex.sql");
+
+        // Add data
+        FileInfo[] dataDefinitions = dir.GetFiles("Insert*.sql", SearchOption.TopDirectoryOnly);
+        foreach (var file in dataDefinitions)
+          {
+          CreateTable(file.FullName);
+          }
+
         }
       catch (Exception e)
         {

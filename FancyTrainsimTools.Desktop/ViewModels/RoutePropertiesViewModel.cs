@@ -1,11 +1,11 @@
 ﻿using Assets.Library.Logic;
 using Assets.Library.Models;
 using Caliburn.Micro;
-using FancyTrainsimTools.Desktop.Helpers;
+using FancyTrainsimToolsDesktop.Helpers;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
 	{
 	public class RoutePropertiesViewModel: Screen
 		{

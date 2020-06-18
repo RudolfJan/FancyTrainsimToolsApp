@@ -1,9 +1,7 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FancyTrainsimTools.Desktop.Models
+namespace FancyTrainsimToolsDesktop.Models
 	{
 	public class OpenFileModel
 		{

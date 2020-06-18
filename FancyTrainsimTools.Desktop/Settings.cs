@@ -1,13 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
-using System.Text;
 
-namespace FancyTrainsimTools.Desktop
+namespace FancyTrainsimToolsDesktop
   {
 
   // https://stackoverflow.com/questions/51351464/user-configuration-settings-in-net-core
@@ -77,6 +73,9 @@ namespace FancyTrainsimTools.Desktop
       TextEditor = (string) AppKey.GetValue(nameof(TextEditor), _config["Programs:TextEditor"]);
       BinEditor = (string) AppKey.GetValue(nameof(BinEditor), _config["Programs:BinEditor"]);
       SevenZip = (string) AppKey.GetValue(nameof(SevenZip), _config["Programs:SevenZip"]);
+      Installer = (string) AppKey.GetValue(nameof(Installer), _config["Programs:Installer"]);
+      // Create Directories, if needed
+      Directory.CreateDirectory(TempFolder);
       }
 
     public static void  WriteToRegistry()
@@ -88,15 +87,35 @@ namespace FancyTrainsimTools.Desktop
       AppKey.SetValue(nameof(TextEditor), TextEditor, RegistryValueKind.String);
       AppKey.SetValue(nameof(BinEditor), BinEditor, RegistryValueKind.String);
       AppKey.SetValue(nameof(SevenZip), SevenZip, RegistryValueKind.String);
+      AppKey.SetValue(nameof(Installer), Installer, RegistryValueKind.String);
       }
     #endregion
 
 
     public static string DataPath { get; set; }
 
+    public static string TempFolder
+      {
+      get { return $"{DataPath}Temp\\"; }
+      }
     public static string ManualFolder
       {
       get { return $"{DataPath}{_config["DataConfig:ManualPath"]}"; }
+      }
+
+    public static string BackupPath
+      {
+      get { return $"{DataPath}{_config["DataConfig:BackupPath"]}"; }
+      }
+
+    public static string InstallersPath
+      {
+      get { return $"{DataPath}{_config["DataConfig:InstallersPath"]}"; }
+      }
+
+    public static string TemplatesPath
+      {
+      get { return $"{DataPath}{_config["DataConfig:TemplatesPath"]}"; }
       }
 
     public static string AssetDatabasePath
@@ -113,6 +132,14 @@ namespace FancyTrainsimTools.Desktop
       }
 
     public static string TrainSimGamePath { get; set; }
+
+    public static string SerzPath
+      {
+      get
+        {
+        return $"{TrainSimGamePath}\\serz.exe";
+        }
+      }
 
     public static string TrainSimArchivePath { get; set; }
 
@@ -136,13 +163,14 @@ namespace FancyTrainsimTools.Desktop
       get { return $"{TrainSimArchivePath}Content\\Routes\\"; }
       }
 
-    #region appilications
+    #region Applications
 
     public static string TextEditor { get; set; }
     public static string BinEditor { get; set; }
     public static string SevenZip { get; set; }
+		public static string Installer { get; set; }
 
-    #endregion
+		#endregion
 
-    }
+		}
   }

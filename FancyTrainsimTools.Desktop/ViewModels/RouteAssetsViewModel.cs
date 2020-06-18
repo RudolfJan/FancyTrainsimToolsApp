@@ -3,12 +3,10 @@ using Assets.Library.Models;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
   {
   public class RouteAssetsViewModel : Screen
     {

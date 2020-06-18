@@ -1,11 +1,11 @@
 ﻿CREATE VIEW IF NOT EXISTS [BluePrintView] AS 
     SELECT 
     Assets.Id
-    , ProviderProduct.Provider
-    , ProviderProduct.Product
-    , ProviderProduct.Pack
+    , ProviderProducts.Provider
+    , ProviderProducts.Product
+    , ProviderProducts.Pack
     , Assets.BluePrintPath
     , Assets.InGame
     , Assets.InArchive
- FROM ProviderProduct, Assets
- WHERE Assets.ProvProdId= ProviderProduct.Id;
+ FROM ProviderProducts, Assets
+ WHERE Assets.ProvProdId= ProviderProducts.Id;

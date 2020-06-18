@@ -1,10 +1,9 @@
-﻿<Window x:Class="FancyTrainsimTools.Desktop.Views.AboutView"
+﻿<Window x:Class="FancyTrainsimToolsDesktop.Views.AboutView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        xmlns:viewModel = "clr-namespace:FancyTrainsimTools.Desktop.ViewModels" 
         Style="{StaticResource AllWindows}"
         Title="About Fancy Trainsim Tools">
     <Border Style="{StaticResource DefaultBorder}">

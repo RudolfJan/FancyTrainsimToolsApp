@@ -1,23 +1,23 @@
-﻿<Window x:Class="FancyTrainsimTools.Desktop.Views.ManualsView"
+﻿<Window x:Class="FancyTrainsimToolsDesktop.Views.ManualsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:manuals="clr-namespace:FancyTrainsimTools.Library.Manuals;assembly=FancyTrainsimTools.Library"
+        xmlns:treeBuilder="clr-namespace:FancyTrainsimToolsDesktop"
         mc:Ignorable="d"
         Title="Manuals"
-        Style="{StaticResource AllWindows}">
-
+        Style="{StaticResource AllWindows}"
+        >
 	
 	<Window.Resources>
-		<HierarchicalDataTemplate DataType="{x:Type manuals:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
+		<HierarchicalDataTemplate DataType="{x:Type treeBuilder:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
 			<WrapPanel>
         <Image Source="../Images/folder.png" Width="20" Height="20"/>
         <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
 			</WrapPanel>
 		</HierarchicalDataTemplate>
 
-		<DataTemplate DataType="{x:Type manuals:FileItem}">
+		<DataTemplate DataType="{x:Type treeBuilder:FileItem}">
 			<WrapPanel>
         <Image Source="../Images/AppIcon.ico" Width="20" Height="20"/>
         <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />

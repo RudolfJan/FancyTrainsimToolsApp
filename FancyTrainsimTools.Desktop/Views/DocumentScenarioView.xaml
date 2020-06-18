@@ -1,0 +1,89 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimToolsDesktop.Views.DocumentScenarioView"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+               xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+               mc:Ignorable="d"
+               Style="{StaticResource AllWindows}"
+               Title="Document Scenario">
+    <ScrollViewer>
+        <StackPanel MinWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <userControls:LabelTextBox x:Name="ScenarioTitleTextBox" LabelText="Scenario title" LabelWidth="90"
+                                    TextBoxText="{Binding Scenario.ScenarioTitle}" Grid.Row="0" Grid.Column="0"
+                                     Margin="{StaticResource DefaultMargin}" />
+                <userControls:LabelTextBox x:Name="ScenarioGuidTextBox" LabelText="Scenario GUID" LabelWidth="90"
+                                    TextBoxText="{Binding Scenario.ScenarioGuid}" Grid.Row="0" Grid.Column="1"
+                                     Margin="{StaticResource DefaultMargin}" />
+                <userControls:LabelTextBox x:Name="RouteNameTextBox" LabelText="Route name" LabelWidth="90"
+                                    TextBoxText="{Binding Route.RouteName}" Grid.Row="1" Grid.Column="0"
+                Margin="{StaticResource DefaultMargin}" />
+                <userControls:LabelTextBox x:Name="RouteGuidTextBox" LabelText="Route GUID" LabelWidth="90"
+                                    TextBoxText="{Binding Route.RouteGuid}" Grid.Row="1" Grid.Column="1"
+               
+                                    Margin="{StaticResource DefaultMargin}" />
+            </Grid>
+            <TabControl>
+                <TabItem Header="Define">
+                    <StackPanel Height="500">
+                        <Label Style="{StaticResource ListBoxHeader}">Templates</Label>
+                        <DataGrid Name="TemplateDataGrid" Style="{StaticResource DefaultDataGrid}"
+                  Height="300" 
+                  ItemsSource="{Binding TemplateList}"
+                  AutoGenerateColumns="False"
+                  SelectedItem ="{Binding TemplatePath}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Template" Binding="{Binding Name}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel>
+                            <Button Name="Create" Style="{StaticResource DefaultButton}">
+                                Create
+                            </Button>
+                            <Button Name="Update" Style="{StaticResource DefaultButton}">
+                                Update
+                            </Button>
+                            <Button Name="Delete" Style="{StaticResource DefaultButton}">
+                                Delete
+                            </Button>
+                        </WrapPanel>
+                        <WrapPanel>
+                        <Button Name="EditTemplate" Style="{StaticResource DefaultButton}">
+                            Edit template
+                        </Button>
+                            </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="View">
+                    <StackPanel  Height="500">
+                        <TextBlock TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" HorizontalAlignment="Center">
+                Raw unformatted HTML output, useful for debugging
+                        </TextBlock>
+                        <TextBox Name="RawOutputTextBox" Height="400"
+                            Style="{StaticResource BigTextBox}" Text="{Binding RawOutput}" 
+                     Margin="{StaticResource DefaultMargin}"/>
+                        <Button Name="ViewInBrowser" Style="{StaticResource DefaultButton}" HorizontalAlignment="Left">
+                            View in browser
+                        </Button>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
+            <Button Name="Exit" Width="100" HorizontalAlignment="Right" Style="{StaticResource OKButton}">
+                Done
+            </Button>
+
+        </StackPanel>
+    </ScrollViewer>
+</windowSizing:SizableWindow>

@@ -1,13 +1,11 @@
-﻿using FancyTrainsimTools.Library.Models;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 
-namespace FancyTrainsimTools.Library.Manuals
-  {
-  public class TreeItemProvider
+namespace FancyTrainsimToolsDesktop
+	{
+	public class TreeItemProvider
 		{
-		public ObservableCollection<FileEntryModel> GetItems(String Path, Boolean Always = false)
+		public ObservableCollection<FileEntryModel> GetItems(string Path, bool Always = false)
 			{
 			var Items = new ObservableCollection<FileEntryModel>();
 
@@ -36,7 +34,7 @@ namespace FancyTrainsimTools.Library.Manuals
 			}
 
 		// Will only return directories 
-		public ObservableCollection<FileEntryModel> GetDirItems(String Path)
+		public ObservableCollection<FileEntryModel> GetDirItems(string Path)
 			{
 			var Items = new ObservableCollection<FileEntryModel>();
 

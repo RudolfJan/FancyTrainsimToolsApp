@@ -1,0 +1,56 @@
+﻿<Window x:Class="FancyTrainsimToolsDesktop.Views.DatabaseManagementView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+        mc:Ignorable="d"
+        Style="{StaticResource AllWindows}"
+        Title="Database Management">
+  <Border Style="{StaticResource DefaultBorder}">
+  <StackPanel>
+            <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <StackPanel Grid.Column="0">
+        <TextBlock Style="{StaticResource HeaderTextBlock}">Database Backups</TextBlock>
+        <DataGrid x:Name="BackupListDataGrid" Style="{StaticResource DefaultDataGrid}" 
+                  ItemsSource="{Binding BackupList, Mode=TwoWay, NotifyOnSourceUpdated=True}"
+                  SelectedItem="{Binding SelectedBackup}"
+                  Height="400" Width="400"
+                  AutoGenerateColumns="False">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Name" Width="250" Binding="{Binding Name}"/>
+            <DataGridTextColumn Header="Last write" Width="100" Binding="{Binding LastWriteTime}"/>
+            <DataGridTextColumn Header="Length" Width="40" Binding="{Binding Length}"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </StackPanel>
+      <StackPanel Grid.Column="1">
+        <TextBlock Style="{StaticResource HeaderTextBlock}">Backup functions</TextBlock>
+        <userControls:LabelTextBox x:Name="BackupNameTextBox"  
+                                   LabelText="Backup Name" 
+                                   LabelWidth="70" Width="200"
+                                   TextBoxText="{Binding BackupName, Mode=TwoWay, NotifyOnSourceUpdated=True}"/>
+        <Button x:Name="CreateBackup" Style="{StaticResource WideButton}">Create backup</Button>
+        <Button x:Name="RestoreBackup" Style="{StaticResource WideButton}">Restore backup</Button>
+        <Button x:Name="DeleteBackup" Style="{StaticResource WideButton}">Delete backup</Button>
+        <Button x:Name="DeleteActiveDatabase" Style="{StaticResource WideButton}">
+          
+          <WrapPanel>
+            <Image Source="../Images/exclamation.png"></Image>
+            <TextBlock Padding="3">Delete database</TextBlock>
+          </WrapPanel>
+        </Button>
+        <Button x:Name="CreateDatabase" Style="{StaticResource WideButton}">Create database</Button>
+      </StackPanel>
+    </Grid>
+
+
+      <Button x:Name="Exit" Style="{StaticResource OKButton}" HorizontalAlignment="Right">Close</Button>
+    </StackPanel>
+  </Border>
+</Window>

@@ -90,7 +90,7 @@ namespace Assets.Library.Models
       try
         {
         using IDbConnection Db = new SQLiteConnection(AssetDatabaseAccess.GetConnectionString());
-        var output = Db.Query<Int32>($"select Id from ProviderProduct  WHERE Provider='{Provider}' AND Product='{Product}'", new DynamicParameters());
+        var output = Db.Query<Int32>($"select Id from ProviderProducts  WHERE Provider='{Provider}' AND Product='{Product}'", new DynamicParameters());
         return output.First();
         }
       catch (Exception e)

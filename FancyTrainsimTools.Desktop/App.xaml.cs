@@ -1,4 +1,4 @@
-﻿namespace FancyTrainsimTools.Desktop
+﻿namespace FancyTrainsimToolsDesktop
   {
   /// <summary>
   /// Interaction logic for App.xaml

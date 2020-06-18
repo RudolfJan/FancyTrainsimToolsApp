@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace FancyTrainsimTools.desktop.Helpers
+namespace FancyTrainsimToolsDesktop.Helpers
   {
   public class RelayCommand : ICommand
     {

@@ -1,13 +1,8 @@
 ﻿using Caliburn.Micro;
-using FancyTrainsimTools.Desktop.Views;
 using Logging.Library;
-
-using System;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
   {
   public class ShellViewModel : Conductor<object>
     {
@@ -28,6 +23,13 @@ namespace FancyTrainsimTools.Desktop.ViewModels
       {
       SettingsViewModel settingsVM = IoC.Get<SettingsViewModel>();
       await _windowManager.ShowDialogAsync(settingsVM);
+      }
+
+
+    public async Task DatabaseManagement()
+      {
+      var databaseManagementVM = IoC.Get<DatabaseManagementViewModel>();
+      await _windowManager.ShowDialogAsync(databaseManagementVM);
       }
 
     public async Task ShowRoutes()

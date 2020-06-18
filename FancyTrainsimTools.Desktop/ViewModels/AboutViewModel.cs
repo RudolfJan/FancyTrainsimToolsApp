@@ -1,9 +1,8 @@
 ﻿using FancyTrainsimTools.Library.Models;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Screen = Caliburn.Micro.Screen;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
   {
   public class AboutViewModel: Screen
     {

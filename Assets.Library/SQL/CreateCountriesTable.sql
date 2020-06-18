@@ -1,0 +1,6 @@
+﻿CREATE TABLE IF NOT EXISTS "Countries" (
+	"Id"	INTEGER  Primary Key NOT NULL,
+	"CountryName"	TEXT NOT NULL UNIQUE,
+	"CountryAbbrev"	TEXT NOT NULL UNIQUE,
+	"Favorite"	INTEGER NOT NULL DEFAULT 0
+);

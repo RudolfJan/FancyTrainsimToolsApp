@@ -1,0 +1,13 @@
+﻿CREATE TABLE IF NOT EXISTS "Consists" (
+	"Id"	INTEGER  Primary Key NOT NULL,
+	"ConsistName"	TEXT NOT NULL,
+	"ScenarioId"	INTEGER NOT NULL,
+	"Destination" TEXT NOT NULL,
+	"ServiceClass" INTEGER NOT NULL,
+	"StartTime" INTEGER NOT NULL,
+	"IsPlayer"	INTEGER NOT NULL DEFAULT 0,
+	"IsLoose"	INTEGER NOT NULL,
+	"IsEmpty"	INTEGER NOT NULL,
+	"IsValid"	INTEGER NOT NULL,
+	FOREIGN KEY("ScenarioId") REFERENCES "Scenarios"("Id") ON DELETE CASCADE
+	);

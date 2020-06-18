@@ -1,4 +1,4 @@
-﻿<windowSizing:SizableWindow x:Class="FancyTrainsimTools.Desktop.Views.RouteAssetsView"
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimToolsDesktop.Views.RouteAssetsView"
                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

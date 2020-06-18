@@ -1,13 +1,15 @@
-﻿using FancyTrainsimTools.Desktop.Models;
+﻿using FancyTrainsimToolsDesktop.Models;
 using Logging.Library;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FancyTrainsimTools.Desktop.Helpers
+namespace FancyTrainsimToolsDesktop.Helpers
 	{
 	public class FileIOHelper
 		{
@@ -213,9 +215,136 @@ namespace FancyTrainsimTools.Desktop.Helpers
 					}));
 			}
 
+		public static void UnpackSingleFile(string ArchivePath, string FilePath, string tempFilePath)
+
+			{
+			if (!File.Exists(ArchivePath))
+				{
+				Log.Trace($"Archive {ArchivePath} not found",LogEventType.Error);
+				 // Cannot open archive
+				return;
+				}
+			try
+				{
+				using var Archive = ZipFile.OpenRead(ArchivePath);
+				var Entry = Archive.Entries
+					.Select(x => x)
+					.Where(x => FilePath.Equals(x.FullName, StringComparison.OrdinalIgnoreCase));
+				var Entry2 = Entry.First();
+				Entry2?.ExtractToFile(tempFilePath, true);
+				}
+			catch (Exception ex)
+				{
+				Log.Trace($"Problem extracting file {FilePath}",ex, LogEventType.Error);
+				return;
+				}
+
+			// Postcondition
+			if (!File.Exists(tempFilePath))
+				{
+				Log.Trace($"Extracted file not found for file {FilePath} from {ArchivePath}",LogEventType.Error);
+				}
+			}
+		public static void OpenZipFile(String filePath)
+			{
+			if (File.Exists(filePath))
+				{
+				using (var process = new Process())
+					{
+					try
+						{
+						process.StartInfo.FileName = Settings.SevenZip;
+						process.StartInfo.Arguments = QuoteFilename(filePath);
+						process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+						process.StartInfo.RedirectStandardOutput = false;
+						process.Start();
+						}
+					catch (Exception ex)
+						{
+						Log.Trace($"Cannot open zip file {filePath}",ex, LogEventType.Error);
+						}
+					}
+				}
+			}
+
+  // Run Serz on an existing file and store the result into a temporary file.
+    public static void DecodeSerz(string inputFile, string tempFile, out bool success)
+      {
+      success = false;
+      if (!File.Exists(Settings.SerzPath))
+        {
+        Log.Trace($"Serz application not found, looking for {Settings.SerzPath}",LogEventType.Error);
+        return;
+        }
+
+      if (!File.Exists(inputFile))
+        {
+        Log.Trace($"DecodeSerz, input file not found {inputFile}",LogEventType.Error);
+        return;
+        }
+
+      try
+	      {
+	      Process Serz;
+	      var Args = $"\"{inputFile}\" /:\"{tempFile}\"";
+        var StartSerz =
+          new ProcessStartInfo(Settings.SerzPath, Args)
+            {
+            CreateNoWindow = true,
+            WindowStyle = ProcessWindowStyle.Hidden,
+            UseShellExecute = false,
+            RedirectStandardOutput = true
+            };
+        Serz = Process.Start(StartSerz);
+        if (Serz != null)
+          {
+          Serz.WaitForExit(1000 * 20 /* ms */);
+          if (!Serz.HasExited)
+            {
+            Serz.Kill();
+            success = false;
+            Log.Trace($"Serz issue, Serz killed for {inputFile}", LogEventType.Error);
+            return;
+            }
+
+          success = true;
+          Serz.Close();
+          }
+        }
+      catch (Win32Exception ex)
+        {
+        if (ex.NativeErrorCode == SystemErrorCodes.ErrorFileNotFound)
+          {
+          success = false;
+          Log.Trace("Check the path. Executing Serz.exe ",ex, LogEventType.Error);
+          }
+        else if (ex.NativeErrorCode == SystemErrorCodes.ErrorAccessDenied)
+          {
+          // Note that if your word processor might generate exceptions
+          // such as this, which are handled first.
+          success = false;
+          Log.Trace($"You do not have permission to execute Serz for file {inputFile}", LogEventType.Error);
+          }
+        }
+      }
 
 
 
+
+
+
+
+
+		// Gets a base part for a temporary file, you need to append the original filename
+		public static string GetTempBasePath()
+			{
+			return $"{Settings.TempFolder}{Converters.GetUuidString()}-";
+			}
+
+		public static string GetTempFilePath(string inputFileName)
+			{
+			return $"{Settings.TempFolder}{Converters.GetUuidString()}-{inputFileName}";
+			}
 		// Add quotes to a filename in case it contains spaces. If the filepath is already quoted, don't do it again 
 		public static string QuoteFilename(string s)
 			{

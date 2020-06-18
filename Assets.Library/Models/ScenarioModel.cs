@@ -19,5 +19,6 @@ namespace Assets.Library.Models
       get { return !IsValidInGame; }}
     public bool InArchive { get; set; }
     public bool IsValidInArchive { get; set; }
+    public ScenarioPropertiesModel ScenarioProperties { get; set; }
     }
   }

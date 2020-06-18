@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Logging.Library;
 
-namespace FancyTrainsimTools.Desktop.Models
+namespace FancyTrainsimToolsDesktop.Models
 	{
 	public class LoggingModel
 		{

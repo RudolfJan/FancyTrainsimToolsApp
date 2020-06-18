@@ -21,6 +21,7 @@ namespace Assets.Library.Logic
       try
         {
         var propertiesDoc = XDocument.Load(path);
+        properties.PropertiesDoc = propertiesDoc;
         BuildAllScenarioProperties(propertiesDoc, properties);
         }
       catch (Exception ex)
@@ -82,8 +83,6 @@ namespace Assets.Library.Logic
         }
       return properties;
       }
-
-
 
     private static String TranslateScenarioClass(String ScenarioClass)
       {
@@ -197,7 +196,7 @@ namespace Assets.Library.Logic
           properties.Rating = PropertiesNode.Element("Rating")?.Value;
           properties.StartTime = (int) Convert.ToDouble(PropertiesNode.Element("StartTime")?.Value);
           properties.StartTimeString = Converters.TimeToString(properties.StartTime);
-          // BuildDriverDetails(PropertiesNode);
+          BuildDriverDetails(PropertiesNode, properties);
           // CareerRuleManager = new CCareerRuleManager(Doc);
           }
         else
@@ -211,5 +210,90 @@ namespace Assets.Library.Logic
         properties.ScenarioTitle = GetInvalidScenarioTitle(properties.ScenarioGuid);
         }
       }
+
+    static void BuildDriverDetails(XElement BaseNode, ScenarioPropertiesModel properties)
+      {
+      try
+        {
+        if (BaseNode == null)
+          {
+          return;
+          }
+
+        var DriverDetailsNodes = BaseNode.XPathSelectElements("FrontEndDriverList/sDriverFrontEndDetails");
+        foreach (XElement Node in DriverDetailsNodes)
+          {
+          if (Node.Element("PlayerDriver")?.Value == "1")
+            {
+            var ServiceNameNodeList = Node.XPathSelectElement("ServiceName/Localisation-cUserLocalisedString");
+            properties.ServiceName = Converters.GetLocalisedString(ServiceNameNodeList);
+
+            var PlayerEngineNodeList = Node.XPathSelectElement("LocoName/Localisation-cUserLocalisedString");
+            properties.PlayerEngine = Converters.GetLocalisedString(PlayerEngineNodeList);
+            }
+          }
+        }
+
+      catch (Exception E)
+        {
+        Log.Trace("Cannot process ScenarioProperties.xml " + E.Message, LogEventType.Error);
+        }
+      }
+
+    public static void DeleteBackupFiles(string path)
+
+      {
+      try
+        {
+        var FileList = Directory.GetFiles(path, "*.bak?");
+        foreach (string F in FileList)
+          {
+          File.Delete(F);
+          }
+        }
+      catch (DirectoryNotFoundException DirNotFound)
+        {
+        Log.Trace(DirNotFound.Message, LogEventType.Error);
+        }
+      }
+    public static void DeleteScriptFiles(string path)
+
+      {
+      try
+        {
+        var fileList = Directory.GetFiles(path, "*.lua?");
+        foreach (string F in fileList)
+          {
+          File.Delete(F);
+          }
+
+        fileList = Directory.GetFiles(path, "*.out?");
+        foreach (string F in fileList)
+          {
+          File.Delete(F);
+          }
+
+        fileList = Directory.GetFiles(path, "*.lua.MD5");
+        foreach (string F in fileList)
+          {
+          File.Delete(F);
+          }
+        fileList = Directory.GetFiles(path, "*.luac.MD5");
+        foreach (string F in fileList)
+          {
+          File.Delete(F);
+          }
+        fileList = Directory.GetFiles(path, "*.out.MD5");
+        foreach (string F in fileList)
+          {
+          File.Delete(F);
+          }
+        }
+      catch (DirectoryNotFoundException dirNotFound)
+        {
+        Log.Trace(dirNotFound.Message, LogEventType.Error);
+        }
+      }
+
     }
   }

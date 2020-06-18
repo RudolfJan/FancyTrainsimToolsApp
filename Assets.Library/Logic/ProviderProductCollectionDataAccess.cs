@@ -64,12 +64,17 @@ namespace Assets.Library.Logic
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
           {
-          string sqlStatement = @$"INSERT OR IGNORE INTO ProviderProduct (Provider, Product, Pack) VALUES (@Provider, @Product, @Pack)";
+          string sqlStatement = @$"INSERT OR IGNORE INTO ProviderProducts (Provider, Product, Pack, InGame, InArchive) VALUES (@Provider, @Product, @Pack, @InGame, @InArchive)";
           try
             {
             foreach (var item in providerProducts)
               {
-              connection.Execute(sqlStatement, new { item.Provider, item.Product, item.Pack}, transaction);
+              connection.Execute(sqlStatement, new { item.Provider, item.Product, item.Pack, item.InGame, item.InArchive}, transaction);
+              var lastRow = (int) (long) connection.ExecuteScalar("SELECT last_insert_rowid();",new{},transaction);
+              if (lastRow > 0)
+                {
+                item.Id = lastRow;
+                }
               }
             transaction.Commit();
             }
@@ -81,6 +86,26 @@ namespace Assets.Library.Logic
           }
         }
       }
+
+    public static int InsertLooseProviderProduct(string provider, string product, string pack)
+      {
+      var result = ProviderProductCollectionDataAccess.GetProviderProductId(provider, product, pack);
+      if (result > 0)
+        {
+        return result;
+        }
+      string sqlStatement = @$"INSERT OR IGNORE INTO ProviderProducts (Provider, Product, Pack) VALUES (@Provider, @Product, @Pack);";
+      AssetDatabaseAccess.SaveData(sqlStatement, new {provider, product, pack},
+        AssetDatabaseAccess.GetConnectionString());
+     return ProviderProductCollectionDataAccess.GetProviderProductId(provider, product, pack);
+      }
+
+    private static Int32 GetProviderProductId(string provider, string product, string pack)
+      {
+      string sql="SELECT id FROM ProviderProducts WHERE Provider=@provider AND Product=@product AND Pack = @pack;";
+      return AssetDatabaseAccess.LoadData<int, dynamic>(sql, new {provider, product, pack},AssetDatabaseAccess.GetConnectionString()).FirstOrDefault();
+      }
+
 
     /// <summary>
     /// Reads the provider product from directory.
@@ -170,7 +195,7 @@ namespace Assets.Library.Logic
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
           {
-          string sqlStatement = @$"UPDATE OR IGNORE ProviderProduct SET {fieldName}=1 WHERE Id=@Id";
+          string sqlStatement = @$"UPDATE OR IGNORE ProviderProducts SET {fieldName}=1 WHERE Id=@Id";
           try
             {
             foreach (var item in providerProducts)
@@ -200,7 +225,7 @@ namespace Assets.Library.Logic
     public static List<ProviderProductModel> ReadAllProviderProductsFromDatabase()
       {
       using IDbConnection Db = new SQLiteConnection(AssetDatabaseAccess.GetConnectionString());
-      var output = Db.Query<ProviderProductModel>("SELECT * FROM ProviderProduct", new {});
+      var output = Db.Query<ProviderProductModel>("SELECT * FROM ProviderProducts", new {});
       return output.ToList();
       }
 
@@ -211,13 +236,17 @@ namespace Assets.Library.Logic
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
           {
-          string sqlStatement = @$"SELECT Id FROM ProviderProduct WHERE Provider=@Provider AND Product=@Product;";
+          string sqlStatement = @$"SELECT Id FROM ProviderProducts WHERE Provider=@Provider AND Product=@Product;";
           try
             {
             foreach (var item in providerProducts)
               {
-              IdModel idModel=connection.Query<IdModel>(sqlStatement, new { item.Provider, item.Product}, transaction).First();
-              item.Id = idModel.Id;
+              if (item.Id < 1)
+                {
+                int idModel = connection.Query<int>(sqlStatement,
+                  new {item.Provider, item.Product}, transaction).First();
+                item.Id = idModel;
+                }
               }
             transaction.Commit();
             }

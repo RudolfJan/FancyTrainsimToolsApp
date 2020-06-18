@@ -1,11 +1,11 @@
 ﻿using Caliburn.Micro;
-using FancyTrainsimTools.Desktop.Helpers;
-using FancyTrainsimTools.Desktop.Models;
+using FancyTrainsimToolsDesktop.Helpers;
+using FancyTrainsimToolsDesktop.Models;
 using Logging.Library;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
 	{
 	public class LoggingViewModel : Screen
 		{

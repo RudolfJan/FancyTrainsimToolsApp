@@ -1,0 +1,131 @@
+﻿<Window x:Class="FancyTrainsimToolsDesktop.Views.ConsistView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Style="{StaticResource AllWindows}"
+        Title="Consists">
+    <ScrollViewer>
+        <StackPanel>
+            <WrapPanel HorizontalAlignment="Center">
+                <TextBlock>Scenario</TextBlock>
+                <TextBox Text="{Binding Scenario.ScenarioTitle}" Style="{StaticResource StaticTextBox}" Width="150"/>
+                <TextBlock>Guid</TextBlock>
+                <TextBox Text="{Binding Scenario.ScenarioGuid}" Style="{StaticResource StaticTextBox}" Width="100"/>
+            </WrapPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <TextBlock  Style="{StaticResource HeaderTextBlock}">Consists</TextBlock>
+        
+            <DataGrid Style="{StaticResource DefaultDataGrid}"
+                      ItemsSource="{Binding FilteredConsistList}"
+                      SelectedItem="{Binding SelectedConsist}"
+                      Height="300" Width="150"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="P" Binding="{Binding IsPlayer}" Width="40"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ConsistName}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            </StackPanel>
+<TabControl Grid.Row="0" Grid.Column="1" >
+<TabItem Header="Rail vehicles">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock Style="{StaticResource HeaderTextBlock}">Rail Vehicles in Consist</TextBlock>
+          
+            <DataGrid Style="{StaticResource DefaultDataGrid}"
+                      ItemsSource="{Binding FilteredRailVehicleList}"
+                      Height="200" Width="200"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="M" Binding="{Binding IsMissing}" Width="30"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock Style="{StaticResource HeaderTextBlock}">Required Rail Vehicles</TextBlock>
+
+            <DataGrid Style="{StaticResource DefaultDataGrid}"
+                      ItemsSource="{Binding FilteredRequiredRailVehicleList}"
+                      Height="200" Width="300"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="M" Binding="{Binding IsMissing}" Width="30"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="150"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        </Grid>
+</TabItem>
+<TabItem Header="Instructions">
+
+    <StackPanel>
+    <TextBlock Style="{StaticResource HeaderTextBlock}">Instructions</TextBlock>
+
+    <DataGrid Style="{StaticResource DefaultDataGrid}"
+              ItemsSource="{Binding InstructionList, Mode=TwoWay, NotifyOnSourceUpdated=True}"
+              SelectedItem="{Binding SelectedInstruction}"
+              Height="200" Width="550"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserSortColumns="False">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Type" Binding="{Binding InstructionType}" Width="80"/>
+            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="120"/>
+            <DataGridTextColumn Header="Success" Binding="{Binding SuccessEvent}" Width="80"/>
+            <DataGridTextColumn Header="Fail" Binding="{Binding FailureEvent}" Width="80"/>
+            <DataGridTextColumn Header="Repeat" Binding="{Binding RepeatCount}" Width="80"/>
+            <DataGridTextColumn Header="Timetabled" Binding="{Binding TimeTabled}" Width="80"/>
+            <DataGridTextColumn Header="Due time" Binding="{Binding DueTimeString}" Width="80"/>
+            <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="80"/>
+            <DataGridTextColumn Header="Hidden" Binding="{Binding Hidden}" Width="80"/>
+
+        </DataGrid.Columns>
+    </DataGrid>
+<Button x:Name="ShowInstructionDetails" Style="{StaticResource DefaultButton}">Show details</Button>
+</StackPanel>
+
+
+</TabItem>
+ 
+</TabControl>
+            </Grid>
+            <Button x:Name="Exit" Style="{StaticResource OKButton}" HorizontalAlignment="Right">Close</Button>
+        </StackPanel>
+
+    </ScrollViewer>
+</Window>

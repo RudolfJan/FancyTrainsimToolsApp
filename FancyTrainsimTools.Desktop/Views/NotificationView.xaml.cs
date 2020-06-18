@@ -4,7 +4,7 @@ using System.Windows.Threading;
 
 // TODO bring this in MVVM structures
 
-namespace FancyTrainsimTools.Desktop.Views
+namespace FancyTrainsimToolsDesktop.Views
   {
   /// <summary>
   /// Interaction logic for NotificationView.xaml

@@ -1,14 +1,12 @@
 ﻿using Caliburn.Micro;
-using FancyTrainsimTools.desktop.Helpers;
-using FancyTrainsimTools.Library.Manuals;
-using FancyTrainsimTools.Library.Models;
+using FancyTrainsimToolsDesktop.Helpers;
 using Logging.Library;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
   {
   public class ManualsViewModel: Screen
     {
@@ -29,8 +27,7 @@ namespace FancyTrainsimTools.Desktop.ViewModels
     protected override void OnViewLoaded(object view)
       {
       base.OnViewLoaded(view);
-      ManualsLogic logic= new ManualsLogic(Settings.ManualFolder);
-      Tree = logic.Tree;
+      Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
       // TODO finish this part
       ShowManualCommand= new RelayCommand<string>(ShowManual,CanUseSelectedFile);
       OpenFolderCommand= new RelayCommand<string>(OpenFolder, CanUseSelectedFolder);
@@ -57,11 +54,9 @@ namespace FancyTrainsimTools.Desktop.ViewModels
       return false;
       }
 
-
     public ManualsViewModel()
       {
-      ManualsLogic logic= new ManualsLogic(Settings.ManualFolder);
-      Tree = logic.Tree;
+      Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
       }
 
     public void ShowManual(string filePath)

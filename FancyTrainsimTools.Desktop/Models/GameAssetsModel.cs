@@ -2,7 +2,7 @@
 using Caliburn.Micro;
 using System.Collections.Generic;
 
-namespace FancyTrainsimTools.Desktop.Models
+namespace FancyTrainsimToolsDesktop.Models
   {
   public class GameAssetsModel
     {

@@ -22,7 +22,11 @@ namespace Assets.Library.Models
     public string Rating { get; set; } = String.Empty;
     public string PlayerEngine { get; set; } = String.Empty;
     public string ServiceName { get; set; } = String.Empty;
+    public List<ConsistModel> ConsistList { get; set; }
+    public List<FullRailVehicleModel> RequiredRailVehicles { get; set; }
     public XDocument PropertiesDoc { get; set; }
+    public XDocument BinDoc { get; set; }
+
 
     /*
     XML structure for ScenarioNetworkProperties.xml This file contains if the markers that are defined in the scenario

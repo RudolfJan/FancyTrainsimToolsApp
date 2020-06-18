@@ -1,7 +1,7 @@
 ﻿PRAGMA foreign_keys=ON;
 PRAGMA recursive_triggers=ON;
 CREATE TABLE IF NOT EXISTS [Routes] (
-    [Id] INTEGER primary key
+    [Id] INTEGER  Primary Key NOT NULL
     , [RouteName] TEXT NOT NULL
     , [RouteGuid] TEXT NOT NULL
     , [Pack] TEXT NOT NULL DEFAULT ''
@@ -10,4 +10,5 @@ CREATE TABLE IF NOT EXISTS [Routes] (
     , [InArchive] INTEGER NOT NULL DEFAULT 0
     , [IsValidInGame] INTEGER NOT NULL DEFAULT 0
     , [IsValidInArchive] INTEGER NOT NULL DEFAULT 0
-, UNIQUE(RouteGuid));
+, UNIQUE(RouteGuid)
+);

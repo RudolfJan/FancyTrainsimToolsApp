@@ -1,0 +1,221 @@
+﻿<windowSizing:SizableWindow  
+               x:Class="FancyTrainsimToolsDesktop.Views.PublishScenarioView"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+               xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+               xmlns:treeBuilders="clr-namespace:FancyTrainsimToolsDesktop"
+               mc:Ignorable="d"
+               Style="{StaticResource AllWindows}"
+               Title="Publish Scenario">
+	<Window.Resources>
+		<HierarchicalDataTemplate DataType="{x:Type treeBuilders:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
+			<WrapPanel>
+				<CheckBox IsChecked="{Binding IsSelected}" />
+				<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
+			</WrapPanel>
+		</HierarchicalDataTemplate>
+
+		<DataTemplate DataType="{x:Type treeBuilders:FileItem}">
+			<WrapPanel>
+				<CheckBox IsChecked="{Binding IsSelected}" />
+				<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
+			</WrapPanel>
+		</DataTemplate>
+	
+	</Window.Resources>
+
+	<ScrollViewer>
+		<StackPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="350" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+					<StackPanel>
+						<TextBlock Style="{StaticResource HeaderTextBlock}">Files</TextBlock>
+						<TreeView Name="FileTreeView"
+											Height="640"
+						          Margin="{StaticResource DefaultMargin}"
+						          ItemsSource="{Binding Tree.TreeItems}"
+						          ScrollViewer.CanContentScroll="True"
+						          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+						          ScrollViewer.VerticalScrollBarVisibility="Auto" />
+					</StackPanel>
+				</Border>
+				<StackPanel Grid.Column="1">
+					<Border Style="{StaticResource DefaultBorder}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource DefaultTextBlock}">Route</TextBlock>
+							<TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource DefaultTextBlock}">Route GUID</TextBlock>
+							<TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource StaticTextBox}" Text="{Binding Route.RouteName}" />
+							<TextBox Grid.Column="3" Grid.Row="0" Style="{StaticResource StaticTextBox}" Text="{Binding Route.RouteGuid}" />
+
+							<TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource DefaultTextBlock}">Scenario</TextBlock>
+							<TextBlock Grid.Column="2" Grid.Row="1" Style="{StaticResource DefaultTextBlock}">Scenario GUID</TextBlock>
+
+							<TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource StaticTextBox}"
+							         Text="{Binding Scenario.ScenarioTitle}" />
+							<TextBox Grid.Column="3" Grid.Row="1" Style="{StaticResource StaticTextBox}"
+							         Text="{Binding Scenario.ScenarioGuid}" />
+						</Grid>
+					</Border>
+
+					<Border Style="{StaticResource DefaultBorder}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="Auto" MinWidth="200"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+                <RowDefinition />
+							</Grid.RowDefinitions>
+							<userControls:FileInputBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+																				 LabelText="Installer file name" LabelWidth="70"
+							                           InitialDirectory="{Binding InstallersOutputDirectory}"
+							                           FileName="{Binding InstallerExecutableFile.Name}"
+							                           Filter="Exe files|*.exe|All Files|*.*"/>
+							<TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource DefaultTextBlock}">Installer options (see manual)</TextBlock>
+							<TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource DefaultTextBlock}"
+							           >
+								Installer version
+                
+							</TextBlock>
+							<TextBox Grid.Column="1" Grid.Row="2" Width="40" HorizontalAlignment="Left"  Text="{Binding InstallerVersion}"/>
+							<CheckBox Grid.Column="2" Grid.Row="0" Margin="{StaticResource DefaultMargin}" 
+							          IsChecked="{Binding CreateZip}">Create Zip file</CheckBox>
+
+	
+
+							<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding InstallerOptions}" />
+	
+							<CheckBox Grid.Column="2" Grid.Row="1" Margin="{StaticResource DefaultMargin}"
+							          IsChecked="{Binding IncludeManual}">
+								Include manual
+							</CheckBox>
+	
+									<TextBlock Grid.Column="0" Grid.Row="3" Style="{StaticResource DefaultTextBlock}" VerticalAlignment="Top">Author contact info</TextBlock>
+									<TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource BigTextBox}" Margin="{StaticResource DefaultMargin}"
+									         Text="{Binding AuthorContactInfo}" />
+						</Grid>
+
+					</Border>
+
+					<Border Style="{StaticResource DefaultBorder}">
+						<StackPanel>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="{StaticResource GridHeight}" />
+								<RowDefinition Height="{StaticResource GridHeight}" />
+								<RowDefinition Height="{StaticResource GridHeight}" />
+								<RowDefinition Height="{StaticResource GridHeight}" />
+								<RowDefinition Height="{StaticResource GridHeight}" />
+							</Grid.RowDefinitions>
+							<userControls:FileInputBox Grid.Row="0" Grid.Column="0" 
+							                           LabelText="License file" LabelWidth="70"
+							                           Filter = "Text file|*.txt|All Files|*.*"
+							                           InitialDirectory="{Binding LicenseFile.Directory}"
+							                           RestoreDirectory="False"
+							                           CheckPathExists="False"
+							                           FileDialogType="OpenFile" Title="License file" 
+							                           ToolTip="Sets the license file name"
+							                           FileName="{Binding LicenseFile.Name}"/>
+
+							<userControls:FileInputBox Grid.Row="1" Grid.Column="0" 
+							                           LabelText="Readme file" LabelWidth="70"
+							                           Filter = "Text file|*.txt|All Files|*.*"
+							                           InitialDirectory="{Binding ReadMeFile.Directory}"
+																				 RestoreDirectory="False"
+																				 CheckPathExists="False"
+							                           FileDialogType="OpenFile" Title="Readme file" 
+							                           ToolTip="Sets the Readme file name"
+							                           FileName="{Binding ReadMeFile.Name}"/>
+
+							<CheckBox Grid.Column="1" Grid.Row="1"
+							          IsChecked="{Binding CreateSimpleReadme}">
+								Create simple readme
+							</CheckBox>
+
+							<userControls:FileInputBox Grid.Row="2" Grid.Column="0" 
+							                           LabelText="Setup image file" LabelWidth="70"
+							                           Filter="Bitmap file|*.bmp|All Files|*.*"
+							                           RestoreDirectory = "True"
+							                           CheckPathExists = "True"
+																				 InitialDirectory="{Binding SetupImageFile.Directory}" 
+							                           FileDialogType="OpenFile" Title="Setup image file" 
+							                           ToolTip="Sets the Setup image file"
+							                           FileName="{Binding SetupImageFile.Name}"/>
+
+							<userControls:FileInputBox Grid.Row="3" Grid.Column="0" 
+							                           LabelText="Image file" LabelWidth="70"
+							                           Filter = "Image file|*.png;*.jpg|All Files|*.*"
+																				 RestoreDirectory="True"
+																				 CheckPathExists="True"
+
+							                           FileDialogType="OpenFile" Title="Image file" 
+							                           ToolTip="Sets the Image file to include in the Zip"
+							                           FileName="{Binding ImageFile.Name, Mode=TwoWay}"/>
+
+							<userControls:FileInputBox Grid.Row="4" Grid.Column="0" 
+							                           LabelText="Manual file" LabelWidth="70"
+							                           Filter = "Manual file|*.html;*.pdf;*.txt|All Files|*.*"
+																				 CheckPathExists="False"
+																				 RestoreDirectory="True"
+							                           FileDialogType="OpenFile" Title="Manual file" ToolTip="Sets the Manual file to include in the Zip"
+							                           FileName="{Binding ManualFile.Name}"/>
+ 
+            </Grid>
+						</StackPanel>
+					</Border>
+					<Border Style="{StaticResource DefaultBorder}">
+            <userControls:ResultsTextBox x:Name="ResultsTextBox2" Style="{StaticResource LuaCreatorResultsTextBox}" 
+                                          Text="{Binding Result, Mode=OneWay, NotifyOnSourceUpdated=True }" />
+          </Border>
+					<Border Style="{StaticResource DefaultBorder}">
+
+						<WrapPanel Grid.Column="0">
+							<Button Name="MakeInstallScript" Style="{StaticResource WideButton}"
+							        ToolTip="Build an install script for Inno Setup">
+								Make install script
+							</Button>
+							<Button Name="CompileInstallScript" Style="{StaticResource WideButton}"
+							        ToolTip="Compile the install script to create an executable installer">
+								Compile install script
+							</Button>
+							<Button Name="OpenInstallerOutput" Style="{StaticResource WideButton}"
+							        ToolTip="View the resulting output">
+								View output folder
+							</Button>
+
+							<Button Name="Exit" Style="{StaticResource OKButton}"
+							        HorizontalAlignment="Right">
+								Done
+							</Button>
+						</WrapPanel>
+					</Border>
+				</StackPanel>
+			</Grid>
+		</StackPanel>
+	</ScrollViewer>
+</windowSizing:SizableWindow>

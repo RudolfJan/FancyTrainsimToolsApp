@@ -1,8 +1,6 @@
 ﻿using Assets.Library.Models;
-using System;
-using System.Windows;
 
-namespace FancyTrainsimTools.Desktop.Views
+namespace FancyTrainsimToolsDesktop.Views
   {
   /// <summary>
   /// Interaction logic for RouteAssetsView.xaml

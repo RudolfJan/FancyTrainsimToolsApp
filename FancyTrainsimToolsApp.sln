@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.DesktopL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.Test", "FancyTrainsimTools.Test\FancyTrainsimTools.Test.csproj", "{AE2BD7DA-1A4C-4AF4-BEBB-77792B9C96E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.Desktop", "FancyTrainsimTools.Desktop\FancyTrainsimTools.Desktop.csproj", "{BBBC9154-918D-4892-A6E2-D3F1837429EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimToolsDesktop", "FancyTrainsimTools.Desktop\FancyTrainsimToolsDesktop.csproj", "{BBBC9154-918D-4892-A6E2-D3F1837429EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Styles.Library", "Styles.Library\Styles.Library.csproj", "{0AA823BC-7FDE-4709-93F9-04EF31865FFB}"
 EndProject

@@ -1,4 +1,4 @@
-﻿namespace FancyTrainsimTools.Desktop.Views
+﻿namespace FancyTrainsimToolsDesktop.Views
   {
   /// <summary>
   /// Interaction logic for RoutePropertiesView.xaml

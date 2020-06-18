@@ -69,6 +69,8 @@ namespace Assets.Library.Logic
               {
               itemForLog = item;
               connection.Execute(sqlStatement, new { providerProductId, item.BluePrintPath }, transaction);
+              var lastRow = connection.ExecuteScalar("SELECT last_insert_rowid();",new{},transaction);
+              item.Id = (int) (long) lastRow;
               }
             transaction.Commit();
             }
@@ -82,7 +84,7 @@ namespace Assets.Library.Logic
       }
 
 
-    //Note: this version will pickup the providerProductId
+    //Note: this version will pickup the providerProductId, providerProducts MUST be in database
     public static void SaveAssetsBulk(List<AssetModel> assets)
       {
       using (IDbConnection connection = new SQLiteConnection(AssetDatabaseAccess.GetConnectionString()))
@@ -90,18 +92,27 @@ namespace Assets.Library.Logic
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
           {
-          string sqlStatement = @$"INSERT OR IGNORE INTO Assets (ProvProdId, BluePrintPath) 
-                                   VALUES (@providerProductId, @BluePrintPath)";
+          string sqlStatement = @$"INSERT OR IGNORE INTO Assets (ProvProdId, BluePrintPath, InGame, InArchive) 
+                                   VALUES (@ProvProdId, @BluePrintPath, @InGame, @InArchive)";
 
           try
             {
             foreach (var item in assets)
               {
-              var providerProductId = connection.Query<int>(@$"select Id from ProviderProduct 
+              if (item.ProviderProduct.Id < 1
+                ) // Normally this is filled while the provider/products are created just to be sure ...
+                {
+                var providerProductId = connection.Query<int>(@$"SELECT Id FROM ProviderProducts 
                           WHERE Provider=@Provider 
-                          AND Product=@Product", new { item.ProviderProduct.Provider, item.ProviderProduct.Product }).First();
-              var result = connection.Execute(sqlStatement, new { providerProductId, item.BluePrintPath }, transaction);
-              item.IsNew = result > 0; // DEBUG
+                          AND Product=@Product",
+                  new {item.ProviderProduct.Provider, item.ProviderProduct.Product}).First();
+                item.ProviderProduct.Id = providerProductId;
+                }
+              var result = connection.Execute(sqlStatement,
+                  new {ProvProdId = item.ProviderProduct.Id, item.BluePrintPath, item.InGame, item.InArchive},
+                  transaction);
+                item.IsNew = result > 0; // DEBUG
+                
               }
             transaction.Commit();
             }
@@ -243,12 +254,26 @@ namespace Assets.Library.Logic
       }
 
 
-    private static int GetAssetIdFromDatabase(AssetModel item, IDbConnection connection,
+    public static int GetAssetIdFromDatabase(string provider, string product, string bluePrint)
+      {
+      string sqlStatement =
+        $"SELECT Assets.Id FROM Assets, ProviderProducts WHERE BluePrintPath=@BluePrint AND Assets.ProvProdId= ProviderProducts.Id AND ProviderProducts.Provider=@Provider AND ProviderProducts.Product=@Product";
+      return (int) AssetDatabaseAccess.LoadData<Int64,dynamic>(sqlStatement, new { provider, product, bluePrint },AssetDatabaseAccess.GetConnectionString()).FirstOrDefault();
+      }
+
+    public static int GetAssetIdFromDatabase(AssetModel item, IDbConnection connection,
       IDbTransaction transaction)
       {
       string sqlStatement =
         $"SELECT Id FROM Assets WHERE ProvProdId=@ProvProdId AND BluePrintPath=@BluePrintPath";
       return connection.QueryFirst<int>(sqlStatement, new { ProvProdId = item.ProviderProduct.Id, item.BluePrintPath }, transaction);
+      }
+
+    public static int InsertLooseAsset(int providerProductId, string bluePrint, bool inGame=false, bool inArchive=false)
+      {
+      string sql = "INSERT OR IGNORE INTO Assets (ProvProdId, BlueprintPath,InGame,InArchive) VALUES(@providerProductId, @bluePrint,@InGame,@InArchive);" +
+                   "SELECT last_insert_rowid();";
+      return (int) AssetDatabaseAccess.LoadData<Int64,dynamic>(sql,new{providerProductId,bluePrint,inGame, inArchive},AssetDatabaseAccess.GetConnectionString()).FirstOrDefault();
       }
 
     public static void UpdateBulkStatus(List<AssetModel> assetList, string fieldName)
@@ -289,12 +314,12 @@ namespace Assets.Library.Logic
                 Log.Trace($"Location update error {item} skipped",ex, LogEventType.Message);
                 }
               }
-            //transaction.Commit();
+            transaction.Commit();
             }
           catch (Exception ex)
             {
-           // transaction.Rollback();
- //           Log.Trace($"Something went wrong during bulk update {itemForLog.ProviderProduct.ProviderProduct} {itemForLog.BluePrintPath} {itemForLog.Id} {itemForLog.ProviderProduct.Id} InGame/InArchive field Assets to database", ex, LogEventType.Error);
+            transaction.Rollback();
+            Log.Trace($"Something went wrong during bulk update {itemForLog.ProviderProduct.ProviderProduct} {itemForLog.BluePrintPath} {itemForLog.Id} {itemForLog.ProviderProduct.Id} InGame/InArchive field Assets to database", ex, LogEventType.Error);
             Log.Trace($" {itemForLog.Id} {itemForLog.ProviderProduct.Id} InGame/InArchive field Assets to database", ex, LogEventType.Error);
             }
           }

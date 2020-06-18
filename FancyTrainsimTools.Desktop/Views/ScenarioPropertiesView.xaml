@@ -1,0 +1,560 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimToolsDesktop.Views.ScenarioPropertiesView"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+               xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+               Style="{StaticResource AllWindows}"
+               mc:Ignorable="d"
+               Title="Scenario Properties">
+    <ScrollViewer>
+    <StackPanel>
+      <TabControl>
+
+        <!-- region Properties -->
+        <TabItem Header="Properties">
+          <Border Style="{StaticResource DefaultBorder}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition MaxWidth="500"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+                <RowDefinition Height="35" />
+
+              </Grid.RowDefinitions>
+              <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}"
+                VerticalAlignment="Top">
+                Description
+              </TextBlock>
+              <TextBox Style="{StaticResource BigTextBox}"
+                       Name="DescriptionTextBox"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2"
+                       Text="{Binding ScenarioProperties.Description, UpdateSourceTrigger=PropertyChanged}"
+                       VerticalScrollBarVisibility="Auto" />
+              <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}"
+                VerticalAlignment="Top">
+                Briefing
+              </TextBlock>
+              <TextBox
+                Name="BriefingTextBox"
+                Style="{StaticResource BigTextBox}"
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Text="{Binding ScenarioProperties.Briefing, UpdateSourceTrigger=PropertyChanged}"/>
+              <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Route
+              </TextBlock>
+              <TextBox
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding Route.RouteName}" />
+              <TextBox
+                Grid.Row="2"
+                Grid.Column="2"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding Route.RouteGuid}" />
+              <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Scenario
+              </TextBlock>
+              <TextBox
+                Name="ScenarioTitleTextBox"
+                Grid.Row="3"
+                Grid.Column="1"
+                Text="{Binding Scenario.ScenarioTitle, UpdateSourceTrigger=PropertyChanged}"
+                 />
+              <TextBox
+                Grid.Row="3"
+                Grid.Column="2"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding Scenario.ScenarioGuid, Mode=TwoWay}" />
+              <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Packed file
+              </TextBlock>
+              <TextBox
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding Scenario.Pack, Mode=TwoWay}" />
+              <Button
+                Name="OpenPackFile" Style="{StaticResource DefaultButton}"
+                Grid.Row="4"
+                Grid.Column="2"
+                HorizontalAlignment="Left"
+                >
+                Open pack file
+              </Button>
+              <TextBlock
+                Grid.Row="5"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Scenario class
+              </TextBlock>
+              <TextBox
+                Grid.Row="5"
+                Grid.Column="1"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding ScenarioProperties.ScenarioClass}" />
+
+              <StackPanel
+                Grid.Row="5"
+                Grid.Column="2"
+                Orientation="Horizontal" />
+
+              <TextBlock
+                Grid.Row="6"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Author
+              </TextBlock>
+              <TextBox
+                Name="AuthorTextBox"
+                Grid.Row="6"
+                Grid.Column="1"
+                Text="{Binding ScenarioProperties.Author, UpdateSourceTrigger=PropertyChanged}"
+                />
+
+              <Grid
+                Grid.Row="5"
+                Grid.Column="2" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="60" />
+                  <ColumnDefinition Width="60" />
+                  <ColumnDefinition Width="60" />
+                  <ColumnDefinition Width="60" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition />
+                  <RowDefinition />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0"
+                           Style="{StaticResource DefaultTextBlock}">
+                  Duration
+                </TextBlock>
+                <TextBox Grid.Column="1" Grid.Row="0"
+                         Name="DurationTextBox"
+                         Width="40"
+                         HorizontalAlignment="Left"
+                         Text="{Binding ScenarioProperties.Duration, UpdateSourceTrigger=PropertyChanged}"
+                         />
+                <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource DefaultTextBlock}">Rating</TextBlock>
+                <TextBox Grid.Column="3" Grid.Row="0"
+                         Name="RatingTextBox"
+                         Width="40"
+                         HorizontalAlignment="Right"
+                         Text="{Binding ScenarioProperties.Rating, UpdateSourceTrigger=PropertyChanged}"
+                         />
+                <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource DefaultTextBlock}">Season</TextBlock>
+                <ComboBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                          Name="SeasonComboBox" Width="110"
+                          Text="{Binding ScenarioProperties.Season}">
+                  <ComboBoxItem>Spring</ComboBoxItem>
+                  <ComboBoxItem>Summer</ComboBoxItem>
+                  <ComboBoxItem>Autumn</ComboBoxItem>
+                  <ComboBoxItem>Winter</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource DefaultTextBlock}">Start time</TextBlock>
+                <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                         Name="StartTimeBox" Width="110"
+                         Text="{Binding ScenarioProperties.StartTimeString}" />
+              </Grid>
+              <TextBlock
+                Grid.Row="7"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Player engine
+              </TextBlock>
+              <TextBox
+                Grid.Row="7"
+                Grid.Column="1"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding ScenarioProperties.PlayerEngine}" />
+              <TextBlock
+                Grid.Row="8"
+                Grid.Column="0"
+                Style="{StaticResource DefaultTextBlock}">
+                Service name
+              </TextBlock>
+              <TextBox
+                Grid.Row="8"
+                Grid.Column="1"
+                Style="{StaticResource StaticTextBox}"
+                Text="{Binding ScenarioProperties.ServiceName}" />
+              <WrapPanel Grid.Row="8" Grid.Column="2">
+                <Button
+                  Name="ServiceDetailsButton" Style="{StaticResource DefaultButton}"
+                  HorizontalAlignment="Left"
+                  >
+                  Service details
+                </Button>
+
+              </WrapPanel>
+            </Grid>
+          </Border>
+        </TabItem>
+
+        <!-- endregion -->
+
+        <!-- region Instructions  -->
+        <TabItem Header="Instructions">
+          <Border
+            Style="{StaticResource DefaultBorder}">
+            <StackPanel>
+              <Label Style="{StaticResource ListBoxHeader}">Player train instructions</Label>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="380" />
+                </Grid.RowDefinitions>
+   
+                <DataGrid Style="{StaticResource DefaultDataGrid}"
+                          ItemsSource="{Binding PlayerInstructions, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserSortColumns="False">
+                  <DataGrid.Columns>
+                    <DataGridTextColumn Header="Type" Binding="{Binding InstructionType}" Width="80"/>
+                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="120"/>
+                    <DataGridTextColumn Header="Success" Binding="{Binding SuccessEvent}" Width="80"/>
+                    <DataGridTextColumn Header="Fail" Binding="{Binding FailureEvent}" Width="80"/>
+                    <DataGridTextColumn Header="Repeat" Binding="{Binding RepeatCount}" Width="80"/>
+                    <DataGridTextColumn Header="Timetabled" Binding="{Binding TimeTabled}" Width="80"/>
+                    <DataGridTextColumn Header="Due time" Binding="{Binding DueTimeString}" Width="80"/>
+                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="80"/>
+                    <DataGridTextColumn Header="Hidden" Binding="{Binding Hidden}" Width="80"/>
+
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Grid>
+              <WrapPanel>
+                <Button
+                  Name="InstructionDetailsButton" Style="{StaticResource WideButton}"
+                  HorizontalAlignment="Left"
+                  ToolTip="Will open a screen showing details of the selected instruction">
+                  Instruction details
+                </Button>
+                <Button
+                  Name="ShowTriggerListButton" Style="{StaticResource WideButton}"
+                  Width="110"
+                  HorizontalAlignment="Left"
+                  ToolTip="Will show all defined trigger evens in a list">
+                  Trigger list
+                </Button>
+                <TextBlock Style="{StaticResource DefaultTextBlock}"><Bold>Tip:</Bold> double mouse click on instruction will open the details screen </TextBlock>
+              </WrapPanel>
+
+            </StackPanel>
+          </Border>
+        </TabItem>
+
+        <!-- #endregion -->
+        <!-- #region Consists -->
+        <TabItem Name="ConsistTab"   Header="Consists">
+          <Border
+            Style="{StaticResource DefaultBorder}" MinHeight="400">
+            <StackPanel>
+           <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0"  Style="{StaticResource HeaderTextBlock}">Consists</TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+            
+            <DataGrid Style="{StaticResource DefaultDataGrid}"
+                      ItemsSource="{Binding FilteredConsistList}"
+                      SelectedItem="{Binding SelectedConsist}"
+                      Height="345" Width="300"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="P" Binding="{Binding IsPlayer}" Width="40"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding ConsistName}" Width="120"/>
+                    <DataGridTextColumn Header="Class" Binding="{Binding ServiceClassText}" Width="100"/>   
+                </DataGrid.Columns>
+            </DataGrid>
+            </StackPanel>
+ 
+            <TextBlock Grid.Row="0" Grid.Column="1"  Style="{StaticResource HeaderTextBlock}">Required Rail Vehicles</TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+            
+                <DataGrid Style="{StaticResource DefaultDataGrid}"
+                          ItemsSource="{Binding FilteredRequiredRailVehicleList}"
+                          Height="345" Width="500"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn Header="M" Binding="{Binding IsMissing}" Width="30"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding DisplayName}" Width="100"/>
+                        <DataGridTextColumn Header="Provider" Binding="{Binding Provider}" Width="100"/>
+                        <DataGridTextColumn Header="Product" Binding="{Binding Product}" Width="100"/>
+                        <DataGridTextColumn Header="Blueprint" Binding="{Binding BlueprintPath}" Width="170"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+              </StackPanel>
+              </Grid>
+              <Button Style="{StaticResource WideButton}"
+                      Name="ConsistManager">
+                Consists details
+              </Button>
+            </StackPanel>
+          </Border>
+        </TabItem>        
+        <!-- #endregion -->
+
+        <!-- region CareerRules -->
+        <TabItem Name="CareerTab"   Header="Career rules">
+          <Border
+            Style="{StaticResource DefaultBorder}" MinHeight="400">
+            <StackPanel>
+              <DataGrid Name="CareerRulesDataGrid" Style="{StaticResource DefaultDataGrid}" Height="400"
+                        ItemsSource="{Binding CareerRuleList, Mode=TwoWay}" AutoGenerateColumns="False">
+                <!-- TODO  CellEditEnding="OnCareerRulesDataGridCellEditEnding"  -->
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="Parameter" Width="150" Binding="{Binding TagName}" IsReadOnly="True" />
+                  <DataGridTextColumn Header="Value" Width="80"
+                                      Binding="{Binding Value}" />
+                </DataGrid.Columns>
+              </DataGrid>
+            </StackPanel>
+          </Border>
+        </TabItem>
+        <!-- endregion -->
+      </TabControl>
+
+      <Grid Name="ButtonPanel">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              View
+            </TextBlock>
+            <Button Style="{StaticResource WideButton}"
+                    Name="ViewScenarioFolder"
+                    >
+              Scenario folder
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="ViewProperties"
+                   >
+              Properties XML
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="ViewBinFile"
+                    >
+              Scenario.bin
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="DecompileScriptButton"
+                    >
+              Decompile script
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="ViewDecompiledScriptButton"
+                    >
+              View decompiled
+            </Button>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              Tools
+            </TextBlock>
+ 
+
+            <Button Style="{StaticResource WideButton}"
+                    Name="CompareButton"
+                    >
+              Compare scenarios
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="BackupButton"
+                    >
+              Backup scenario
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="RestoreBackupButton"
+                    >
+              Restore Backup
+            </Button>
+
+            <Popup IsOpen="{Binding IsPressed, ElementName=BackupButton, Mode=OneWay}" StaysOpen="False">
+              <Border Background="LightYellow">
+                <TextBlock>Backup success</TextBlock>
+              </Border>
+            </Popup>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              Editor
+            </TextBlock>
+            <Button Style="{StaticResource WideButton}"
+                    Name="MoveMarkerButton"
+                   >
+              Move scenario marker
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="SaveButton"
+                    >
+              Save changes
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="SaveAsButton"
+                    >
+              Clone and save
+            </Button>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="3" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              LUA Scripting
+            </TextBlock>
+            <Button Style="{StaticResource WideButton}"
+                    Name="SimpleScriptButton"
+                   >
+              Simple script
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="EditScriptButton"
+                    >
+              Edit script
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="TestScriptButton"
+                    >
+              Test script
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="CompileScriptButton"
+                    >
+              Compile script
+            </Button>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="4" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              Clean up
+            </TextBlock>
+
+            <Button Style="{StaticResource WideButton}"
+                    Name="DeleteBak"
+                   >
+              Delete *.bak
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="DeleteSaved"
+                   >
+              Delete saved game
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="DeleteRollingStart"
+                    >
+              Delete rolling start
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    Name="DeleteScripts"
+                    >
+              Delete LUA scripts
+            </Button>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="5" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBlock
+              Style="{StaticResource HeaderTextBlock}">
+              Publish
+            </TextBlock>
+            <Button Style="{StaticResource WideButton}"
+                    x:Name="DocumentScenario"
+                    ToolTip="Document scenario in HTML"
+                    >
+              Document scenario
+            </Button>
+            <Button Style="{StaticResource WideButton}"
+                    x:Name="PublishScenario"
+                    ToolTip="Create installer+zip to publish this scenario"
+                    >
+              Publish scenario
+            </Button>
+
+          </StackPanel>
+        </Border>
+      </Grid>
+      <Border Style="{StaticResource DefaultBorder}">
+        <DockPanel>
+          <userControls:ResultsTextBox Style="{StaticResource LuaCreatorResultsTextBox}"
+                                        x:Name="ResultsTextBox2" MinWidth="700"
+                                        Text="{Binding Result, NotifyOnSourceUpdated=True}" />
+          <Button Name="Exit" Style="{StaticResource OKButton}" VerticalAlignment="Bottom"
+                  HorizontalAlignment="Right">
+            Close
+          </Button>
+        </DockPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</windowSizing:SizableWindow>

@@ -1,14 +1,14 @@
 ﻿using Assets.Library.Logic;
 using Assets.Library.Models;
 using Caliburn.Micro;
-using FancyTrainsimTools.desktop.Helpers;
-using FancyTrainsimTools.Desktop.Models;
+using FancyTrainsimToolsDesktop.Helpers;
+using FancyTrainsimToolsDesktop.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
   {
   public class GameAssetsViewModel: Screen
     {

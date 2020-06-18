@@ -1,14 +1,14 @@
-﻿<Application x:Class="FancyTrainsimTools.Desktop.App"
+﻿<Application x:Class="FancyTrainsimToolsDesktop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:desktop="clr-namespace:FancyTrainsimTools.Desktop">
+             xmlns:fancyTrainsimToolsDesktop="clr-namespace:FancyTrainsimToolsDesktop">
 
   <Application.Resources>
       
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
-          <desktop:Bootstrapper x:Key="Bootstrapper"/>
+          <fancyTrainsimToolsDesktop:Bootstrapper x:Key="Bootstrapper"/>
           
         </ResourceDictionary>
         

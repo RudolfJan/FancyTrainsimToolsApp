@@ -88,7 +88,7 @@ namespace Assets.Library.Logic
           var binList = LoadUnpackedRouteBinFilesToList(routesBasePath, route);
           List<RouteAssetsModel> routeAssets = new List<RouteAssetsModel>();
           foreach (var binFile in binList)
-            {
+            {// TODO make this async
             routeAssets.AddRange(LoadRouteAssetsFromBinFile(route, binFile));
             }
           routeAssets = routeAssets.DistinctBy(x => x.Asset.AssetPath).ToList();
@@ -162,7 +162,7 @@ namespace Assets.Library.Logic
         var BluePrintPathNode =
           BluePrintNode.XPathSelectElement(@"./BlueprintID");
         var BluePrint = BluePrintPathNode?.Value;
-        BluePrint = BluePrint?.Replace('\\', '/').Replace(".bin", "").Replace(".xml", "");
+        BluePrint = XmlHelpers.NormalizeBlueprint(BluePrint);
         return (Provider, Product, BluePrint);
         }
       catch (Exception E)
@@ -243,11 +243,7 @@ namespace Assets.Library.Logic
         routeAssets.Select(x => x.Asset.ProviderProduct).DistinctBy(x => x.ProviderProduct)
           .ToList();
       ProviderProductCollectionDataAccess.SaveProviderProductsBulk(providerProducts);
-      AssetCollectionDataAccess.SaveAssetsBulk(assets);
-
-      providerProducts = assets.Select(x => x.ProviderProduct).ToList();
-      // make sure all providerProducts have an Id 
-      ProviderProductCollectionDataAccess.UpdateListIdsFromDatabase(providerProducts);
+      AssetCollectionDataAccess.SaveAssetsBulk(assets); // will add providerProducts.Id to each asset while processing asset
       // Bulk insert
       using (IDbConnection connection =
         new SQLiteConnection(AssetDatabaseAccess.GetConnectionString()))

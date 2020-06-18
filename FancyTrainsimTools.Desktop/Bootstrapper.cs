@@ -1,15 +1,14 @@
 ﻿using Assets.Library.Logic;
 using Caliburn.Micro;
-using FancyTrainsimTools.Desktop.ViewModels;
-using FancyTrainsimTools.Desktop.Views;
+using FancyTrainsimToolsDesktop.ViewModels;
+using FancyTrainsimToolsDesktop.Views;
 using Logging.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 
-namespace FancyTrainsimTools.Desktop
+namespace FancyTrainsimToolsDesktop
 	{
 	public class Bootstrapper: BootstrapperBase
 		{

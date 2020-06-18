@@ -1,11 +1,13 @@
 ﻿DROP VIEW IF EXISTS FullRouteProviderProducts;
 
 CREATE VIEW IF NOT EXISTS FullRouteProviderProducts AS 
-SELECT DISTINCT Providerproduct.Id AS Id
+SELECT DISTINCT Providerproducts.Id AS Id
   ,  Routes.RouteName AS RouteName
-	, ProviderProduct.Provider AS Provider
-	, ProviderProduct.Product as Product
-	, ProviderProduct.Pack AS Pack
+	, ProviderProducts.Provider AS Provider
+	, ProviderProducts.Product as Product
+	, ProviderProducts.Pack AS Pack
+	, ProviderProducts.InGame AS InGame
+	, ProviderProducts.InArchive AS InArchive
 	, Routes.Id as RouteId
- FROM RouteAssets, Routes, Assets, ProviderProduct WHERE Routes.Id= RouteAssets.RouteId AND Assets.Id=RouteAssets.AssetId
- AND Assets.ProvProdId= ProviderProduct.Id;
+ FROM RouteAssets, Routes, Assets, ProviderProducts WHERE Routes.Id= RouteAssets.RouteId AND Assets.Id=RouteAssets.AssetId
+ AND Assets.ProvProdId= ProviderProducts.Id;

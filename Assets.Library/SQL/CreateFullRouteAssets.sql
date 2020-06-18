@@ -4,11 +4,11 @@ CREATE VIEW IF NOT EXISTS FullRouteAssets AS
 SELECT
 		Routes.Id AS RouteId
   , Routes.RouteName AS RouteName
-	, ProviderProduct.Provider AS Provider
-	, ProviderProduct.Product AS product
-	, ProviderProduct.Pack AS Pack
-	, RouteAssets.InGame AS InGame
-	, RouteAssets.InArchive AS InArchive
+	, ProviderProducts.Provider AS Provider
+	, ProviderProducts.Product AS product
+	, ProviderProducts.Pack AS Pack
+	, Assets.InGame AS InGame
+	, Assets.InArchive AS InArchive
 	, Assets.BluePrintPath As BluePrintPath
- FROM RouteAssets, Routes, Assets, ProviderProduct WHERE Routes.Id= RouteAssets.RouteId AND Assets.Id=RouteAssets.AssetId
- AND Assets.ProvProdId= ProviderProduct.Id;
+ FROM RouteAssets, Routes, Assets, ProviderProducts WHERE Routes.Id= RouteAssets.RouteId AND Assets.Id=RouteAssets.AssetId
+ AND Assets.ProvProdId= ProviderProducts.Id;

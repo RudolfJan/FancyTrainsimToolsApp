@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Diagnostics;
 
-namespace FancyTrainsimTools.Desktop.Views
+namespace FancyTrainsimToolsDesktop.Views
   {
   /// <summary>
   /// Interaction logic for AboutView.xaml

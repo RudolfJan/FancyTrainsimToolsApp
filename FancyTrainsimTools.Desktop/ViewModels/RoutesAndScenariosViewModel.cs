@@ -1,14 +1,14 @@
 ﻿using Assets.Library.Logic;
 using Assets.Library.Models;
 using Caliburn.Micro;
-using FancyTrainsimTools.Desktop.Helpers;
-using FancyTrainsimTools.Desktop.Models;
-using System;
+using FancyTrainsimToolsDesktop.Helpers;
+using FancyTrainsimToolsDesktop.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Screen = Caliburn.Micro.Screen;
 
-namespace FancyTrainsimTools.Desktop.ViewModels
+namespace FancyTrainsimToolsDesktop.ViewModels
 	{
 
 	public class RoutesAndScenariosViewModel : Screen
@@ -63,13 +63,21 @@ namespace FancyTrainsimTools.Desktop.ViewModels
 				}
 			}
 
-		public bool CanGetRouteAssets
+		private ScenarioModel _selectedScenario;	
+
+		public ScenarioModel SelectedScenario
 			{
-			get
+			get { return _selectedScenario; }
+			set
 				{
-				return SelectedRoute != null && SelectedRoute.IsValidInGame && SelectedRoute.InGame;
+				_selectedScenario = value;
+				NotifyOfPropertyChange(()=>CanShowScenarioProperties);
+				NotifyOfPropertyChange(()=>CanConsistManager);
 				}
 			}
+
+
+		
 
 		public RoutesAndScenariosViewModel(IWindowManager windowManager)
 			{
@@ -116,6 +124,14 @@ namespace FancyTrainsimTools.Desktop.ViewModels
 			var routePropertiesVM = IoC.Get<RoutePropertiesViewModel>();
 			routePropertiesVM.Route = SelectedRoute;
 			await _windowManager.ShowWindowAsync(routePropertiesVM);
+			}
+
+		public bool CanGetRouteAssets
+			{
+			get
+				{
+				return SelectedRoute != null;
+				}
 			}
 
 		public async Task GetRouteAssets()
@@ -194,6 +210,39 @@ namespace FancyTrainsimTools.Desktop.ViewModels
 			FilteredRouteList = new BindableCollection<RouteModel>(
 				RoutesCollectionDataAccess.ApplyAssetsFilter(RouteList, RouteFilter).OrderBy(x => x.RouteName));
 			}
+
+		public bool CanShowScenarioProperties
+			{
+			get
+				{
+				return SelectedScenario!=null&& (SelectedScenario.IsValidInGame|| SelectedScenario.IsValidInArchive);
+				}
+			}
+
+		public async Task ShowScenarioProperties()
+			{
+			ScenarioPropertiesViewModel scenarioPropertiesVM = IoC.Get<ScenarioPropertiesViewModel>();
+			scenarioPropertiesVM.Scenario = SelectedScenario;
+			scenarioPropertiesVM.Route = SelectedRoute;
+			await _windowManager.ShowWindowAsync(scenarioPropertiesVM);
+			}
+
+		public bool CanConsistManager
+			{
+			get
+				{
+				return SelectedScenario!=null&& (SelectedScenario.IsValidInGame|| SelectedScenario.IsValidInArchive) && SelectedScenario.ScenarioProperties!=null;
+				}
+			}
+
+		public async Task ConsistManager()
+			{
+			ConsistViewModel consistVM = IoC.Get<ConsistViewModel>();
+			consistVM.Scenario = SelectedScenario;
+			await _windowManager.ShowWindowAsync(consistVM);
+			}
+
+
 		public async Task Exit()
 			{
 			await TryCloseAsync();
