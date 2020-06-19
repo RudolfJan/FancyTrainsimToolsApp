@@ -1,5 +1,6 @@
 ﻿using Assets.Library.Logic;
 using Caliburn.Micro;
+using FancyTrainsimToolsDesktop.Helpers;
 using FancyTrainsimToolsDesktop.ViewModels;
 using FancyTrainsimToolsDesktop.Views;
 using Logging.Library;
@@ -38,6 +39,8 @@ namespace FancyTrainsimToolsDesktop
 			LogEventHandler.LogEvent += OnLogEvent;
 			Settings.ReadFromRegistry();
 			AssetDatabaseAccess.InitDatabase(Settings.ConnectionString, Settings.AssetDatabasePath);
+			// Do a cleanup on the temp directory
+			FileIOHelper.ClearFolder(Settings.TempFolder);
 			DisplayRootViewFor<ShellViewModel>();
 			}
 

@@ -15,20 +15,22 @@ namespace FancyTrainsimToolsDesktop.Helpers
 		{
 		public static string GetSaveFileName(SaveFileModel saveFileParams)
 			{
-			SaveFileDialog dialog = new SaveFileDialog();
-			dialog.CheckFileExists = saveFileParams.CheckFileExists;
-			dialog.CheckPathExists = saveFileParams.CheckPathExists;
-			dialog.CreatePrompt = saveFileParams.CreatePrompt;
-			dialog.CustomPlaces = saveFileParams.CustomPlaces;
-			dialog.DefaultExt = saveFileParams.DefaultExt;
-			dialog.DereferenceLinks = saveFileParams.DereferenceLinks;
-			dialog.FileName = saveFileParams.FileName;
+			SaveFileDialog dialog = new SaveFileDialog
+				{
+				CheckFileExists = saveFileParams.CheckFileExists,
+				CheckPathExists = saveFileParams.CheckPathExists,
+				CreatePrompt = saveFileParams.CreatePrompt,
+				CustomPlaces = saveFileParams.CustomPlaces,
+				DefaultExt = saveFileParams.DefaultExt,
+				DereferenceLinks = saveFileParams.DereferenceLinks,
+				FileName = saveFileParams.FileName,
+				Filter = saveFileParams.Filter,
+				FilterIndex = saveFileParams.FilterIndex,
+				InitialDirectory = saveFileParams.InitialDirectory,
+				OverwritePrompt = saveFileParams.OverWriteprompt,
+				Title = saveFileParams.Title
+				};
 			// FileNames not supported!
-			dialog.Filter = saveFileParams.Filter;
-			dialog.FilterIndex = saveFileParams.FilterIndex;
-			dialog.InitialDirectory = saveFileParams.InitialDirectory;
-			dialog.OverwritePrompt = saveFileParams.OverWriteprompt;
-			dialog.Title = saveFileParams.Title;
 			if (dialog.ShowDialog() == true)
 				{
 				saveFileParams.FileName = dialog.FileName;
@@ -41,18 +43,20 @@ namespace FancyTrainsimToolsDesktop.Helpers
 
 		public static string GetOpenFileName(OpenFileModel openFileParams)
 			{
-			OpenFileDialog dialog = new OpenFileDialog();
-			dialog.CheckFileExists = openFileParams.CheckFileExists;
-			dialog.CheckPathExists = openFileParams.CheckPathExists;
-			dialog.CustomPlaces = openFileParams.CustomPlaces;
-			dialog.DefaultExt =openFileParams.DefaultExt;
-			dialog.DereferenceLinks = openFileParams.DereferenceLinks;
-			dialog.FileName = openFileParams.FileName;
+			OpenFileDialog dialog = new OpenFileDialog
+				{
+				CheckFileExists = openFileParams.CheckFileExists,
+				CheckPathExists = openFileParams.CheckPathExists,
+				CustomPlaces = openFileParams.CustomPlaces,
+				DefaultExt = openFileParams.DefaultExt,
+				DereferenceLinks = openFileParams.DereferenceLinks,
+				FileName = openFileParams.FileName,
+				Filter = openFileParams.Filter,
+				FilterIndex = openFileParams.FilterIndex,
+				InitialDirectory = openFileParams.InitialDirectory,
+				Title = openFileParams.Title
+				};
 			// FileNames not supported!
-			dialog.Filter = openFileParams.Filter;
-			dialog.FilterIndex = openFileParams.FilterIndex;
-			dialog.InitialDirectory = openFileParams.InitialDirectory;
-			dialog.Title = openFileParams.Title;
 			if (dialog.ShowDialog() == true)
 				{
 				openFileParams.FileName = dialog.FileName;
@@ -328,8 +332,69 @@ namespace FancyTrainsimToolsDesktop.Helpers
         }
       }
 
+		// Start FileCompare Tool
+		public static void FileCompareTool(String InputFile, String OutputFile,
+			String InputDescription,
+			String OutputDescription,
+			string FileCompareToolPath)
+			{
+			using (Process FileCompareProcess = new Process())
+				{
+				var Result = String.Empty;
+				if (FileCompareToolPath.Length == 0)
+					{
+					Log.Trace("File Compare Tool not set in Options", LogEventType.Error);
+					}
 
+				try
+					{
+					FileCompareProcess.StartInfo.FileName = FileCompareToolPath;
+					FileCompareProcess.StartInfo.Arguments =
+						QuoteFilename(InputFile) + " " + QuoteFilename(OutputFile) + " /dl \"" + InputDescription +
+						"\" /dr \"" + OutputDescription + "\"";
+					FileCompareProcess.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+					FileCompareProcess.StartInfo.UseShellExecute = false;
+					FileCompareProcess.StartInfo.RedirectStandardOutput = false;
+					FileCompareProcess.StartInfo.RedirectStandardError = false;
+					FileCompareProcess.Start();
+					}
+				catch (Exception ex)
+					{
+					Log.Trace("Error using File Compare Tool ",ex, LogEventType.Error);
+					}
+				}
+			}
 
+		// https://stackoverflow.com/questions/1288718/how-to-delete-all-files-and-folders-in-a-directory
+		public static void ClearFolder(string FolderName)
+			{
+			DirectoryInfo dir = new DirectoryInfo(FolderName);
+
+			foreach(FileInfo fi in dir.GetFiles())
+				{
+				try
+					{
+					fi.Delete();
+					}
+				catch(Exception) 
+					{
+					// Ignore all exception
+					}
+				}
+
+			foreach(DirectoryInfo di in dir.GetDirectories())
+				{
+				ClearFolder(di.FullName);
+				try
+					{
+					di.Delete();
+					}
+				catch (Exception)
+					{
+					// Ignore all exceptions
+					}
+				}
+			}
 
 
 

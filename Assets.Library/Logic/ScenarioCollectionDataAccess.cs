@@ -41,10 +41,12 @@ namespace Assets.Library.Logic
 
             foreach (var entry in filteredEntries)
               {
-              var scenario = new ScenarioModel();
-              scenario.IsPacked = true;
-              scenario.Pack = file.Name;
-              scenario.RouteId = routeId;
+              var scenario = new ScenarioModel
+                {
+                IsPacked = true, 
+                Pack = file.Name, 
+                RouteId = routeId
+                };
               if (inGame)
                 {
                 scenario.IsValidInGame = true;
@@ -86,9 +88,11 @@ namespace Assets.Library.Logic
         DirectoryInfo[] scenarioPathList = path.GetDirectories("*", SearchOption.TopDirectoryOnly);
         foreach (var scenarioDir in scenarioPathList)
           {
-          var scenario = new ScenarioModel();
-          scenario.ScenarioGuid = scenarioDir.Name;
-          scenario.RouteId = routeId;
+          var scenario = new ScenarioModel
+            {
+            ScenarioGuid = scenarioDir.Name, 
+            RouteId = routeId
+            };
           var scenarioPropertiesPath = $"{scenarioDir}\\ScenarioProperties.xml";
 
           if (File.Exists(scenarioPropertiesPath))

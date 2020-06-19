@@ -84,62 +84,44 @@ namespace Assets.Library.Logic
       return properties;
       }
 
-    private static String TranslateScenarioClass(String ScenarioClass)
+	  private static String TranslateScenarioClass(String ScenarioClass)
       {
-      switch (ScenarioClass)
+      return ScenarioClass switch
         {
-          case "eTimetableScenarioClass":
-            return "Timetabled";
-          case "eStandardScenarioClass":
-            return "Standard";
-          case "eCareerScenarioClass":
-            return "Career";
-          case "eFreeRoamScenarioClass":
-            return "Free roam";
-          case "eTutorialScenarioClass":
-            return "Tutorial";
-          case "eTemplateScenarioClass":
-            return "Quick drive";
-          case "eRelayScenarioClass":
-            return "Relay (retired!)";
-          default:
-            return "?";
-        }
+        "eTimetableScenarioClass" => "Timetabled",
+        "eStandardScenarioClass" => "Standard",
+        "eCareerScenarioClass" => "Career",
+        "eFreeRoamScenarioClass" => "Free roam",
+        "eTutorialScenarioClass" => "Tutorial",
+        "eTemplateScenarioClass" => "Quick drive",
+        "eRelayScenarioClass" => "Relay (retired!)",
+        _ => "?"
+        };
       }
 
     public static String TranslateSeason(String Season)
       {
-      switch (Season)
+      return Season switch
         {
-          case "SEASON_SPRING":
-            return "Spring";
-          case "SEASON_SUMMER":
-            return "Summer";
-          case "SEASON_AUTUMN":
-            return "Autumn";
-          case "SEASON_WINTER":
-            return "Winter";
-          default:
-            return "?";
-        }
+        "SEASON_SPRING" => "Spring",
+        "SEASON_SUMMER" => "Summer",
+        "SEASON_AUTUMN" => "Autumn",
+        "SEASON_WINTER" => "Winter",
+        _ => "?"
+        };
       }
 
 
     public static String TranslateSeasonReverse(String Season)
       {
-      switch (Season)
+      return Season switch
         {
-          case "Spring":
-            return "SEASON_SPRING";
-          case "Summer":
-            return "SEASON_SUMMER";
-          case "Autumn":
-            return "SEASON_AUTUMN";
-          case "Winter":
-            return "SEASON_WINTER";
-          default:
-            return "?";
-        }
+        "Spring" => "SEASON_SPRING",
+        "Summer" => "SEASON_SUMMER",
+        "Autumn" => "SEASON_AUTUMN",
+        "Winter" => "SEASON_WINTER",
+        _ => "?"
+        };
       }
 
     public static void GetScenarioNameAndClass(XDocument Doc, ScenarioPropertiesModel properties)

@@ -77,6 +77,29 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 				}
 			}
 
+		private string _installer = Settings.Installer;
+
+		public string Installer
+			{
+			get { return _installer; }
+			set
+				{
+				_installer = value;
+				NotifyOfPropertyChange(() => Installer);
+				}
+			}
+
+		private string _fileCompare = Settings.FileCompare;
+
+		public string FileCompare
+			{
+			get { return _fileCompare; }
+			set
+				{
+				_fileCompare = value;
+				NotifyOfPropertyChange(() => FileCompare);
+				}
+			}
 		#endregion
 
 		public async Task Cancel()
@@ -92,6 +115,8 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 			Settings.TextEditor = TextEditor;
 			Settings.BinEditor = BinEditor;
 			Settings.SevenZip = SevenZip;
+			Settings.Installer = Installer;
+			Settings.FileCompare = FileCompare;
 			Settings.WriteToRegistry();
 			await TryCloseAsync();
 			}

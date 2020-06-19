@@ -56,7 +56,7 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 
 		public BindableCollection<InstructionModel> PlayerInstructions { get; set; }
 
-		public BindableCollection<CareerRule> CareerRuleList{ get; set; }
+		public BindableCollection<CareerRuleModel> CareerRuleList{ get; set; }
 
 
 
@@ -117,7 +117,7 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 			if (Scenario.ScenarioClass == "Career")
 				{
 				CareerRuleList =
-					new BindableCollection<CareerRule>(
+					new BindableCollection<CareerRuleModel>(
 						CareerRuleDataAccess.ReadRules(Scenario.ScenarioProperties.PropertiesDoc));
 				NotifyOfPropertyChange(()=> CareerRuleList);
 				}
@@ -172,6 +172,15 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 			consistVM.Scenario = Scenario;
 			await _windowManager.ShowWindowAsync(consistVM);
 			}
+
+		public async Task CompareButton()
+			{
+			CompareScenariosViewModel compareScenariosVM = IoC.Get<CompareScenariosViewModel>();
+			compareScenariosVM.Route = Route;
+			compareScenariosVM.Scenario1 = Scenario;
+			await _windowManager.ShowWindowAsync(compareScenariosVM);
+			}
+
 		#endregion
 
 		#region Editor

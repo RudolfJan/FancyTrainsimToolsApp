@@ -39,6 +39,10 @@
 						                           Filter="Exe files|*.exe|All Files|*.*"
 						                           FileDialogType="OpenFile" Title="Inno setup" ToolTip="Sets the Inno setup program, you need ISCC.exe"
 						                           FileName="{Binding Installer, Mode=TwoWay}"/>
+						<userControls:FileInputBox x:Name="FileCompare" LabelText="WinMerge" LabelWidth="90"
+						                           Filter="Exe files|*.exe|All Files|*.*"
+						                           FileDialogType="OpenFile" Title="WinMerge" ToolTip="Sets the WinMerge install location"
+						                           FileName="{Binding FileCompare, Mode=TwoWay}"/>
 
 						<TextBlock Style="{StaticResource DefaultTextBlock}" TextWrapping="Wrap">
 						<Run Text="Check out " />

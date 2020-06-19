@@ -349,7 +349,8 @@
             Style="{StaticResource DefaultBorder}" MinHeight="400">
             <StackPanel>
               <DataGrid Name="CareerRulesDataGrid" Style="{StaticResource DefaultDataGrid}" Height="400"
-                        ItemsSource="{Binding CareerRuleList, Mode=TwoWay}" AutoGenerateColumns="False">
+                        ItemsSource="{Binding CareerRuleList, Mode=TwoWay}" AutoGenerateColumns="False"
+                        CanUserDeleteRows="False" CanUserAddRows="False">
                 <!-- TODO  CellEditEnding="OnCareerRulesDataGridCellEditEnding"  -->
                 <DataGrid.Columns>
                   <DataGridTextColumn Header="Parameter" Width="150" Binding="{Binding TagName}" IsReadOnly="True" />

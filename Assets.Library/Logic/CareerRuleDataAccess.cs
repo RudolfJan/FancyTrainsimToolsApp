@@ -7,9 +7,9 @@ namespace Assets.Library.Logic
 	{
 	public class CareerRuleDataAccess
 		{
-		public static List<CareerRule> ReadRules(XDocument scenarioDoc)
+		public static List<CareerRuleModel> ReadRules(XDocument scenarioDoc)
 			{
-			var ruleList = new List<CareerRule>();
+			var ruleList = new List<CareerRuleModel>();
 			XElement RulesRoot =
 				scenarioDoc.XPathSelectElement("cScenarioProperties/CareerRules/cCareerRules");
 			if (RulesRoot != null)
@@ -20,7 +20,7 @@ namespace Assets.Library.Logic
 					var ExcludeString = @"Parent,Version,CodeVersion,DLC,StatsGroup,MD5";
 					if (!ExcludeString.Contains(Temp))
 						{
-						var rule = new CareerRule
+						var rule = new CareerRuleModel
 							{
 							TagName = item.Name.ToString(),
 							Value = item.Value
@@ -33,7 +33,7 @@ namespace Assets.Library.Logic
 			return ruleList;
 				}
 
-			public static void SaveRules(List<CareerRule> ruleList, XDocument scenarioDoc)
+			public static void SaveRules(List<CareerRuleModel> ruleList, XDocument scenarioDoc)
 				{
 				foreach (var Rule in ruleList)
 					{

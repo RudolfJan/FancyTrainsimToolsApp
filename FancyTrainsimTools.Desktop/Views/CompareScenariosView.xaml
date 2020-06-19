@@ -1,0 +1,266 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimToolsDesktop.Views.CompareScenariosView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+        xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+        mc:Ignorable="d"
+        Style="{StaticResource AllWindows}"
+        Title="Compare Scenarios">
+ <ScrollViewer>
+    <StackPanel>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="550" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border Style="{StaticResource DefaultBorder}"
+                Grid.Column="0">
+          <StackPanel>
+            <Label Content="{Binding Route}" Style="{StaticResource ListBoxHeader}" />
+            <DataGrid
+              Name="ScenarioDataGrid"
+              MinHeight="200" Height="400" MaxHeight="400"
+              ItemsSource="{Binding ScenarioList}"
+              SelectedItem="{Binding Scenario2, Mode=TwoWay}"
+              Style="{StaticResource DefaultDataGrid}" AutoGenerateColumns="False"
+              CanUserAddRows="False" CanUserDeleteRows="False">
+              <DataGrid.Columns>
+                <DataGridTextColumn MinWidth="25">
+                  <DataGridTextColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <Button Name="SetFilterButton" Width="20" Height="20" Margin="5,15,5,5"
+                                          Command="{Binding ElementName=ScenarioDataGrid, Path=DataContext.FilterScenariosCommand}">
+                          <Image Source="../Images/filter.png" />
+                        </Button>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="35" Header="P" IsReadOnly="True">
+                  <DataGridTemplateColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <TextBlock
+                                      Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                      HorizontalAlignment="Center" />
+                        <CheckBox x:Name="FilterScenarioIsPackedCheckBox" Width="200"
+                                            IsChecked="{Binding ElementName=ScenarioDataGrid, Path=DataContext.Scenarios.ScenarioFilter.IsPackedFilter, Mode=TwoWay}"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.HeaderTemplate>
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border Visibility="{Binding IsPacked, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{StaticResource ColorRectangleTrue}"
+                              Background="{StaticResource PackedBackground}" />
+
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="35" Header="V">
+                  <DataGridTemplateColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                        <CheckBox x:Name="FilterScenarioIsValidCheckBox" Width="200"
+                                          IsChecked="{Binding ElementName=ScenarioDataGrid, 
+                                                      Path=DataContext.ScenarioFilter.IsNotValidFilter, Mode=TwoWay}"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.HeaderTemplate>
+                  <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                      <Border
+                        Visibility="{Binding IsNotValid, Converter={StaticResource BoolToVisibilityConverter}, 
+                                    NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ColorRectangleTrue}"/>
+                    </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn
+                  Width="250"
+                  Binding="{Binding ScenarioTitle, NotifyOnSourceUpdated=True}"
+                  Header="Scenario" IsReadOnly="True">
+                  <DataGridTextColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <TextBlock
+                                    Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                                    HorizontalAlignment="Center" />
+                        <TextBox x:Name="FilterScenarioTextBox" Width="300"
+                                         Text="{Binding ElementName=ScenarioDataGrid, 
+                                                Path=DataContext.Scenarios.ScenarioFilter.ScenarioTitleFilter, Mode=TwoWay}"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn
+                Width= "50"
+                Binding="{Binding ScenarioClass, NotifyOnSourceUpdated=True}"
+                Header="Class" IsReadOnly="True">
+                  <DataGridTextColumn.HeaderTemplate>
+                    <DataTemplate>
+                      <StackPanel>
+                        <TextBlock
+                        Text="{Binding Content, RelativeSource=
+                                         {RelativeSource Mode=TemplatedParent}}"
+                        HorizontalAlignment="Center" />
+                        <TextBox x:Name="FilterScenarioTextBox" Width="300"
+                               Text="{Binding ElementName=ScenarioDataGrid, 
+                                                Path=DataContext.Scenarios.ScenarioFilter.ScenarioClassFilter, Mode=TwoWay}"/>
+                      </StackPanel>
+                    </DataTemplate>
+                  </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+
+              </DataGrid.Columns>
+              <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                  <Border Style="{StaticResource ThinBorder}">
+                    <StackPanel>
+                      <WrapPanel>
+                        <TextBlock Text="{Binding ScenarioGuid}" Margin="5" />
+                      </WrapPanel>
+                      <WrapPanel>
+                        <TextBlock Text="Class: "/>
+                        <TextBlock Text="{Binding ScenarioClass}"/>
+                      </WrapPanel>
+                      <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Height="40" MaxWidth="350"></TextBlock>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+ 
+          </StackPanel>
+        </Border>
+        <StackPanel Grid.Column="1">
+          <Border Name="InfoPanelBorder" Style="{StaticResource DefaultBorder}">
+            <StackPanel>
+
+              <Grid Name="InfoArea">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="120" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource DefaultTextBlock}"
+                           Grid.Row="0"
+                           Grid.Column="0">
+                  Route
+                </TextBlock>
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         Text="{Binding Route.RouteName}" />
+
+                <TextBlock Style="{StaticResource DefaultTextBlock}"
+                           Grid.Row="1"
+                           Grid.Column="0">
+                  Route GUID
+                </TextBlock>
+
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Text="{Binding Route.RouteGuid}" />
+
+                <TextBlock Style="{StaticResource DefaultTextBlock}"
+                           Grid.Row="2"
+                           Grid.Column="0">
+                  Scenario 1
+                </TextBlock>
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Text="{Binding Scenario1.ScenarioTitle}" />
+
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="3"
+                         Grid.Column="1"
+                         Text="{Binding Scenario1.ScenarioGuid}" />
+
+                <TextBlock Style="{StaticResource DefaultTextBlock}"
+                           Grid.Row="4"
+                           Grid.Column="0">
+                  Scenario 2
+                </TextBlock>
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="4"
+                         Grid.Column="1"
+                         Text="{Binding Scenario2.ScenarioTitle}" />
+ 
+                <TextBox Style="{StaticResource StaticTextBox}"
+                         Grid.Row="5"
+                         Grid.Column="1"
+                         Text="{Binding Scenario2.ScenarioGuid}" />
+  
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <Border Style="{StaticResource DefaultBorder}" Height="130">
+            <StackPanel>
+
+              <Grid Name="ButtonArea">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition Height="{StaticResource GridHeight}" />
+                  <RowDefinition />
+                </Grid.RowDefinitions>
+                <Button Name="CompareProperties" Style="{StaticResource WideButton}"
+                        HorizontalAlignment="Left">
+                  Compare properties
+                </Button>
+                <Button Name="CompareScenarioBin"
+                        Grid.Column="1" Grid.Row="0"
+                        Style="{StaticResource WideButton}"
+                        HorizontalAlignment="Left">
+                  Compare scenario.bin
+                </Button>
+              </Grid>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Grid>
+      <Border Name="ResultsBorder" Style="{StaticResource DefaultBorder}">
+        <StackPanel>
+          <DockPanel>
+            <userControls:ResultsTextBox x:Name="ResultsTextBox2" Style="{StaticResource LuaCreatorResultsTextBox}"
+                                          Text="{Binding Result, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                                          MinWidth="700" />
+            <Button Name="Exit" Style="{StaticResource OKButton}" DockPanel.Dock="Right" VerticalAlignment="Bottom">Close</Button>
+          </DockPanel>
+
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</windowSizing:SizableWindow>

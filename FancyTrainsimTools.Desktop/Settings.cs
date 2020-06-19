@@ -74,6 +74,7 @@ namespace FancyTrainsimToolsDesktop
       BinEditor = (string) AppKey.GetValue(nameof(BinEditor), _config["Programs:BinEditor"]);
       SevenZip = (string) AppKey.GetValue(nameof(SevenZip), _config["Programs:SevenZip"]);
       Installer = (string) AppKey.GetValue(nameof(Installer), _config["Programs:Installer"]);
+      FileCompare = (string) AppKey.GetValue(nameof(FileCompare), _config["Programs:FileCompare"]);
       // Create Directories, if needed
       Directory.CreateDirectory(TempFolder);
       }
@@ -88,6 +89,7 @@ namespace FancyTrainsimToolsDesktop
       AppKey.SetValue(nameof(BinEditor), BinEditor, RegistryValueKind.String);
       AppKey.SetValue(nameof(SevenZip), SevenZip, RegistryValueKind.String);
       AppKey.SetValue(nameof(Installer), Installer, RegistryValueKind.String);
+      AppKey.SetValue(nameof(FileCompare), FileCompare, RegistryValueKind.String);
       }
     #endregion
 
@@ -169,7 +171,7 @@ namespace FancyTrainsimToolsDesktop
     public static string BinEditor { get; set; }
     public static string SevenZip { get; set; }
 		public static string Installer { get; set; }
-
+    public static string FileCompare { get; set; }
 		#endregion
 
 		}
