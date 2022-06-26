@@ -32,10 +32,35 @@ namespace FancyTrainsimToolsDesktop.ViewModels
       await _windowManager.ShowDialogAsync(databaseManagementVM);
       }
 
+    public async Task InstallerTool()
+      {
+      var installerVM = IoC.Get<InstallerViewModel>();
+      await _windowManager.ShowWindowAsync(installerVM);
+      }
+
+    public async Task AddOnCatalog()
+      {
+      var addOnCatalogVM = IoC.Get<AddOnCatalogViewModel>();
+      await _windowManager.ShowWindowAsync(addOnCatalogVM);
+      }
+
+    public async Task ShowLogging()
+      {
+      Log.Trace("Called loggingView");
+      var loggingVM = IoC.Get<LoggingViewModel>();
+      await _windowManager.ShowWindowAsync(loggingVM);
+      }
+
     public async Task ShowRoutes()
       {
       var routesVM = IoC.Get<RoutesAndScenariosViewModel>();
       await _windowManager.ShowWindowAsync(routesVM);
+      }
+
+    public async Task Launcher()
+      {
+      var launcherVM = IoC.Get<LauncherViewModel>();
+      await _windowManager.ShowWindowAsync(launcherVM);
       }
 
     public async Task ShowGameAssets()
@@ -57,15 +82,5 @@ namespace FancyTrainsimToolsDesktop.ViewModels
       var manualVM = IoC.Get<ManualsViewModel>();
       await _windowManager.ShowWindowAsync(manualVM);
       }
-
-
-    public async Task ShowLogging()
-      {
-      Log.Trace("Called loggingView");
-      var loggingVM = IoC.Get<LoggingViewModel>();
-      await _windowManager.ShowWindowAsync(loggingVM);
-      }
-
-
     }
   }

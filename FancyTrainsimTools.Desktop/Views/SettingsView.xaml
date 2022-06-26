@@ -21,6 +21,11 @@
 						<userControls:FileInputBox x:Name="ArchiveFolder" LabelText="Archive folder" LabelWidth="90"
 		                           FileDialogType="BrowseDir" Title="Archive dir" ToolTip="Sets the folder for a backup archive of the game files"
 		                           FileName="{Binding TrainSimArchivePath, Mode=TwoWay}"/>
+						<userControls:FileInputBox x:Name="DownloadFolder" LabelText="Download folder" LabelWidth="90"
+						                           FileDialogType="BrowseDir" Title="Download folder" ToolTip="Sets the folder to store TS downloads"
+						                           FileName="{Binding DownloadFolder, Mode=TwoWay}"/>
+
+
 						<TextBlock Style="{StaticResource DefaultTextBlock}" Height="10"/>
 
 						<userControls:FileInputBox x:Name="TextEditor" LabelText="Text Editor (64-bit default)" LabelWidth="90"
@@ -43,6 +48,10 @@
 						                           Filter="Exe files|*.exe|All Files|*.*"
 						                           FileDialogType="OpenFile" Title="WinMerge" ToolTip="Sets the WinMerge install location"
 						                           FileName="{Binding FileCompare, Mode=TwoWay}"/>
+						<userControls:FileInputBox x:Name="TrainMapTool" LabelText="Trainmap tool" LabelWidth="90"
+						                           Filter="Exe files|*.exe|All Files|*.*"
+						                           FileDialogType="OpenFile" Title="TrainMapTool" ToolTip="Sets the name of a train map tool"
+						                           FileName="{Binding TrainMapTool, Mode=TwoWay}"/>
 
 						<TextBlock Style="{StaticResource DefaultTextBlock}" TextWrapping="Wrap">
 						<Run Text="Check out " />
@@ -63,17 +72,21 @@
 							<ColumnDefinition Width="62*" />
 						</Grid.ColumnDefinitions>
 
-						<ListBox Name="MyVideoModesList"
+						<DataGrid Name="MyVideoModesList"
 				         Grid.Row="0"
 				         Grid.Column="0"
-				         Width="120"
+				         Width="150"
 				         Height="350"
-				         Margin="2,10,2,9"
-				         Background="{StaticResource ControlBackground}"
-				         ItemsSource="{Binding VideoModes.VideoModesList}"
-				         ScrollViewer.CanContentScroll="True"
-				         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-				         ScrollViewer.VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="2"/>
+								 Style="{StaticResource DefaultDataGrid}"
+				         ItemsSource="{Binding VideoModeList}"
+								 SelectedItem="{Binding SelectedVideoMode, Mode=TwoWay}"
+				         AutoGenerateColumns="False"
+				         CanUserDeleteRows="False"
+				         CanUserAddRows="False">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="Res" Binding="{Binding VideoModeText}"/>
+							</DataGrid.Columns>
+						</DataGrid>
 						<Grid Grid.Row="0" Grid.Column="2">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="{StaticResource GridHeight}" />
@@ -85,7 +98,7 @@
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
 
-							<TextBlock Name="FullScreenTextBox" Style="{StaticResource DefaultTextBlock}"
+							<TextBlock x:Name="FullScreenText" Style="{StaticResource DefaultTextBlock}"
 					           Grid.Row="0"
 					           Grid.Column="0"
 										 MinHeight="{StaticResource ItemHeight}"
@@ -95,27 +108,27 @@
 						<Run Text="x" />
 						<Run Text="{Binding FullScreenResY}" />
 							</TextBlock>
-							<Button Name="FullScreenResButton" Style="{StaticResource WideButton}"
+							<Button Name="FullScreenRes" Style="{StaticResource WideButton}"
 					        Grid.Row="0"
 					        Grid.Column="1"
 					        Content="Full" />
 
-							<TextBlock Name="BorderLessScreenTextBox" Style="{StaticResource DefaultTextBlock}"
+							<TextBlock x:Name="BorderlessScreenText" Style="{StaticResource DefaultTextBlock}"
 					           Grid.Row="1"
 					           Grid.Column="0"
 					           MinHeight="{StaticResource ItemHeight}"
 					           Background="{StaticResource ControlBackground}"
 					           Foreground="{StaticResource DataText}">
-						<Run Text="{Binding BorderLessScreenResX}" />
+						<Run Text="{Binding BorderlessScreenResX}" />
 						<Run Text="x" />
-						<Run Text="{Binding BorderLessScreenResY}" />
+						<Run Text="{Binding BorderlessScreenResY}" />
 							</TextBlock>
-							<Button Name="BorderLessScreenResButton" Style="{StaticResource WideButton}"
+							<Button Name="BorderlessScreenRes" Style="{StaticResource WideButton}"
 					        Grid.Row="1"
 					        Grid.Column="1"
 					        Content="Borderless" />
 
-							<TextBlock Name="WindowedScreenTextBox" Style="{StaticResource DefaultTextBlock}"
+							<TextBlock x:Name="WindowedScreenText" Style="{StaticResource DefaultTextBlock}"
 					           Grid.Row="2"
 					           Grid.Column="0"
 					           MinHeight="{StaticResource ItemHeight}"
@@ -125,13 +138,66 @@
 						<Run Text="x" />
 						<Run Text="{Binding WindowedScreenResY}" />
 							</TextBlock>
-							<Button Name="WindowedScreenResButton" Style="{StaticResource WideButton}"
+							<Button Name="WindowedScreenRes" Style="{StaticResource WideButton}"
 					        Grid.Row="2"
 					        Grid.Column="1"
 					        Content="Windowed" />
 						</Grid>
 					</Grid>
 				</TabItem>
+				<TabItem Header="Radio stations">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel Grid.Column="0">
+						<TextBlock Style="{StaticResource HeaderTextBlock}">Radio stations</TextBlock>
+						<DataGrid Style="{StaticResource DefaultDataGrid}"
+						          ItemsSource="{Binding RadioStationList}"
+						          SelectedItem="{Binding SelectedRadioStation}"
+						          Height="300" Width="200"
+						          AutoGenerateColumns="False"
+						          CanUserAddRows="False"
+						          CanUserDeleteRows="False">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="Name" Width="80" Binding="{Binding RadioStationName}"/>
+								<DataGridTextColumn Header="Url" Width="120" Binding="{Binding RadioStationUrl}"/>
+							</DataGrid.Columns>
+							<DataGrid.RowDetailsTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding RadioStationDescription}" Width="200" TextWrapping="Wrap" Background="Bisque"/>
+								</DataTemplate>
+							</DataGrid.RowDetailsTemplate>
+						</DataGrid>
+						<WrapPanel>
+							<Button x:Name="Edit" Style="{StaticResource DefaultButton}">Edit</Button>
+							<Button x:Name="Delete" Style="{StaticResource DefaultButton}">Delete</Button>
+						</WrapPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="1" Width="300">
+						<TextBlock Style="{StaticResource HeaderTextBlock}">Edit Radio stations</TextBlock>
+						<userControls:LabelTextBox LabelWidth="60" LabelText="Name" TextBoxText="{Binding RadioStationName, Mode=TwoWay}"/>
+						<userControls:LabelTextBox LabelWidth="60" LabelText="Url" TextBoxText="{Binding RadioStationUrl, Mode=TwoWay}"/>
+						<userControls:LabelTextBox LabelWidth="60" LabelText="Description" TextBoxText="{Binding RadioStationDescription, Mode=TwoWay}"
+						                           Style="{StaticResource MultiLineLabelTextBox}"
+						                           TextBoxBackGround="{StaticResource ControlBackground }"/>
+						<WrapPanel>
+							<Button x:Name="Save" Style="{StaticResource DefaultButton}">Save</Button>
+							<Button x:Name="Clear" Style="{StaticResource DefaultButton}">Clear</Button>
+						</WrapPanel>
+					</StackPanel>
+				</Grid>
+	
+
+				</TabItem>
+
+
+
+
+
+
 				<TabItem Header="Other">
 					<WrapPanel>
 						<StackPanel>

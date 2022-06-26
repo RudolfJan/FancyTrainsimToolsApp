@@ -1,0 +1,10 @@
+﻿CREATE TABLE IF NOT EXISTS "AddOnCatalog" (
+	"Id"	INTEGER NOT NULL,
+	"Name" TEXT NOT NULL,
+	"ArchiveName" TEXT NOT NULL,
+	"Location"	TEXT NOT NULL,
+	"Description"	TEXT NOT NULL,
+	"AddOnType"	TEXT NOT NULL,
+	"IsPayware"	INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY("Id")
+)

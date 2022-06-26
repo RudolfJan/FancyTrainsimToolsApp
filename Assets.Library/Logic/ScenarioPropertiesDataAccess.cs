@@ -1,19 +1,15 @@
 ﻿using Assets.Library.Helpers;
 using Assets.Library.Models;
 using Logging.Library;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq.Expressions;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
 namespace Assets.Library.Logic
-  {
-  public class ScenarioPropertiesDataAccess
+	{
+	public class ScenarioPropertiesDataAccess
     {
 
     public static void ReadScenarioProperties(string path, ScenarioPropertiesModel properties)

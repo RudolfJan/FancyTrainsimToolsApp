@@ -1,16 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SQL\CreateAddOnCatalogTable.sql" />
     <None Remove="SQL\CreateFullRequiredRailvehiclesView.sql" />
     <None Remove="SQL\CreateFullRouteAssets.sql" />
     <None Remove="SQL\CreateFullRouteProviderProducts.sql" />
+    <None Remove="SQL\CreateRadioStationsTable.sql" />
+    <None Remove="SQL\CreateVersionTable.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="SQL\CreateAddOnCatalogTable.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SQL\CreateFullRequiredRailvehiclesView.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -20,11 +26,17 @@
     <Content Include="SQL\CreateFullRouteProviderProducts.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\CreateRadioStationsTable.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SQL\CreateVersionTable.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.30" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
   </ItemGroup>
 
   <ItemGroup>

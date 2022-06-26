@@ -1,0 +1,165 @@
+﻿<windowSizing:SizableWindow  x:Class="FancyTrainsimToolsDesktop.Views.InstallerView"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                             xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+                             xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+                             mc:Ignorable="d"
+                             Style="{StaticResource AllWindows}" WindowStartupLocation="CenterScreen"
+                             Title="Installer">
+ <ScrollViewer>
+    <StackPanel>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBox Name="SourceDirectoryTextBox" Style="{StaticResource StaticTextBox}"
+                     Text="{Binding InstallSourceDirectory.FullName, Mode=OneWay}" />
+            <TextBlock Style="{StaticResource HeaderTextBlock}">Installer source directory</TextBlock>
+            <DataGrid Name="InstallerSourceListView" Style="{StaticResource DefaultDataGrid}"
+                      Height="400"
+                      ItemsSource="{Binding SourceFileList}"
+                      SelectedItem="{Binding SelectedSourceFile}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+              <DataGrid.Columns>
+                  <DataGridTextColumn Width="60"
+                                  Binding="{Binding Extension}"
+                                  Header="Type" />
+                  <DataGridTextColumn Width="270"
+                                      Binding="{Binding Name}"
+                                      Header="Name" />
+       </DataGrid.Columns>
+            </DataGrid>
+          </StackPanel>
+        </Border>
+
+<Border Grid.Column="1" Style="{StaticResource DefaultBorder}">
+  <StackPanel>
+    <TextBox Name="SelectedAddOn" Style="{StaticResource StaticTextBox}"
+             Text="{Binding SelectedAddOn.Name, Mode=TwoWay }" />
+    <TextBlock Style="{StaticResource HeaderTextBlock}">Catalog items</TextBlock>
+    <DataGrid x:Name="AddOnDatagrid" Style="{StaticResource DefaultDataGrid}"
+              ItemsSource="{Binding AddOnCatalogList}"
+              SelectedItem="{Binding SelectedAddOn}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              Height="400" Width="220">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+  </StackPanel>
+</Border>
+        <Border Grid.Column="2" Style="{StaticResource DefaultBorder}">
+          <StackPanel>
+            <TextBox Name="CurrentArchive" Style="{StaticResource StaticTextBox}"
+                     Text="{Binding EmbeddedCompressedFile.Name}" />
+            <TextBlock Style="{StaticResource HeaderTextBlock}">Selected files</TextBlock>
+            <DataGrid Name="FileView" Style="{StaticResource DefaultDataGrid}"
+                      Height="400"
+                      ItemsSource="{Binding FilesInArchiveList}"
+                      SelectedItem="{Binding SelectedFileInArchive}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False">
+
+              <DataGrid.Columns>
+                  <DataGridTextColumn Width="200"
+                                      Binding="{Binding Name}"
+                                      Header="Name" />
+                  <DataGridTextColumn Width="50"
+                                      Binding="{Binding Extension}"
+                                      Header="Type" />
+                  <DataGridTextColumn Width="60"
+                                      Binding="{Binding CreationDate, StringFormat='d'}"
+                                      Header="Date" />
+                  <DataGridTemplateColumn Header="I" Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate DataType='{x:Type sys:Boolean}'>
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <Border DataContext="{Binding Path=IsInstalled}"
+                                Style="{StaticResource PackedRectangle}" ToolTip="Is installed"/>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTemplateColumn Header="O" Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                      <DataTemplate DataType='{x:Type sys:Boolean}'>
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <Border DataContext="{Binding Path=IsOutdated}"
+                                Style="{StaticResource OutdatedRectangle}" ToolTip="Newer version in installer pack"/>
+                      </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+          </StackPanel>
+        </Border>
+      </Grid>
+      <Border Style="{StaticResource DefaultBorder}">
+        <StackPanel>
+          <TextBox Style="{StaticResource StaticTextBox}" TextWrapping="Wrap" Height="100" 
+                   Text="{Binding SelectedFileDetails, Mode=TwoWay}"/>
+          <TextBox Style="{StaticResource StaticTextBox}" Text="{Binding CheckReportText}" />
+          <WrapPanel>
+            <Button Name="ViewFile" Style="{StaticResource WideButton}"
+                    >
+              View file
+            </Button>
+            <Button Name="ViewEmbeddedRwp" Style="{StaticResource WideButton}"
+                    >
+              Embedded rwp
+            </Button>
+
+            <Button Name="CheckStatus" Style="{StaticResource WideButton}"
+                   >
+              Check status
+            </Button>
+            <Button Name="InstallAllFiles" Style="{StaticResource WideButton}"
+                    >
+              Install all files
+            </Button>
+            <Button Name="InstallNewFiles" Style="{StaticResource WideButton}"
+                    >
+              Install NEWer files
+            </Button>
+            <Button Name="RegisterAddOn" Style="{StaticResource WideButton}"
+            >
+              Register add on
+            </Button>
+          </WrapPanel>
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource DefaultBorder}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <userControls:ResultsTextBox x:Name="ResultsTextBox2" Grid.Column="0"
+                                        Style="{DynamicResource LuaCreatorResultsTextBox}"
+                                        MinWidth="700" 
+                                        HorizontalAlignment="Left"
+                                        Text="{Binding Result}" />
+          <StackPanel Grid.Column="1">
+            <TextBlock Height="100" />
+            <Button Name="Exit" Style="{StaticResource OKButton}" VerticalAlignment="Bottom"
+                     HorizontalAlignment="Right">
+              Close
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</windowSizing:SizableWindow>

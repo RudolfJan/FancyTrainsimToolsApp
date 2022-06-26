@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32611.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FancyTrainsimTools.Library", "FancyTrainsimTools.Library\FancyTrainsimTools.Library.csproj", "{CC1F7997-BFBC-4F5E-A452-77EA826E2570}"
 EndProject
@@ -23,6 +23,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assets.Library", "Assets.Library\Assets.Library.csproj", "{887F4F31-1ADA-499E-B2D2-2CFCCD5936D9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documentation", "Documentation\Documentation.csproj", "{80DDC37B-E4AA-441D-AE33-62281D8C7BBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities.Library", "..\RudolfLibraries\Utilities.Library\Utilities.Library.csproj", "{93D606E8-606C-4650-AF01-F90B237E0381}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TreeBuilders.Library.Wpf", "..\RudolfLibraries\TreeBuilders.Library.Wpf\TreeBuilders.Library.Wpf.csproj", "{344B2747-8BE2-44F0-B935-1585D7B26334}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,9 +66,20 @@ Global
 		{80DDC37B-E4AA-441D-AE33-62281D8C7BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80DDC37B-E4AA-441D-AE33-62281D8C7BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80DDC37B-E4AA-441D-AE33-62281D8C7BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D606E8-606C-4650-AF01-F90B237E0381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D606E8-606C-4650-AF01-F90B237E0381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D606E8-606C-4650-AF01-F90B237E0381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D606E8-606C-4650-AF01-F90B237E0381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344B2747-8BE2-44F0-B935-1585D7B26334}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344B2747-8BE2-44F0-B935-1585D7B26334}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344B2747-8BE2-44F0-B935-1585D7B26334}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344B2747-8BE2-44F0-B935-1585D7B26334}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{887F4F31-1ADA-499E-B2D2-2CFCCD5936D9} = {E99EB492-B7A3-4796-906F-B963F4973888}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC64B57B-C2B6-45AE-BFB5-6D758951A70F}

@@ -24,7 +24,10 @@ using System.IO;
 using System.Linq;
 using Dapper;
 using Logging.Library;
+using Microsoft.VisualBasic.CompilerServices;
 using System.IO.Compression;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -92,8 +95,8 @@ namespace Assets.Library.Logic
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
           {
-          string sqlStatement = @$"INSERT OR IGNORE INTO Assets (ProvProdId, BluePrintPath, InGame, InArchive) 
-                                   VALUES (@ProvProdId, @BluePrintPath, @InGame, @InArchive)";
+          string sqlStatement = @$"INSERT OR IGNORE INTO Assets (ProvProdId, BluePrintPath, AddOnCatalogId, InGame, InArchive) 
+                                   VALUES (@ProvProdId, @BluePrintPath,@AddOnCatalogId, @InGame, @InArchive)";
 
           try
             {
@@ -109,7 +112,7 @@ namespace Assets.Library.Logic
                 item.ProviderProduct.Id = providerProductId;
                 }
               var result = connection.Execute(sqlStatement,
-                  new {ProvProdId = item.ProviderProduct.Id, item.BluePrintPath, item.InGame, item.InArchive},
+                  new {ProvProdId = item.ProviderProduct.Id, item.BluePrintPath, item.AddOnCatalogId, item.InGame, item.InArchive},
                   transaction);
                 item.IsNew = result > 0; // DEBUG
                 
@@ -193,21 +196,6 @@ namespace Assets.Library.Logic
         }
       }
 
-    public static List<AssetModel> ZipEntriesToAssetList(List<string> entries,
-      ProviderProductModel providerProduct)
-      {
-      List<AssetModel> assets = new List<AssetModel>();
-      foreach (var entry in entries)
-        {
-        assets.Add(new AssetModel()
-          {
-          ProviderProduct = providerProduct,
-          BluePrintPath = entry.ConvertToForwardSlashes().RemoveFileType()
-          });
-        }
-      return assets;
-      }
-
     public static void SaveAllPackedAssets(string assetBasePath, bool InGame, bool InArchive)
       {
       Stopwatch stopWatch = new Stopwatch();
@@ -234,9 +222,12 @@ namespace Assets.Library.Logic
               LogEventType.Error);
             throw new InvalidDataException("ProviderProduct not found in Database. Please file a ticket");
             }
-          var entries =
-            ZipAccess.GetAllZipEntries(assetBasePath, providerProduct.ArchiveFileName);
-          var assets = ZipEntriesToAssetList(entries, providerProduct);
+          var assets= new List<AssetModel>();
+          using var archive = ZipFile.OpenRead($"{assetBasePath}{providerProduct.ArchiveFileName}");
+            {
+            var entries = archive.Entries;
+            assets = ZipEntriesToAssetList(entries, providerProduct);
+            }
           SaveAssetsBulk(assets, providerProduct.Id);
           UpdateBulkStatus(assets, Converters.LocationToString(InGame,InArchive));
           progress.CurrentProgress++;
@@ -253,8 +244,21 @@ namespace Assets.Library.Logic
       Log.Trace($"Elapsed time for saving assets {elapsed} seconds");
       }
 
+		public static List<AssetModel> ZipEntriesToAssetList(ReadOnlyCollection<ZipArchiveEntry> entries, ProviderProductModel providerProduct)
+			{
+      List<AssetModel> assets = new List<AssetModel>();
+      foreach (var entry in entries)
+        {
+        assets.Add(new AssetModel()
+          {
+          ProviderProduct = providerProduct,
+          BluePrintPath = entry.FullName.ConvertToForwardSlashes().RemoveFileType()
+          });
+        }
+      return assets;
+			}
 
-    public static int GetAssetIdFromDatabase(string provider, string product, string bluePrint)
+		public static int GetAssetIdFromDatabase(string provider, string product, string bluePrint)
       {
       string sqlStatement =
         $"SELECT Assets.Id FROM Assets, ProviderProducts WHERE BluePrintPath=@BluePrint AND Assets.ProvProdId= ProviderProducts.Id AND ProviderProducts.Provider=@Provider AND ProviderProducts.Product=@Product";
@@ -325,6 +329,94 @@ namespace Assets.Library.Logic
           }
         }
       }
+
+    public static FlatAssetModel GetAssetFromPath(string path)
+      {
+      if(!path.StartsWith("Assets"))
+        {
+        // do not accept content bin files
+        return null;
+        }
+
+      string[] tmp = path.Split('\\');
+      try
+        {
+        var flatAsset = new FlatAssetModel();
+        flatAsset.Provider = tmp[1];
+        flatAsset.Product = tmp[2];
+        flatAsset.BluePrintPath = string.Join("/", tmp.Skip(3));
+        flatAsset.BluePrintPath = flatAsset.BluePrintPath.Substring(0, flatAsset.BluePrintPath.Length - 4);
+        return flatAsset;
+        }
+      catch (Exception)
+        {
+        Log.Trace($"Cannot parse asset file {path}");
+        return null;
+        }
+      }
+
+    public static AssetModel ConvertFlatAssetToAsset(FlatAssetModel input)
+      {
+      var output= new AssetModel();
+      output.ProviderProduct =
+        ProviderProductCollectionDataAccess.UpsertProviderProduct(input.Provider, input.Product,
+          input.Pack);
+      output.BluePrintPath = input.BluePrintPath;
+      return output;
+      }
+
+    public static async Task<int> GetAssetIdAsync(int providerProductId, string bluePrintPath)
+      {
+      string sql= "SELECT Id FROM Assets WHERE ProvProdId=@providerProductId AND BluePrintPath = @bluePrintPath;";
+      var result= (await AssetDatabaseAccess.LoadDataAsync<int, dynamic>(sql,
+          new {providerProductId, bluePrintPath}, AssetDatabaseAccess.GetConnectionString()));
+      if(result==null)
+        {
+        return 0;
+        }
+      if (result.Count >= 1)
+        {
+        return result[0];
+        }
+      return 0;
+      }
+
+    public static  async Task UpdateAddOnCatalogId(int assetId, int addOnCatalogId)
+      {
+      string sql = "UPDATE Assets SET AddOnCatalogId=@addOnCatalogId WHERE Id=@assetId;";
+      await AssetDatabaseAccess.SaveDataAsync(sql, new {assetId, addOnCatalogId}, AssetDatabaseAccess.GetConnectionString());
+      }
+
+    //CREATE TABLE [Assets] (
+    //[Id] INTEGER NOT NULL Primary Key
+    //, [ProvProdId] INTEGER REFERENCES ProviderProducts (Id) ON DELETE SET NULL ON UPDATE NO ACTION
+    //  , [BluePrintPath] TEXT NOT NULL
+    //, [InGame] INTEGER DEFAULT 0
+    //, [InArchive] INTEGER DEFAULT 0
+    //, [AddOnCatalogId] INTEGER REFERENCES AddOnCatalog (Id) ON DELETE SET NULL
+    //  , [Image] TEXT NOT NULL DEFAULT ''
+    //, UNIQUE(BluePrintPath,ProvProdId)
+    //  )
+    public static async Task InsertAsset(AssetModel asset)
+      {
+      string sql = "INSERT INTO Assets (ProvProdId, BluePrintPath, InGame, InArchive, AddOnCatalogId) " +
+                   "VALUES(@provProdId, @BluePrintPath, @InGame, @InArchive, @AddOnCatalogId)";
+      await AssetDatabaseAccess.SaveDataAsync(sql, new {provProdId=asset.ProviderProduct.Id,BluePrintPath=asset.BluePrintPath,@InGame=asset.InGame, InArchive=asset.InArchive , AddOnCatalogId=asset.AddOnCatalogId }, AssetDatabaseAccess.GetConnectionString());
+      }
+
+    public static  async Task UpsertAssetAsync(AssetModel model)
+      {
+      var result = await GetAssetIdAsync(model.ProviderProduct.Id, model.BluePrintPath);
+      if (result >= 1)
+        {
+        await UpdateAddOnCatalogId(result, model.AddOnCatalogId);
+        }
+      else
+        {
+        await InsertAsset(model);
+        }
+      }
+
 
 
 

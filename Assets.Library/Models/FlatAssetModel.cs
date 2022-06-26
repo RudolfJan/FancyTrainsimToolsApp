@@ -12,6 +12,7 @@ namespace Assets.Library.Models
     public string Product { get; set; }
     public string BluePrintPath { get; set; }
     public string Pack { get; set; }
+    public string AddOnReference { get; set; }
     public bool InGame { get; set; }
     public bool InArchive { get; set; }
     }

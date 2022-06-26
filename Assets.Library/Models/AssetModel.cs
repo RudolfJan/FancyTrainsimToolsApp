@@ -53,6 +53,8 @@ namespace Assets.Library.Models
         }
       }
 
+    public int AddOnCatalogId { get; set; }
+
     public bool InGame { get; set; }
     public bool InArchive { get; set; }
 

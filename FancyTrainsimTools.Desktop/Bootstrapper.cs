@@ -38,6 +38,7 @@ namespace FancyTrainsimToolsDesktop
 			{
 			LogEventHandler.LogEvent += OnLogEvent;
 			Settings.ReadFromRegistry();
+			SevenZipDataAccess.SevenZipProgramLocation = Settings.SevenZip;
 			AssetDatabaseAccess.InitDatabase(Settings.ConnectionString, Settings.AssetDatabasePath);
 			// Do a cleanup on the temp directory
 			FileIOHelper.ClearFolder(Settings.TempFolder);

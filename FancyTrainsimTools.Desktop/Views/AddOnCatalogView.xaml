@@ -1,0 +1,142 @@
+﻿<windowSizing:SizableWindow x:Class="FancyTrainsimToolsDesktop.Views.AddOnCatalogView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+                            xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+                            xmlns:local="clr-namespace:Assets.Library.Models;assembly=Assets.Library"
+                            xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
+                            mc:Ignorable="d"
+                            Style="{StaticResource AllWindows}"
+                            Title="Add On Catalog">
+
+    <!-- http://www.codearsenal.net/2012/11/wpf-objectdataprovider-binding-enum-to-combobox.html -->
+    <Window.Resources>
+        <ObjectDataProvider x:Key="addOnTypes"
+                            MethodName="GetValues" 
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="local:AddOnTypeEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <ScrollViewer>
+        <Border Style="{StaticResource DefaultBorder}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0">
+                        <TextBlock Style="{StaticResource HeaderTextBlock}">Windows download folder</TextBlock>
+                        <DataGrid x:Name="WindowsDownloadFolderDataGrid" Style="{StaticResource DefaultDataGrid}"
+                                  ItemsSource="{Binding WindowsDownloadList}"
+                                  SelectedItem="{Binding SelectedWindowsDownload}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Height="300" Width="300">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Width="80" Binding="{Binding LastAccessTime, StringFormat='d'}"/>
+                                <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                            </DataGrid.Columns>
+                            </DataGrid>
+                        <WrapPanel>
+                            <Button x:Name="MoveToArchive" Style="{StaticResource DefaultButton}">Move to archive</Button>
+                        </WrapPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0">
+                        <TextBlock Style="{StaticResource HeaderTextBlock}">TS download archive</TextBlock>
+                        <DataGrid x:Name="DownloadArchiveDataGrid" Style="{StaticResource DefaultDataGrid}"
+                                  ItemsSource="{Binding DownloadArchiveList}"
+                                  SelectedItem="{Binding SelectedDownload}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Height="300" Width="300">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Date" Width="80" Binding="{Binding LastAccessTime, StringFormat='d'}"/>
+                                <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <WrapPanel>
+                            <Button x:Name="GetWithFileSelector" Style="{StaticResource WideButton}">Get with file selector</Button>
+                        </WrapPanel>
+                    </StackPanel>
+
+
+                    <!-- #region Datagrid -->
+                        <StackPanel Grid.Column="0" Grid.Row="1">
+                            <TextBlock Style="{StaticResource HeaderTextBlock}">Add On Catalog</TextBlock>
+                            <DataGrid x:Name="AddOnDatagrid" Style="{StaticResource DefaultDataGrid}"
+                                      ItemsSource="{Binding AddOnCatalogList}"
+                                      SelectedItem="{Binding SelectedAddOn}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      Height="300" Width="300">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Type" Width="80" Binding="{Binding AddOnType}"/>
+                                <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                            </DataGrid.Columns>
+                                <DataGrid.RowDetailsTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap"
+                                                       Background="Bisque"/>
+                                            <TextBlock Text="{Binding Location}" TextWrapping="Wrap"
+                                                       Background="Bisque"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGrid.RowDetailsTemplate>
+                            </DataGrid>
+                        </StackPanel>
+                <!-- #endregion -->
+
+                <!-- #region editor -->
+
+                    <StackPanel Grid.Column="1" Grid.Row="1" Width="500">
+                        <TextBlock Style="{StaticResource HeaderTextBlock}">Edit/view add on data</TextBlock>
+                        <userControls:LabelTextBox Style="{StaticResource DefaultLabelTextBox}"
+                            LabelText="Name" LabelWidth="70" TextBoxText="{Binding Name, Mode=TwoWay}"/>
+                        <userControls:LabelTextBox Style="{StaticResource DefaultLabelTextBox}"
+                                                   LabelText="Archive Name" LabelWidth="70" 
+                                                   TextBoxText="{Binding ArchiveName, Mode=TwoWay}"/>
+                        <userControls:LabelTextBox Style="{StaticResource DefaultLabelTextBox}"
+                                                   LabelText="Location" LabelWidth="70" 
+                                                   TextBoxText="{Binding Location, Mode=TwoWay}"/>
+                        <userControls:LabelTextBox Style="{StaticResource MultiLineLabelTextBox}"
+                                                   LabelText="Description" LabelWidth="70" TextBoxBackGround="{StaticResource TextBoxBackground}"
+                                                   TextBoxText="{Binding Description, Mode=TwoWay}"/>
+                        <WrapPanel>
+                            <CheckBox IsChecked="{Binding IsPayware, Mode=TwoWay}">Is payware</CheckBox>
+                            <TextBlock Style="{StaticResource DefaultTextBlock}">Type</TextBlock>
+                            <ComboBox SelectedItem="{Binding AddOnType, Mode=TwoWay}"
+                                      ItemsSource="{Binding Source={StaticResource addOnTypes}}"
+                                      Width="100"></ComboBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                        <Button x:Name="Save" Style="{StaticResource DefaultButton}">Save</Button>
+                            <Button x:Name="Clear" Style="{StaticResource DefaultButton}">Clear</Button>
+                            <Button x:Name="Delete" Style="{StaticResource DefaultButton}">Delete</Button>
+                        </WrapPanel>
+                    </StackPanel>
+                    
+                <!-- #endregion -->
+                </Grid>
+                <Button x:Name="Exit" Style="{StaticResource OKButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom">Close</Button>
+            </StackPanel>
+        </Border>
+    </ScrollViewer>
+</windowSizing:SizableWindow>

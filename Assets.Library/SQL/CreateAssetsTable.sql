@@ -6,6 +6,8 @@ CREATE TABLE  IF NOT EXISTS [Assets] (
     , [BluePrintPath] TEXT NOT NULL
     , [InGame] INTEGER DEFAULT 0
     , [InArchive] INTEGER DEFAULT 0
+    , [AddOnCatalogId] INTEGER REFERENCES AddOnCatalog (Id) ON DELETE SET NULL
+    , [Image] TEXT NOT NULL DEFAULT ''
 , UNIQUE(BluePrintPath,ProvProdId)
 );
 

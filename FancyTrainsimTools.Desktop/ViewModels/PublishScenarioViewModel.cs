@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using Utilities.Library.TreeBuilders;
 
 namespace FancyTrainsimToolsDesktop.ViewModels
   {
@@ -184,15 +185,15 @@ namespace FancyTrainsimToolsDesktop.ViewModels
         }
       }
 
-    private FileTreeModel _tree;
-    public FileTreeModel Tree
-      {
-      get
-        {
-        return _tree;
-        }
-      set { _tree = value; }
-      }
+    //private FileTreeModel _tree;
+    //public FileTreeModel Tree
+    //  {
+    //  get
+    //    {
+    //    return _tree;
+    //    }
+    //  set { _tree = value; }
+    //  }
  
     private string ScenarioPath; 
 
@@ -234,12 +235,12 @@ namespace FancyTrainsimToolsDesktop.ViewModels
         ManualFile = new FileInfo($"{ScenarioPath}Documentation.html");
         IncludeManual = true;
         }
-      Tree = TreeBuilder.BuildTree(ScenarioPath);
-      foreach (var item in Tree.TreeItems)
-        {
-        item.IsSelected = InitCheck(item.Name, false);
-        }
-      NotifyOfPropertyChange(()=>Tree.TreeItems);
+      //Tree = TreeBuilder.BuildTree(ScenarioPath);
+      //foreach (var item in Tree.TreeItems)
+      //  {
+      //  item.IsSelected = InitCheck(item.Name, false);
+      //  }
+      //NotifyOfPropertyChange(()=>Tree.TreeItems);
       }
 
     #endregion
@@ -489,58 +490,58 @@ end;
     private String CallRecursive()
       {
       var Text = String.Empty;
-      foreach (var Item in Tree.TreeItems)
-        {
-        if (Item.IsSelected)
-          {
-          if (Item.GetType().Name == "DirectoryItem")
-            {
-            Text += CallRecursive((DirectoryItem)Item, Text);
-            }
-          else
-            {
-            var DestDir = Item.Path;
-            if (Item.Path.Length > 0)
-              {
-              // strip filename
-              DestDir = DestDir.Substring(0, DestDir.Length - Item.Name.Length);
-              // Strip off path base
-              DestDir = DestDir.Substring(Settings.TrainSimGamePath.Length);
-              }
+      //foreach (var Item in Tree.TreeItems)
+      //  {
+      //  if (Item.IsSelected)
+      //    {
+      //    if (Item.GetType().Name == "DirectoryItem")
+      //      {
+      //      Text += CallRecursive((DirectoryItem)Item, Text);
+      //      }
+      //    else
+      //      {
+      //      var DestDir = Item.Path;
+      //      if (Item.Path.Length > 0)
+      //        {
+      //        // strip filename
+      //        DestDir = DestDir.Substring(0, DestDir.Length - Item.Name.Length);
+      //        // Strip off path base
+      //        DestDir = DestDir.Substring(Settings.TrainSimGamePath.Length);
+      //        }
 
-            Text += "Source: \"" + Item.Path + "\"; DestDir: \"{app}\\" + DestDir + "\"; Flags: ignoreversion\r\n";
-            }
-          }
-        }
+      //      Text += "Source: \"" + Item.Path + "\"; DestDir: \"{app}\\" + DestDir + "\"; Flags: ignoreversion\r\n";
+      //      }
+      //    }
+      //  }
       return Text;
       }
 
-    private String CallRecursive(DirectoryItem DirItem, String Text)
-      {
-      foreach (var Item in DirItem.DirectoryItems)
-        {
-        if (Item.IsSelected)
-          {
-          if (Item.GetType().Name == "DirectoryItem")
-            {
-            Text += CallRecursive((DirectoryItem)Item, Text);
-            }
-          else
-            {
-            var DestDir = Item.Path;
-            if (Item.Path.Length > 0)
-              {
-              // strip filename
-              DestDir = DestDir.Substring(0, DestDir.Length - Item.Name.Length);
-              // Strip off path base
-              DestDir = DestDir.Substring(Settings.TrainSimGamePath.Length);
-              }
-            Text += "Source: \"" + Item.Path + "\"; DestDir: \"{app}\\" + DestDir + "\"; Flags: ignoreversion\r\n";
-            }
-          }
-        }
-      return Text;
-      }
+    //private String CallRecursive(DirectoryItem DirItem, String Text)
+    //  {
+    //  foreach (var Item in DirItem.DirectoryItems)
+    //    {
+    //    if (Item.IsSelected)
+    //      {
+    //      if (Item.GetType().Name == "DirectoryItem")
+    //        {
+    //        Text += CallRecursive((DirectoryItem)Item, Text);
+    //        }
+    //      else
+    //        {
+    //        var DestDir = Item.Path;
+    //        if (Item.Path.Length > 0)
+    //          {
+    //          // strip filename
+    //          DestDir = DestDir.Substring(0, DestDir.Length - Item.Name.Length);
+    //          // Strip off path base
+    //          DestDir = DestDir.Substring(Settings.TrainSimGamePath.Length);
+    //          }
+    //        Text += "Source: \"" + Item.Path + "\"; DestDir: \"{app}\\" + DestDir + "\"; Flags: ignoreversion\r\n";
+    //        }
+    //      }
+    //    }
+    //  return Text;
+    //  }
 
     public void BuildInstallScript()
       {

@@ -6,27 +6,11 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:windowSizing="clr-namespace:UISupport.Library.WindowSizing;assembly=Styles.Library"
                xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
-               xmlns:treeBuilders="clr-namespace:FancyTrainsimToolsDesktop"
+               xmlns:treeBuilders1="clr-namespace:Utilities.Library.TreeBuilders;assembly=Utilities.Library"
                mc:Ignorable="d"
                Style="{StaticResource AllWindows}"
                Title="Publish Scenario">
-	<Window.Resources>
-		<HierarchicalDataTemplate DataType="{x:Type treeBuilders:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
-			<WrapPanel>
-				<CheckBox IsChecked="{Binding IsSelected}" />
-				<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
-			</WrapPanel>
-		</HierarchicalDataTemplate>
-
-		<DataTemplate DataType="{x:Type treeBuilders:FileItem}">
-			<WrapPanel>
-				<CheckBox IsChecked="{Binding IsSelected}" />
-				<TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
-			</WrapPanel>
-		</DataTemplate>
 	
-	</Window.Resources>
-
 	<ScrollViewer>
 		<StackPanel>
 			<Grid>

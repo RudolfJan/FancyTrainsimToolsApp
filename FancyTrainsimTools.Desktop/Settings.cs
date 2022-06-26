@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Logging.Library;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Win32;
+using Syroot.Windows.IO;
 using System;
 using System.IO;
 
@@ -42,7 +44,6 @@ namespace FancyTrainsimToolsDesktop
       {
       get
         {
-        // ReadFromRegistry();
         return MyInstance.Value;
         }
       }
@@ -70,13 +71,40 @@ namespace FancyTrainsimToolsDesktop
       DataPath = (string) AppKey.GetValue(nameof(DataPath), _config["DataConfig:DataPath"]);
       TrainSimGamePath = (string) AppKey.GetValue(nameof(TrainSimGamePath), _config["GamePath:TrainSimPath"]);
       TrainSimArchivePath = (string) AppKey.GetValue(nameof(TrainSimArchivePath), _config["GamePath:ArchivePath"]);
+      SteamGamePath= (string) AppKey.GetValue(nameof(SteamGamePath), _config["Programs:SteamGamePath"]);
       TextEditor = (string) AppKey.GetValue(nameof(TextEditor), _config["Programs:TextEditor"]);
       BinEditor = (string) AppKey.GetValue(nameof(BinEditor), _config["Programs:BinEditor"]);
       SevenZip = (string) AppKey.GetValue(nameof(SevenZip), _config["Programs:SevenZip"]);
       Installer = (string) AppKey.GetValue(nameof(Installer), _config["Programs:Installer"]);
       FileCompare = (string) AppKey.GetValue(nameof(FileCompare), _config["Programs:FileCompare"]);
+      TrainMapTool = (string) AppKey.GetValue(nameof(TrainMapTool), _config["Programs:TrainMapTool"]);
+      WindowedScreenResX= int.Parse((string)AppKey.GetValue(nameof(WindowedScreenResX), _config["Resolutions:WindowedScreenResX"]));
+      WindowedScreenResY= int.Parse((string)AppKey.GetValue(nameof(WindowedScreenResY), _config["Resolutions:WindowedScreenResY"]));
+      FullScreenResX= int.Parse((string) AppKey.GetValue(nameof(FullScreenResX), _config["Resolutions:FullScreenResX"]));
+      FullScreenResY= int.Parse((string)AppKey.GetValue(nameof(FullScreenResY),  _config["Resolutions:FullScreenResY"]));
+      BorderlessScreenResX= int.Parse((string)AppKey.GetValue(nameof(BorderlessScreenResX), _config["Resolutions:BorderlessScreenResX"]));
+      BorderlessScreenResY= int.Parse((string)AppKey.GetValue(nameof(BorderlessScreenResY), _config["Resolutions:BorderlessScreenResY"]));
+
+      // https://github.com/Syroot/KnownFolders
+      DownloadFolder = (string) AppKey.GetValue(nameof(DownloadFolder), $"{KnownFolders.Downloads.Path}\\");
       // Create Directories, if needed
-      Directory.CreateDirectory(TempFolder);
+      try
+        {
+        Directory.CreateDirectory(TempFolder);
+        }
+      catch (Exception e)
+        {
+        Log.Trace($"Cannot create temp folder\r\n{e.Message}", e, LogEventType.Error);
+        }
+      
+      try
+        {
+        Directory.CreateDirectory(DownloadFolder);
+        }
+      catch (Exception e)
+        {
+        Log.Trace($"Cannot create download archive\r\n{e.Message}", e, LogEventType.Error);
+        }
       }
 
     public static void  WriteToRegistry()
@@ -90,6 +118,16 @@ namespace FancyTrainsimToolsDesktop
       AppKey.SetValue(nameof(SevenZip), SevenZip, RegistryValueKind.String);
       AppKey.SetValue(nameof(Installer), Installer, RegistryValueKind.String);
       AppKey.SetValue(nameof(FileCompare), FileCompare, RegistryValueKind.String);
+      AppKey.SetValue(nameof(TrainMapTool), TrainMapTool, RegistryValueKind.String);
+      AppKey.SetValue(nameof(DownloadFolder), DownloadFolder, RegistryValueKind.String);
+      AppKey.SetValue(nameof(SteamGamePath),SteamGamePath, RegistryValueKind.String);
+
+      AppKey.SetValue(nameof(WindowedScreenResX), WindowedScreenResX, RegistryValueKind.String);
+      AppKey.SetValue(nameof(WindowedScreenResY), WindowedScreenResY, RegistryValueKind.String);
+      AppKey.SetValue(nameof(FullScreenResX), FullScreenResX, RegistryValueKind.String);
+      AppKey.SetValue(nameof(FullScreenResY), FullScreenResY, RegistryValueKind.String);
+      AppKey.SetValue(nameof(BorderlessScreenResX), BorderlessScreenResX, RegistryValueKind.String);
+      AppKey.SetValue(nameof(BorderlessScreenResY), BorderlessScreenResY, RegistryValueKind.String);
       }
     #endregion
 
@@ -124,7 +162,7 @@ namespace FancyTrainsimToolsDesktop
       {
       get { return $"{DataPath}{_config["DataConfig:AssetDatabase"]}"; }
       }
-
+ 
     public static string ConnectionString
       {
       get
@@ -134,6 +172,7 @@ namespace FancyTrainsimToolsDesktop
       }
 
     public static string TrainSimGamePath { get; set; }
+    public static string SteamGamePath { get; set; }
 
     public static string SerzPath
       {
@@ -165,13 +204,33 @@ namespace FancyTrainsimToolsDesktop
       get { return $"{TrainSimArchivePath}Content\\Routes\\"; }
       }
 
+ 
+
+
+    public static string DownloadFolder { get; set; }
     #region Applications
 
+    #region ScreenResolutions
     public static string TextEditor { get; set; }
     public static string BinEditor { get; set; }
     public static string SevenZip { get; set; }
 		public static string Installer { get; set; }
     public static string FileCompare { get; set; }
+    public static string TrainMapTool { get; set; }
+		public static int WindowedScreenResX { get; set; }
+		public static int WindowedScreenResY { get; set; }
+		public static int FullScreenResX { get; set; }
+		public static int FullScreenResY { get; set; }
+		public static int BorderlessScreenResX { get; set; }
+		public static int BorderlessScreenResY { get; set; }
+
+    #endregion
+
+
+
+
+
+
 		#endregion
 
 		}

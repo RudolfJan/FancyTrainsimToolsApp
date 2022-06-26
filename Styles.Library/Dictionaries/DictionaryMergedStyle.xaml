@@ -15,7 +15,7 @@
 		<ResourceDictionary Source="DictionaryButton.xaml" />
 		<ResourceDictionary Source="DictionaryTextbox.xaml" />
 		<ResourceDictionary Source="DictionaryTextBlock.xaml" />
-		<ResourceDictionary Source="DictionaryCombobox.xaml" />
+		<ResourceDictionary Source="DictionaryComboBox.xaml" />
 		<ResourceDictionary Source="DictionaryLabel.xaml" />
 		<ResourceDictionary Source="DictionaryTooltip.xaml" />
 		<ResourceDictionary Source="DictionarySlider.xaml" />

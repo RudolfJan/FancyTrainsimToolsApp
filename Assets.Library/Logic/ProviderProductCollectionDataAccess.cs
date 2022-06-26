@@ -100,10 +100,29 @@ namespace Assets.Library.Logic
      return ProviderProductCollectionDataAccess.GetProviderProductId(provider, product, pack);
       }
 
+    public static ProviderProductModel UpsertProviderProduct(string provider, string product, string pack)
+      {
+      var result = ProviderProductCollectionDataAccess.GetProviderProductModel(provider, product, pack);
+      if (result?.Id > 0)
+        {
+        return result;
+        }
+      string sqlStatement = @$"INSERT OR IGNORE INTO ProviderProducts (Provider, Product, Pack) VALUES (@Provider, @Product, @Pack);";
+      AssetDatabaseAccess.SaveData(sqlStatement, new {provider, product, pack},
+        AssetDatabaseAccess.GetConnectionString());
+      return ProviderProductCollectionDataAccess.GetProviderProductModel(provider, product, pack);
+      }
+
     private static Int32 GetProviderProductId(string provider, string product, string pack)
       {
       string sql="SELECT id FROM ProviderProducts WHERE Provider=@provider AND Product=@product AND Pack = @pack;";
-      return AssetDatabaseAccess.LoadData<int, dynamic>(sql, new {provider, product, pack},AssetDatabaseAccess.GetConnectionString()).FirstOrDefault();
+      return AssetDatabaseAccess.LoadData<int, dynamic>(sql, new {provider, product, pack},AssetDatabaseAccess.GetConnectionString()).First();
+      }
+
+    private static ProviderProductModel GetProviderProductModel(string provider, string product, string pack)
+      {
+      string sql="SELECT Id, Provider, Product, Pack FROM ProviderProducts WHERE Provider=@provider AND Product=@product AND Pack = @pack;";
+      return AssetDatabaseAccess.LoadData<ProviderProductModel, dynamic>(sql, new {provider, product, pack},AssetDatabaseAccess.GetConnectionString()).FirstOrDefault();
       }
 
 

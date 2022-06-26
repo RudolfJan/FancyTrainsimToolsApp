@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
+using Utilities.Library.TreeBuilders;
 
 namespace FancyTrainsimToolsDesktop.ViewModels
   {
@@ -14,20 +15,20 @@ namespace FancyTrainsimToolsDesktop.ViewModels
     public ICommand ShowManualCommand { get; set; }
     public ICommand OpenFolderCommand { get; set; }
 
-    private FileTreeModel _tree;
-    public FileTreeModel Tree
-      {
-      get
-        {
-        return _tree;
-        }
-      set { _tree = value; }
-      }
+    //private FileTreeModel _tree;
+    //public FileTreeModel Tree
+    //  {
+    //  get
+    //    {
+    //    return _tree;
+    //    }
+    //  set { _tree = value; }
+    //  }
  
     protected override void OnViewLoaded(object view)
       {
       base.OnViewLoaded(view);
-      Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
+      //Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
       // TODO finish this part
       ShowManualCommand= new RelayCommand<string>(ShowManual,CanUseSelectedFile);
       OpenFolderCommand= new RelayCommand<string>(OpenFolder, CanUseSelectedFolder);
@@ -56,7 +57,7 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 
     public ManualsViewModel()
       {
-      Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
+      //Tree = TreeBuilder.BuildTree(Settings.ManualFolder);
       }
 
     public void ShowManual(string filePath)

@@ -53,11 +53,11 @@
                             <Button Name="DatabaseManagement" Style="{StaticResource WideButton}">
                                 Database management
                             </Button>
-                            <Button Name="InstallerToolButton" Style="{StaticResource WideButton}">
+                            <Button Name="InstallerTool" Style="{StaticResource WideButton}">
                                 Installer tool
                             </Button>
-                            <Button Name="InstallerHistoryButton" Style="{StaticResource WideButton}">
-                                Installer history
+                            <Button Name="AddOnCatalog" Style="{StaticResource WideButton}">
+                                Addon catalog
                             </Button>
 
                         </StackPanel>
@@ -68,7 +68,7 @@
                     Grid.Column="1">
                         <StackPanel>
                             <Button Name="ShowRoutes"  Style="{StaticResource WideButton}">Routes/Scenarios</Button>
-                             <Button Name="LaunchButton"  Style="{StaticResource WideButton}"
+                             <Button Name="Launcher"  Style="{StaticResource WideButton}"
                                         Content="Launcher" />
                             <Button Name="ExportButton"  Style="{StaticResource WideButton}"
                         Content="Export to Excel" />

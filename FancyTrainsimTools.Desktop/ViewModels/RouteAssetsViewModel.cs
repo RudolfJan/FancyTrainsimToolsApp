@@ -75,7 +75,7 @@ namespace FancyTrainsimToolsDesktop.ViewModels
       {
       // Get all scenery items for the route with id RouteId
       string routePath=$"{Settings.TrainSimGamePath}Content\\Routes\\";
-      RouteAssetsDataAccess.CreateRouteAssetsInDatabase(Route, routePath);  
+      RouteAssetsDataAccess.CreateRouteAssetsInDatabase(Route, routePath, Settings.TempFolder);
       var progress = new Progress<BasicProgressModel>();
       await LoadAllRouteAssets();
       }

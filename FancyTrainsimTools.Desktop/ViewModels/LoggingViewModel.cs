@@ -66,10 +66,6 @@ namespace FancyTrainsimToolsDesktop.ViewModels
 				}
 			}
 
-		public LoggingViewModel()
-			{
-			}
-
 		protected override void OnViewLoaded(object view)
 			{
 			base.OnViewLoaded(view);

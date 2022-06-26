@@ -1,4 +1,5 @@
-﻿using FancyTrainsimToolsDesktop.Models;
+﻿using Assets.Library.Helpers;
+using FancyTrainsimToolsDesktop.Models;
 using Logging.Library;
 using Microsoft.Win32;
 using System;
@@ -271,6 +272,68 @@ namespace FancyTrainsimToolsDesktop.Helpers
 				}
 			}
 
+		// "\"" + XmlFile + "\" /bin:\"" + BinFile + "\"";
+	
+		public static void PackToBinSerz(string xmlFile, string binFile, out bool success)
+			{
+			success = false;
+			if (!File.Exists(Settings.SerzPath))
+				{
+				Log.Trace($"Serz application not found, looking for {Settings.SerzPath}",LogEventType.Error);
+				return;
+				}
+
+			if (!File.Exists(xmlFile))
+				{
+				Log.Trace($"PackToBinSerz, input file not found {xmlFile}",LogEventType.Error);
+				return;
+				}
+
+			try
+				{
+				Process Serz;
+				var Args = $"\"{xmlFile}\" /bin:\"{binFile}\"";
+				var StartSerz =
+					new ProcessStartInfo(Settings.SerzPath, Args)
+						{
+						CreateNoWindow = true,
+						WindowStyle = ProcessWindowStyle.Hidden,
+						UseShellExecute = false,
+						RedirectStandardOutput = true
+						};
+				Serz = Process.Start(StartSerz);
+				if (Serz != null)
+					{
+					Serz.WaitForExit(1000 * 20 /* ms */);
+					if (!Serz.HasExited)
+						{
+						Serz.Kill();
+						success = false;
+						Log.Trace($"Serz issue, Serz killed for {xmlFile}", LogEventType.Error);
+						return;
+						}
+
+					success = true;
+					Serz.Close();
+					}
+				}
+			catch (Win32Exception ex)
+				{
+				if (ex.NativeErrorCode == SystemErrorCodes.ErrorFileNotFound)
+					{
+					success = false;
+					Log.Trace("Check the path. Executing Serz.exe ",ex, LogEventType.Error);
+					}
+				else if (ex.NativeErrorCode == SystemErrorCodes.ErrorAccessDenied)
+					{
+					// Note that if your word processor might generate exceptions
+					// such as this, which are handled first.
+					success = false;
+					Log.Trace($"You do not have permission to execute Serz for file {xmlFile}", LogEventType.Error);
+					}
+				}
+			}
+
   // Run Serz on an existing file and store the result into a temporary file.
     public static void DecodeSerz(string inputFile, string tempFile, out bool success)
       {
@@ -395,10 +458,6 @@ namespace FancyTrainsimToolsDesktop.Helpers
 					}
 				}
 			}
-
-
-
-
 
 		// Gets a base part for a temporary file, you need to append the original filename
 		public static string GetTempBasePath()

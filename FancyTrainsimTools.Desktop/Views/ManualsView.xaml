@@ -3,28 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:treeBuilder="clr-namespace:FancyTrainsimToolsDesktop"
+        xmlns:views="clr-namespace:TreeBuilders.Library.Wpf;assembly=TreeBuilders.Library.Wpf"
         mc:Ignorable="d"
         Title="Manuals"
         Style="{StaticResource AllWindows}"
         >
 	
-	<Window.Resources>
-		<HierarchicalDataTemplate DataType="{x:Type treeBuilder:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
-			<WrapPanel>
-        <Image Source="../Images/folder.png" Width="20" Height="20"/>
-        <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
-			</WrapPanel>
-		</HierarchicalDataTemplate>
-
-		<DataTemplate DataType="{x:Type treeBuilder:FileItem}">
-			<WrapPanel>
-        <Image Source="../Images/AppIcon.ico" Width="20" Height="20"/>
-        <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
-			</WrapPanel>
-		</DataTemplate>
-	</Window.Resources>
-
 	<ScrollViewer>
     <StackPanel>
         <Grid>
@@ -34,13 +18,7 @@
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" Style="{StaticResource DefaultBorder}">
-	            <TreeView Name="FileTreeView"
-	                      Height="300" MinWidth="400"
-	                      Margin="{StaticResource DefaultMargin}"
-	                      ItemsSource="{Binding Tree.TreeItems}"
-                        ScrollViewer.CanContentScroll="True"
-	                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
-	                      ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+					<views:FileTreeView x:Name="FileTreeViewControl" Height="400" Width="420"/>
 
 				</Border>
         </Grid>

@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Scenarios" (
-	"Id"INTEGER  Primary Key NOT NULL,
+	"Id" INTEGER  Primary Key NOT NULL,
 	"ScenarioTitle"	TEXT NOT NULL,
 	"ScenarioGuid"	TEXT NOT NULL UNIQUE,
 	"ScenarioClass"	TEXT NOT NULL,

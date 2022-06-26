@@ -114,7 +114,7 @@ namespace Assets.Library.Logic
       catch (Exception e)
         {
         Log.Trace(
-          $"{InputFilePath} Failed to open XML document",e,LogEventType.Error);
+          $"{InputFilePath} Failed to open XML document",e,LogEventType.Debug);
         return null;
         }
 
@@ -127,10 +127,10 @@ namespace Assets.Library.Logic
     /// <returns>XDocument.</returns>
     public static XDocument SerzToDoc(string InputFilePath)
       {
-      string TempFile= $"{Path.GetTempFileName()}.xml";
+      string TempFile = InputFilePath.Replace(".bin", ".xml");
       SerzToFile(InputFilePath,TempFile);
       var output = FileToDoc(TempFile);
-      FilesAndDirectories.DeleteSingleFile(TempFile);
+      //FilesAndDirectories.DeleteSingleFile(TempFile);
       return output;
       }
 

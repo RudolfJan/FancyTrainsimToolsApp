@@ -1,5 +1,8 @@
 ﻿#region UsingStatements
+
+using Logging.Library;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Xsl;
@@ -79,7 +82,26 @@ namespace Assets.Library.Helpers
           });
       }
 
+    public static String ExecuteFile(FileInfo Filepath)
+      {
+      using (Process ExecuteProcess = new Process())
+        {
+        try
+          {
+          ExecuteProcess.StartInfo.FileName = Filepath.FullName;
+          ExecuteProcess.StartInfo.Arguments = String.Empty;
+          ExecuteProcess.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+          ExecuteProcess.StartInfo.RedirectStandardOutput = false;
+          ExecuteProcess.Start();
+          }
+        catch (Exception E)
+          {
+          return Log.Trace("Error executing .exe " + E.Message, LogEventType.Error);
+          }
 
+        return String.Empty;
+        }
+      }
 
 
 

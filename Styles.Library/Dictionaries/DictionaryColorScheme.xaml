@@ -14,12 +14,13 @@
 	<!--  Border colors  -->
 	<SolidColorBrush x:Key="BorderDefault" Color="LightSlateGray" />
 	<SolidColorBrush x:Key="BorderAlert" Color="OrangeRed" />
-	<SolidColorBrush x:Key="GridLine" Color="Gainsboro" />
+	<SolidColorBrush x:Key="GridLine" Color="LightSteelBlue" />
 
 	<!--  Text colors  -->
 	<SolidColorBrush x:Key="LabelText" Color="#1F1F26" />
 	<SolidColorBrush x:Key="DataText" Color="Black" />
 	<SolidColorBrush x:Key="AlertText" Color="OrangeRed" />
+	<SolidColorBrush x:Key="GraphText" Color="DarkRed" />
 
 	<!--  Button colors  -->
 	<SolidColorBrush x:Key="ButtonBackground" Color="DarkKhaki" />

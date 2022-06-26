@@ -70,7 +70,7 @@
 			</Style>
 			<Style TargetType="TextBox">
 				<Setter Property="Foreground" Value="{DynamicResource DataText}" />
-				<Setter Property="Background" Value="{DynamicResource TextBoxBackground}" />
+
 				<Setter Property="Margin" Value="{DynamicResource DefaultMargin}" />
 				<Setter Property="Height" Value="{DynamicResource BigHeight}" />
 				<Setter Property="TextWrapping" Value="Wrap" />

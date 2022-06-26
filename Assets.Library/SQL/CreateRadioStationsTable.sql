@@ -1,0 +1,9 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "RadioStations" (
+	"Id"	INTEGER NOT NULL,
+	"RadioStationUrl"	TEXT NOT NULL,
+	"RadioStationName"	TEXT NOT NULL,
+	"RadioStationDescription"	TEXT NOT NULL DEFAULT '',
+	PRIMARY KEY("Id")
+);
+COMMIT;

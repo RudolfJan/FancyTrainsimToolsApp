@@ -1,0 +1,144 @@
+﻿<Window x:Class="FancyTrainsimToolsDesktop.Views.LauncherView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FancyTrainsimToolsDesktop.Views"
+        xmlns:userControls="clr-namespace:Styles.Library.UserControls;assembly=Styles.Library"
+        mc:Ignorable="d"
+				Style="{StaticResource AllWindows}" WindowStartupLocation="CenterScreen"
+        Title="Launcher">
+	<ScrollViewer>
+		<StackPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+	    <StackPanel Grid.Column="0">
+				<TextBlock Text="Launch options" Style="{StaticResource HeaderTextBlock}" />
+
+	 
+				<Border Style="{StaticResource DefaultBorder}">
+					<StackPanel>
+						<CheckBox Name="LogMateCheckBox"
+						          Content="LogMate"
+						          IsChecked="{Binding LogMate}" />
+						<CheckBox Name="DebugScriptingCheckBox"
+						          Content="Debug scripting"
+						          IsChecked="{Binding DebugScripting}" />
+						<CheckBox Name="AsyncKeysCheckBox"
+						          Content="Async keys (speed up scenario)"
+						          IsChecked="{Binding Asynckeys}" />
+						<CheckBox Name="ShowControlStatesCheckBox"
+						          Content="Show control states"
+						          IsChecked="{Binding ShowControlStates}" />
+						<CheckBox Name="ShowDriverListCheckBox"
+						          Content="Show driver list"
+						          IsChecked="{Binding ShowDriverList}" />
+						<CheckBox Name="FollowAITrainCheckBox"
+						          Content="Follow AI train"
+						          IsChecked="{Binding FollowAITrain}" />
+						<WrapPanel>
+							<CheckBox Name="SetFOVCheckBox"
+							          Content="Set FOV "
+							          IsChecked="{Binding SetFOV}" />
+							<TextBox Name="FOVTextBox"
+							         Width="30"
+							         Text="{Binding FOV}" />
+						</WrapPanel>
+					</StackPanel>
+				</Border>
+	    </StackPanel>
+
+
+				<StackPanel Grid.Column="1">
+					<TextBlock
+						Text="Other settings"
+						Style="{StaticResource HeaderTextBlock}" />
+					<Border
+
+						Style="{StaticResource DefaultBorder}">
+						<StackPanel>
+							<RadioButton Name="FullScreenRadioButton"
+							             Margin="{StaticResource DefaultMargin}"
+							             Content="Full screen"
+							             IsChecked="{Binding FullScreen}" />
+							<RadioButton Name="BorderLessRadioButton"
+							             Margin="{StaticResource DefaultMargin}"
+							             Content="Borderless screen"
+							             IsChecked="{Binding BorderlessScreen}"
+							             />
+							<RadioButton Name="WindowedRadioButton"
+							             Margin="{StaticResource DefaultMargin}"
+							             Content="Windowed screen"
+							             IsChecked="{Binding WindowedScreen}"
+							             />
+						</StackPanel>
+					</Border>
+					<Border
+						Style="{StaticResource DefaultBorder}">
+						<StackPanel>
+							<CheckBox Content="Start Train Map Tool"
+							          IsChecked="{Binding StartTrainMapsTool}" />
+							<CheckBox Content="Start railway radio"
+							          IsChecked="{Binding StartRadioTool}"/>
+						</StackPanel>
+					</Border>
+				</StackPanel>
+
+<StackPanel Grid.Column="2">
+	<TextBlock
+		Text="Radio stations"
+		Style="{StaticResource HeaderTextBlock}" />
+	<Border
+		Style="{StaticResource DefaultBorder}">
+	<DataGrid Style="{StaticResource DefaultDataGrid}"
+	          ItemsSource="{Binding RadioStationList}"
+	          SelectedItem="{Binding SelectedRadioStation}"
+	          Height="200" Width="100"
+	          AutoGenerateColumns="False"
+	          CanUserAddRows="False"
+	          CanUserDeleteRows="False">
+		<DataGrid.Columns>
+			<DataGridTextColumn Header="Name" Width="80" Binding="{Binding RadioStationName}"/>
+		</DataGrid.Columns>
+		<DataGrid.RowDetailsTemplate>
+			<DataTemplate>
+				<TextBlock Text="{Binding RadioStationDescription}" Width="100" TextWrapping="Wrap" Background="Bisque"/>
+			</DataTemplate>
+		</DataGrid.RowDetailsTemplate>
+	</DataGrid>
+		</Border>
+</StackPanel>
+
+			</Grid>
+			<WrapPanel>
+				<TextBlock Style="{StaticResource DefaultTextBlock}">Additional commands</TextBlock>
+				<TextBox Name="AdditionalCommandsTextBox"
+				         MinWidth="310"
+				         Text="{Binding AdditionalCommands}" />
+			</WrapPanel>
+			<userControls:ResultsTextBox x:Name="ResultsTextBox2" Style="{StaticResource LuaCreatorResultsTextBox}"
+			         Text="{Binding Result, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+			<DockPanel>
+				<Button Name="Launch" Style="{StaticResource DefaultButton}"
+				        ToolTip="Start TrainSimulator program with all set options">
+					Execute
+				</Button>
+        <Button Name="Preview" Style="{StaticResource DefaultButton}"
+				        ToolTip="Show the TS commandline">
+					Preview
+				</Button>
+				<Button Name="Exit"
+				        HorizontalAlignment="Right"
+				        IsDefault="true"
+				        Style="{StaticResource OKButton}" ToolTip="Close this window">
+					Close
+				</Button>
+			</DockPanel>
+		</StackPanel>
+	</ScrollViewer>
+</Window>
